@@ -1,0 +1,14 @@
+.pagefooter-top nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: end;
+}
+.pagefooter-top li {
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+}
+.pagefooter-top h2 {
+    margin-bottom: 12px;
+    font-size: 1.2rem;
+}

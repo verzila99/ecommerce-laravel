@@ -7,7 +7,9 @@
    @endsection
    @section('title','Ecommerce shop')
    @section('content')
-
+       @foreach ($errors->all() as $error)
+           <li>{{ $error }}</li>
+       @endforeach
  <div class="top-promotions">
     <div class="container is-max-widescreen">
         <div class="slider-container__main my-5">
@@ -243,5 +245,3 @@
     </div>
 </section>
 @endsection
-
-

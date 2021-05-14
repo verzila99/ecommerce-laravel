@@ -1,15 +1,5 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    // font-size: 16px;
-    font-family: "Lato", sans-serif;
-}
-html {
-    text-rendering: optimizeLegibility;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-}
+
+@import "components/_reset.scss";
 @import "components/_vars.scss";
 @import "components/touchSlider.scss";
 @import "components/_navbar.scss";
@@ -20,10 +10,15 @@ html {
 
 // @import "components/_secondbar.scss";
 // @import "components/_promotions.scss";
-@import "../node_modules/bulma/bulma.sass";
-@import "components/_reset.scss";
+@import "node_modules/bulma/bulma.sass";
+.button, .tag{
+    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
+}
 a {
     color: $grey;
+}
+.is-size-8{
+    font-size: .8rem;
 }
 .second-bar {
     width: 100%;

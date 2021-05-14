@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
@@ -19,5 +21,12 @@ use App\Http\Controllers\ProductListController;
 
 Route::get('/', [HomeController::class,"index"]);
 Route::get('/cart', [CartController::class,"index"]);
-Route::get('/{category}/{product}', [ProductController::class,"index"]);
+Route::post('/api/addtocart/{id}', [CartController::class, "cart"]);
+Route::get('/api/{category}', [ProductListController::class, "indexApi"]);
+Route::get('/do', [ProductListController::class, "do"]);
 Route::get('/{category}', [ProductListController::class,"index"]);
+Route::get('/{category}/{product}', [ProductController::class,"show"]);
+Route::post('/register', [AuthController::class, 'register']);
+Route::middleware('auth:sanctum')->get('/users/{user}', function (Request $request) {
+    return $request->user();
+});

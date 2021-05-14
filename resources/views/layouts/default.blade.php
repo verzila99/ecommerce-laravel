@@ -20,6 +20,13 @@
         <meta name="google" content="notranslate" />
         <meta name="format-detection" content="telephone=no" />
         <meta name="description" content="" />
+
+        <script
+            defer
+            src="js/fontawesome.js"
+            crossorigin="anonymous"
+        ></script>
+        <script defer src="/js/axios.min.js"></script>
         @yield("scripts")
         <title>App Name - @yield('title')</title>
     </head>
@@ -75,7 +82,7 @@
             <div class="dropdown is-hoverable">
                 <div class="dropdown-trigger">
                     <button
-                        class="button is-warning mr-3 is-inverted"
+                        class="button is-success mr-3 "
                         aria-haspopup="true"
                         aria-controls="dropdown-menu4"
                     >
@@ -90,10 +97,15 @@
                         <div class="dropdown-item">
 
                             <div class="menu">
-                                <p class="menu-label"><a href="/"></a></p>
+                                <p class="menu-label"><a href={{ url("/smartphones") }}>Смартфоны</a></p>
                                 <ul class="menu-list">
                                     <li><a href="/"></a></li>
-                                    <li><a>Customers</a></li>
+                                    <li><a></a></li>
+                                </ul>
+                                <p class="menu-label"><a href="{{ url("/smartwatches") }}">Умные Часы</a></p>
+                                <ul class="menu-list">
+                                    <li><a href="/"></a></li>
+                                    <li><a></a></li>
                                 </ul>
                             </div>
 
@@ -105,19 +117,28 @@
             <div class="control search mr-3">
                 <input class="input" type="text" placeholder="Loading input" />
             </div>
-            <button class="button is-warning login menu-btn  is-inverted">
+            @if (Auth::check())
+                <button class="button is-success login  ml-3">
+                    <span>{{$user->name}}</span>
+                    <span class="icon">
+                    <i class="far fa-user"></i>
+                </span>
+                </button>
+            @else
+            <button class="button is-success login  ml-3">
                 <span>Войти</span>
                 <span class="icon">
                     <i class="far fa-user"></i>
                 </span>
             </button>
-            <a href="/cart" class="button menu-btn is-warning is-inverted">
+            @endif
+            <a href="/cart" class="button  is-success ml-3">
                 <span>Корзина</span>
                 <span class="icon">
                     <i class="fas fa-shopping-cart"></i>
                 </span>
             </a>
-            <button class="button is-warning menu-btn  is-inverted">
+            <button class="button is-success  ml-3">
                 <span>Избранное</span>
                 <span class="icon">
                     <i class="far fa-heart"></i>
@@ -128,9 +149,9 @@
     <div class="modal">
         <div class="modal-background"></div>
         <div class="modal-card">
-            <button class="delete" aria-label="close"></button>
 
             <section class="modal-card-body">
+                <button class="delete is-large" aria-label="close"></button>
                 <div class="tabs is-centered i is-medium">
                     <ul>
                         <li class="is-active login-tab">
@@ -145,9 +166,12 @@
                         </li>
                     </ul>
                 </div>
-                <div
+                <form
+                    action=""
+                    method=""
                     class="login-modal is-flex-direction-column is-justify-content-space-around is-align-items-center"
                 >
+
                     <div class="field">
                         <p class="control has-icons-left has-icons-right">
                             <input class="input" type="email" placeholder="Email" />
@@ -162,6 +186,7 @@
                     <div class="field">
                         <p class="control has-icons-left">
                             <input
+
                                 class="input"
                                 type="password"
                                 placeholder="Password"
@@ -173,33 +198,42 @@
                     </div>
                     <div class="field">
                         <p class="control">
-                            <button class="button is-success">Войти</button>
+                            <a class="button is-success">Войти</a>
                         </p>
                     </div>
-                </div>
+                </form>
                 <div
+                    action="" method=""
                     class="register-modal is-flex-direction-column is-justify-content-space-around is-align-items-center"
                 >
+
                     <div class="field">
                         <label class="label">Имя</label>
-                        <p class="control">
-                            <input class="input" type="text" placeholder="Имя" />
+                        <p class="control has-icons-left">
+                            <input id="register-name" class="input" name="name"
+                                   type="text"
+                                   placeholder="Имя" />
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-user"></i>
+                            </span>
                         </p>
                     </div>
+
                     <div class="field">
-                        <p class="control has-icons-left has-icons-right">
-                            <input class="input" type="email" placeholder="Email" />
+                        <p class="control has-icons-left ">
+                            <input id="register-email" class="input"
+                                   name="email" type="email"
+                                   placeholder="Email" />
                             <span class="icon is-small is-left">
                                 <i class="fas fa-envelope"></i>
-                            </span>
-                            <span class="icon is-small is-right">
-                                <i class="fas fa-check"></i>
                             </span>
                         </p>
                     </div>
                     <div class="field">
                         <p class="control has-icons-left">
                             <input
+                                id="register-password"
+                                name="password"
                                 class="input"
                                 type="password"
                                 placeholder="Пароль"
@@ -212,8 +246,10 @@
                     <div class="field">
                         <p class="control has-icons-left">
                             <input
+                                id="register-confirmation"
+                                name="password_confirmation"
                                 class="input"
-                                type="confirmpassword"
+                                type="password"
                                 placeholder="Подтвердите пароль"
                             />
                             <span class="icon is-small is-left">
@@ -221,9 +257,13 @@
                             </span>
                         </p>
                     </div>
-                    <div class="field">
+                    <div  class="field">
+                        <div id
+                        ="register-error" class="mb-3"></div>
                         <p class="control">
-                            <button class="button is-success">Регистрация</button>
+
+                            <a id="register" class="button is-success
+">Регистрация</a>
                         </p>
                     </div>
                 </div>
@@ -282,9 +322,6 @@
     </div>
 </footer>
 
-        <script
-            src="https://kit.fontawesome.com/7aee5635f6.js"
-            crossorigin="anonymous"
-        ></script>
+
     </body>
 </html>

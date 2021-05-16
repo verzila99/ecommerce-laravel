@@ -1,7 +1,7 @@
 @extends('layouts.default')
 @section('scripts')
-    <script defer src="{{ asset('js/app.js')}}"></script>
-    <script defer src="{{ asset('js/category.js')}}"></script>
+    <script defer src="{{ asset('/js/app.js')}}"></script>
+    <script defer src="{{ asset('/js/category.js')}}"></script>
 @endsection
 @section('title','Ecommerce shop')
 @section('content')
@@ -9,14 +9,15 @@
     <div class="container is-max-widescreen">
         <nav class="breadcrumb mt-3" aria-label="breadcrumbs">
             <ul>
-                <li><a href="#">Главная</a></li>
+                <li><a class="light-link" href="/">Главная</a></li>
 
                 <li class="is-active">
                     <a href="#" aria-current="page">Смартфоны</a>
                 </li>
             </ul>
         </nav>
-        <h1 class="has-text-weight-bold is-size-4 is-capitalized">{{ $currentCategory->name_ru }}</h1>
+        <h1 class="has-text-weight-bold is-size-4 is-capitalized">{{
+        $productList->first()->category_name_ru }}</h1>
         <div class="category-container is-flex">
             <aside
                 class="category-filter is-flex is-flex-direction-column is-justify-content-flex-start is-align-items-end"
@@ -96,16 +97,14 @@
                                     <label class="checkbox">
                                         <input type="checkbox"
                                                class="manufacturer checkbox-filter"
-                                        data-parameter='manufacturer'
-                                        data-value="{{$manufacturer->manufacturer}}"
+                                               data-parameter='manufacturer'
+                                               data-value="{{$manufacturer->manufacturer}}"
                                         @foreach($explodedQueryString as $elem)
-                                        @if( str_contains( $elem,
-                                        'manufacturer' )!==false && str_contains
-                                        ($elem,
-                                        $manufacturer->manufacturer )!==false)
-                                            {{'checked'}}
-                                        @endif
-                                        @endforeach
+                                            @if( ($elem ===
+                                            $manufacturer->manufacturer ))
+                                                {{'checked'}}
+                                                @endif
+                                            @endforeach
                                         >
                                         {{$manufacturer->manufacturer}}
                                         <span
@@ -140,16 +139,14 @@
                                     <label class="checkbox">
                                         <input type="checkbox"
                                                class="memory checkbox-filter"
-                                        data-parameter='memory'
-                                        data-value="{{$memorySize->memory}}"
+                                               data-parameter='memory'
+                                               data-value="{{$memorySize->memory}}"
                                         @foreach($explodedQueryString as $elem)
-                                            @if( str_contains( $elem,
-                                            'memory' )!==false && str_contains
-                                            ($elem,
-                                            $memorySize->memory )!==false)
+                                            @if($elem === $memorySize->memory )
+
                                                 {{'checked'}}
                                                 @endif
-                                        @endforeach
+                                            @endforeach
                                         >
                                         {{$memorySize->memory}}
                                         <span
@@ -171,15 +168,26 @@
                     class="category-list__sorting is-flex is-justify-content-flex-start is-align-items-center mt-3"
                 >
                     <p>Сортировать по:</p>
-
-                    <a href="{{ url($requestUri  . "sort_by=" .
-                    "popularity")}}"
+                        @php
+                            if(preg_match('/\?$/',url($requestUri))){
+                                    $query = url($requestUri);
+                            }
+                            elseIf(preg_match('/&$/',url($requestUri))){
+                                $query = url($requestUri);
+                            }elseif(!preg_match('/[\?&]/',url($requestUri))){
+                                $query = url($requestUri) . '?';
+                            }else{
+                                    $query = url($requestUri).'&';
+                            }
+                        @endphp
+                            <a href="{{ $query  . "sort_by=" .
+                    "popularity"}}"
                        class="button sort-button is-inverted is-primary ml-5"
                        data-sort="popularity">
                         Популярности
                     </a>
 
-                    <a href="{{ url($requestUri  . "sort_by=" . "price")}}"
+                    <a href="{{ $query  . "sort_by=" . "price"}}"
                        class="button sort-button is-inverted  ml-3  is-flex is-align-content-center"
                        data-sort="price">Цене
                         <span class="arrow arrow-up ml-3">
@@ -230,7 +238,7 @@
                     </span>
                     </a>
 
-                    <a href="{{url($requestUri . "sort_by=" . "-price")}}"
+                    <a href="{{$query . "sort_by=" . "-price"}}"
                        class="button sort-button is-inverted  ml-3 is-flex is-align-content-center"
                        data-sort="-price">Цене
                         <span class="arrow arrow-down ml-3">
@@ -281,11 +289,11 @@
                     </span>
                     </a>
 
-                    <a href="{{ url($requestUri  . "sort_by=" . "rating")}}"
+                    <a href="{{ $query  . "sort_by=" . "rating"}}"
                        class="button sort-button is-inverted ml-3"
                        data-sort="rating">Рейтингу</a>
 
-                    <a href="{{ url($requestUri  . "sort_by=" . "newness")}}"
+                    <a href="{{ $query  . "sort_by=" . "newness"}}"
                        class="button sort-button is-inverted  ml-3"
                        data-sort="newness">Новизне</a>
 
@@ -293,7 +301,9 @@
                 </div>
                 @foreach( $productList as $product)
                     <div class="category-list__item box is-flex mt-3">
-                        <a href="/{{$currentCategory->name . "/" . $product->id  }}"
+                        <a href="/{{$product->category_name . "/" .
+                        $product->id
+                         }}"
                            class="category-list__item-image is-flex">
 
                             <img
@@ -387,35 +397,91 @@
                                         </li>
                                     @endif
                                 </ul>
+
                             </div>
                         </div>
-                        <div class="category-list__item-price my-5">
+                        <div class="category-list__item-price my-5 ">
                             <div
                                 class="item-main-addtocart ml-6 is-flex
-                                is-flex-direction-column is-justify-content-start  is-align-items-flex-start"
+                                is-flex-direction-column
+                                is-justify-content-flex-start
+                                is-align-items-flex-start"
                             >
                                 <div
                                     class="oldprice has-text-grey is-size-5 is-flex is-justify-content-space-between">
 
-                                    <span class="oldprice-item  ">{{
-                                    number_format((round((int)$product->price
-                                     + round((random_int(5,15) *  ((int)$product->price / 100))))), 0,  ',', ' ')}} р.</span>
+                                    @php
+                                        $oldPrice=(round((int)
+                                                $product->price + round(
+                                                (random_int
+                                                (5,15) *  ((int)
+                                                $product->price /
+                                                100)))))
+                                    @endphp
 
-                                    <span class="tag  is-success discount"
-                                    >-{{ number_format(round(random_int(5,15) * (int)$product->price / 100), 0, ',', ' ')}} р.</span>
+                                    <span class="oldprice-item">{{
+                                    number_format($oldPrice, 0,  ',', ' ')}}
+                                        р.</span>
+                                    <span class="tag is-success discount"
+                                    >-{{ number_format(((int)$oldPrice - (int)
+                                $product->price), 0, ',', ' ')}} р.</span>
                                 </div>
 
                                 <div
-                                    class="price has-text-weight-bold is-size-3">
+                                    class="price has-text-weight-bold
+                                    is-size-3 mt-3">
                                     {{ number_format(round((int)
-                                    $product->price), 0, ',', ' ')}}
+                                           $product->price), 0, ',', ' ')}}
                                     р.
                                 </div>
                                 <button class="button is-primary mt-5
                                 add-to-cart"
-                                        data-product_id="{{$product->id}}">
+                                        data-product_id="{{$product->product_id}}">
                                     Добавить в корзину
                                 </button>
+                                @auth
+                                    @if( !str_contains($favoritesStatusList,$product->product_id))
+                                        <a class="favorites favorites-list light-link is-flex
+                    is-align-items-center " data-category="{{
+                    $product->category_name }}"
+                                           data-productId="{{$product->product_id}}"
+                                           data-status="0" >
+                        <span class="icon is-size-4 has-text-grey-lighter" >
+                    <i class="far fa-heart" ></i >
+                        </span >
+                                            <p class=" has-text-grey-lighter is-size-8
+                        has-text-weight-bold ml-3"
+                                            >В избранное</p >
+                                        </a >
+                                    @else
+                                        <a class="favorites favorites-list light-link is-flex
+                    is-align-items-center " data-category="{{
+                    $product->category_name }}"
+                                           data-productId="{{$product->product_id}}"
+                                           data-status="1" >
+                        <span class="icon is-size-4 has-text-grey-lighter" >
+                    <i class="fas fa-heart" ></i >
+
+                        </span >
+                                            <p class=" has-text-grey-lighter is-size-8
+                        has-text-weight-bold ml-3"
+                                            >В избранном</p >
+                                        </a >
+
+                                    @endif
+                                @endauth
+                                @guest
+                                    <a id="favorite-guest" class="favorites favorites-list light-link is-flex
+                    is-align-items-center" >
+                        <span class="icon is-size-4 has-text-grey-lighter" >
+                    <i class="far fa-heart" ></i >
+                        </span >
+                                        <p class=" has-text-grey-lighter is-size-8
+                        has-text-weight-bold ml-3"
+                                        >В
+                                         избранное</p >
+                                    </a >
+                                @endguest
                             </div>
                         </div>
                     </div>
@@ -424,6 +490,8 @@
                 {{$productList->appends(request()->query())->links('paginate.paginate')}}
 
             </main>
+
+
         </div>
 
 @endsection

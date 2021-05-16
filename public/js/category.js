@@ -2,7 +2,7 @@ let accordionTitles = document.querySelectorAll(".accordion-group"),
     showMoreButtons = document.querySelectorAll('.show-more'),
     accordionPrice = document.querySelector('.accordion-price'),
     checkboxInputs = document.querySelectorAll('.checkbox-filter'),
-    measuringDiv, measuringDivBottom, searchParams;
+    measuringDiv, measuringDivBottom;
 
 //Filter group accordion
 
@@ -85,7 +85,7 @@ const sortButtons = document.querySelectorAll('.sort-button');
 let urlObject = new URL(document.location.href);
 let urlParams = urlObject.searchParams;
 let sort = urlParams.get("sort_by");
-
+console.log(sort);
 sortButtons.forEach(elem => {
     if (elem.getAttribute('data-sort') === sort) {
         elem.classList.add('is-primary');
@@ -110,32 +110,18 @@ newDiv.classList.add('absolute-button');
 checkboxInputs.forEach(elem => {
     elem.addEventListener('change', () => {
 
+        let parameter = elem.getAttribute('data-parameter') + '[]=' + elem.getAttribute('data-value');
         if (elem.checked) {
-
-            if(queryString) {
-
-                if (queryString.includes(elem.getAttribute('data-parameter'))) {
-                    queryString = queryString.replace(elem.getAttribute('data-parameter') + '=', elem.getAttribute('data-parameter') + '=' + elem.getAttribute('data-value') + ',');
-                }
-
-                else {
-                    queryString += '&' + elem.getAttribute('data-parameter') + '=' + elem.getAttribute('data-value');
-                }
-
-            } else{
-                queryString = '?' + elem.getAttribute('data-parameter') + '=' + elem.getAttribute('data-value');
-            }
-
-        } else if (!elem.checked) {
-
-            if (queryString.includes(elem.getAttribute('data-parameter')) ){
-                queryString = queryString.replace(elem.getAttribute('data-value'), '');
-
-            }else{
-                queryString = queryString.replace(elem.getAttribute('data-parameter') + '=' + elem.getAttribute('data-value'), '');
+            queryString += queryString ? `&${parameter}` : parameter;
+        }
+         else if (!elem.checked) {
+            if (queryString.includes('&' + parameter)) {
+                queryString = queryString.replace('&' + parameter, '');
+            } else if (queryString.includes( parameter)) {
+                queryString = queryString.replace(parameter, '');
             }
         }
-        let result = fetch('/api/smartphones?' + queryString)
+        fetch('/api/smartphones?' + queryString)
             .then(function (response) {
                 return response.json();
             })

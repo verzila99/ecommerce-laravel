@@ -24,3 +24,7 @@
 .register-modal .field {
     width: 70%;
 }
+
+.dropdown-item:hover {
+    background-color: $success !important;
+}

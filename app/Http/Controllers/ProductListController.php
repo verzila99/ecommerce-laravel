@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use JetBrains\PhpStorm\ArrayShape;
 use Illuminate\Support\Collection;
@@ -15,11 +17,8 @@ use Illuminate\Support\Collection;
 class ProductListController extends Controller
 {
 
-    public function index(Request $request, $category): Factory|View|Application
+    public function index(Request $request, $category): View|Factory|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse|Application
     {
-        $currentCategory = DB::table('categories')->where('name', $category)->first();
-
-
 
         $queryParams = $this->handleSmartphonesRequest($request);
         $manufacturer = $queryParams['manufacturer'];
@@ -27,8 +26,10 @@ class ProductListController extends Controller
         $priceFrom = $queryParams['priceFrom'];
         $priceTo = $queryParams['priceTo'];
         $sortBy = $queryParams['sortBy'];
+        $page = $queryParams['page'];
 
-        $productList = DB::table($category)->when($manufacturer,
+        $productList = DB::table($category)->join('categories', $category .'.category_id','=', 'categories.category_id')->when
+        ($manufacturer,
             function ($query, $manufacturer) {
                 return $query->whereIn('manufacturer', $manufacturer);
             })->when($memory,
@@ -60,21 +61,31 @@ class ProductListController extends Controller
             },
             function ($query) {
                 return $query->orderBy('product_views', 'desc');
-            })->paginate(10);
+            })->paginate(10)->withQueryString();;
 
-        $requestUri= str_contains('?', $request->fullUrl()) ? $request->fullUrl()
-            .'&': $request->fullUrl() . '?' ;
-        $requestUri =preg_replace('/=,/', '=', $requestUri);
-        $requestUri =preg_replace('/,,/', ',', $requestUri);
-        $requestUri =preg_replace('/sort_by\S+/','', $requestUri);
-        $requestUri = substr_count($requestUri, '?',) === 2 ?
-        preg_replace('/\?$/','&', $requestUri) : $requestUri;
+        $requestUri =preg_replace('/sort_by\S+/','', $request->fullUrl());
+
+
+        if($productList->lastPage() < (int)$page){
+
+           return redirect($request->fullUrlWithQuery(['page' => 1]));
+        }
+
+        if (Auth::check()) {
+
+            $user = User::find(auth()->id());
+            $favoritesStatusList = $user->favorites;
+        }else{
+            $favoritesStatusList ='';
+        }
+
         $filterInputs = self::getInputFields();
 
-        $explodedQueryString = explode('&', $requestUri);
 
-        return view('productList', compact(['productList', 'currentCategory',
-            'requestUri', 'filterInputs','explodedQueryString']));
+        $explodedQueryString = preg_split('/[,=&]/',$requestUri);
+
+        return view('productList', compact(['productList',
+            'requestUri', 'filterInputs','explodedQueryString','favoritesStatusList']));
     }
 
 
@@ -96,20 +107,20 @@ class ProductListController extends Controller
     }
 
 
-    protected function handleSmartphonesRequest(Request $request): array
+    #[ArrayShape(['manufacturer' => "array|null", 'memory' => "array|null", 'priceFrom' => "mixed", 'priceTo' =>
+"mixed", 'sortBy' => "mixed",'page' => "mixed"])] protected function handleSmartphonesRequest(Request $request): array
     {
         if ($request->manufacturer) {
-            $manufacturer = explode(',', $request->manufacturer);
-            if (!is_array($manufacturer)) {
-                $manufacturer[] = $manufacturer;
+            foreach ($request->manufacturer as $man) {
+                $manufacturer[] = $man;
             }
+
         } else {
             $manufacturer = null;
         }
         if ($request->memory) {
-            $memory = explode(',', $request->memory);
-            if (!is_array($memory)) {
-                $memory[] = $memory;
+            foreach ($request->memory as $man) {
+                $memory[] = $man;
             }
         } else {
             $memory = null;
@@ -117,8 +128,10 @@ class ProductListController extends Controller
         $priceFrom = $request->price_from;
         $priceTo = $request->price_to;
         $sortBy = $request->sort_by;
+        $page = $request->page;
+
         return ['manufacturer'=>$manufacturer,'memory'=> $memory,'priceFrom' =>
-        $priceFrom, 'priceTo'=> $priceTo,'sortBy'=>  $sortBy];
+        $priceFrom, 'priceTo'=> $priceTo,'sortBy'=>  $sortBy,'page'=> $page];
     }
     public function indexApi(Request $request, $category): bool|string
     {
@@ -130,7 +143,7 @@ class ProductListController extends Controller
         $priceFrom = $queryParams['priceFrom'];
         $priceTo = $queryParams['priceTo'];
         $sortBy = $queryParams['sortBy'];
-
+        $page = $queryParams['page'];
 
 
 
@@ -168,11 +181,11 @@ class ProductListController extends Controller
                 return $query->orderBy('product_views', 'desc');
             })->count();
 
-
-
-
-        return json_encode($productList);
+        try {
+            return json_encode($productList, JSON_THROW_ON_ERROR);
+        } catch (\JsonException $e) {
+            return $e;
+        }
     }
-
 
 }

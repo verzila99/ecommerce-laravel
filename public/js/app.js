@@ -1,11 +1,13 @@
 axios.defaults.withCredentials = true;
-let loginButton = document.querySelector(".login"),
+let profileButton = document.querySelector(".login"),
     closeModalArea = document.querySelector(".modal-background"),
     closeModalButton = document.querySelector(".delete"),
     loginTab = document.querySelector(".login-tab"),
     registerTab = document.querySelector(".register-tab"),
     loginModal = document.querySelector(".login-modal"),
-    registerModal = document.querySelector(".register-modal");
+    registerModal = document.querySelector(".register-modal"),
+    modal = document.querySelector(".modal"),
+    htmlElement = document.querySelector("html");
 
 loginTab.addEventListener("click", () => {
     registerTab.classList.remove("is-active");
@@ -19,18 +21,20 @@ registerTab.addEventListener("click", () => {
     registerTab.classList.add("is-active");
     registerModal.style.display = "flex";
 });
+if(profileButton){
+    profileButton.addEventListener("click", () => {
+        modal.classList.add("is-active");
+        htmlElement.classList.add("is-clipped");
+    });
+}
 
-loginButton.addEventListener("click", () => {
-    document.querySelector(".modal").classList.add("is-active");
-    document.querySelector("html").classList.add("is-clipped");
-});
 closeModalButton.addEventListener("click", () => {
-    document.querySelector(".modal").classList.remove("is-active");
-    document.querySelector("html").classList.remove("is-clipped");
+    modal.classList.remove("is-active");
+    htmlElement.classList.remove("is-clipped");
 });
 closeModalArea.addEventListener("click", () => {
-    document.querySelector(".modal").classList.remove("is-active");
-    document.querySelector("html").classList.remove("is-clipped");
+    modal.classList.remove("is-active");
+    htmlElement.classList.remove("is-clipped");
 });
 
 //add to cart
@@ -38,36 +42,152 @@ closeModalArea.addEventListener("click", () => {
 //     toCartButton.addEventListener("click", ()=>{
 //
 //     })
-// login
+// register
 axios.defaults.withCredentials = true;
 let registerButton = document.getElementById('register');
-    registerButton.addEventListener("click", ev => {
-        let name = document.getElementById('register-name').value;
-        let email = document.getElementById('register-email').value;
-        let password = document.getElementById('register-password').value;
-        let passwordconfirmation = document.getElementById('register-confirmation').value;
-        axios.get('/sanctum/csrf-cookie').then(response => {
-            axios.post('/register', {
-                name: name,
-                email: email,
-                password: password,
-                password_confirmation:passwordconfirmation
-            }).then(res => console.log(res))
-                .catch(error=>{
-                    if (error.response) {
-                      Object.values(error.response.data.errors).forEach(value => {
-                          value.forEach(e => {
-                              let i = document.createElement('p');
-                              i.classList.add('has-text-danger');
-                              i.innerHTML=e;
-                              document.getElementById('register-error').appendChild(i);
-                          });
-                      });
-
-                    }
-
-
-                // document.getElementById('register-error').innerHTML = error.errors.email[0];
+registerButton.addEventListener("click", ev => {
+    let name = document.getElementById('register-name').value;
+    let email = document.getElementById('register-email').value;
+    let password = document.getElementById('register-password').value;
+    let passwordconfirmation = document.getElementById('register-confirmation').value;
+    axios.get('/sanctum/csrf-cookie').then(response => {
+        axios.post('/register', {
+            name: name,
+            email: email,
+            password: password,
+            password_confirmation: passwordconfirmation
+        }).then(response => {
+            if (response.status === 200) {
+                window.location.reload(true);
+            }
+        })
+            .catch(error => {
+                if (error.response) {
+                    Object.values(error.response.data.errors).forEach(value => {
+                        value.forEach(e => {
+                            let i = document.createElement('p');
+                            i.classList.add('has-text-danger');
+                            i.innerHTML = e;
+                            document.getElementById('register-error').appendChild(i);
+                        });
+                    });
+                }
             });
-        });
     });
+});
+//login
+let loginButton = document.getElementById('login-button');
+loginButton.addEventListener("click", ev => {
+    let email = document.getElementById('login-email').value;
+    let password = document.getElementById('login-password').value;
+
+    axios.get('/sanctum/csrf-cookie').then(response => {
+        axios.post('/login', {
+            email: email,
+            password: password,
+        }).then(response => {
+            if (response.status === 200) {
+                console.log(response);
+                window.location.reload(true);
+            }
+        })
+            .catch(error => {
+                if (error.response.status === 422) {
+                    Object.values(error.response.data.errors).forEach(value => {
+                        value.forEach(e => {
+                            let i = document.createElement('p');
+                            i.classList.add('has-text-danger');
+                            i.innerHTML = e;
+                            document.getElementById('login-error').appendChild(i);
+                        });
+                    });
+                } else {
+                    document.getElementById('login-error').innerHTML = 'Неправильный Email или пароль';
+                }
+
+
+            });
+    });
+});
+let loginForm = document.querySelector(".login-form");
+let inputs = loginForm.querySelectorAll("input");
+inputs.forEach((elem=>{
+    elem.addEventListener("keyup", function (event) {
+        // Число 13 в "Enter" и клавиши на клавиатуре
+        if (event.keyCode === 13) {
+            // При необходимости отмените действие по умолчанию
+            event.preventDefault();
+            // Вызов элемента button одним щелчком мыши
+            elem.parentNode.parentNode.parentNode.querySelector(".send-form").click();
+        }
+    });
+}));
+
+
+//favorites
+let favorites = document.querySelectorAll('.favorites');
+let favoritesLink = document.getElementById('favorites-link');
+    if(favoritesLink.dataset.status==='quest'){
+        favoritesLink.addEventListener("click", () =>{
+            modal.classList.add("is-active");
+            htmlElement.classList.add("is-clipped");
+        });
+    }
+favorites.forEach((elem) => {
+    elem.addEventListener("click", () => {
+            if (elem.getAttribute('id') === 'favorite-guest') {
+                modal.classList.add("is-active");
+                htmlElement.classList.add("is-clipped");
+            } else {
+                let category = elem.getAttribute('data-category');
+                let productId = elem.getAttribute('data-productId');
+                let favoritesStatus = +elem.getAttribute('data-status');
+                if (favoritesStatus === 1) {
+
+                    axios.delete('/addtofavorites/' + category + '/'+ productId).then(response => {
+                        if (response.status === 200) {
+                            console.log(response);
+                            let heart = document.createElement('i');
+                            heart.classList.add('far');
+                            heart.classList.add('fa-heart');
+                            let oldChild = elem.querySelector('i');
+                            oldChild.replaceWith(heart);
+                            elem.querySelector('p').innerHTML = 'В избранноe';
+                            elem.dataset.status = '0';
+                        }
+                    })
+                        .catch(error => {
+                            console.log(error);
+                        } );
+                } else if (favoritesStatus === 0) {
+
+
+                        axios.patch('/addtofavorites', {
+                            category: category,
+                            productId: productId,
+                        }).then(response => {
+
+                            if (response.status === 200) {
+                                let heart = document.createElement('i');
+                                heart.classList.add('fas');
+                                heart.classList.add('fa-heart');
+                                let oldChild = elem.querySelector('i');
+                                oldChild.replaceWith(heart);
+
+                                elem.querySelector('p').innerHTML = 'В избранном';
+                                elem.dataset.status='1';
+
+                            }
+                        })
+
+
+                        .catch(error => {
+                            console.log(error);
+                            }
+                        );
+                }
+            }
+
+        }
+    );
+});

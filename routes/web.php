@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
@@ -18,15 +19,24 @@ use App\Http\Controllers\ProductListController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', [HomeController::class,"index"]);
-Route::get('/cart', [CartController::class,"index"]);
-Route::post('/api/addtocart/{id}', [CartController::class, "cart"]);
-Route::get('/api/{category}', [ProductListController::class, "indexApi"]);
-Route::get('/do', [ProductListController::class, "do"]);
-Route::get('/{category}', [ProductListController::class,"index"]);
-Route::get('/{category}/{product}', [ProductController::class,"show"]);
-Route::post('/register', [AuthController::class, 'register']);
 Route::middleware('auth:sanctum')->get('/users/{user}', function (Request $request) {
     return $request->user();
 });
+Route::get('/', [HomeController::class,"index"]);
+Route::get('/cart', [CartController::class,"index"]);
+//Route::get('/do', [CartController::class,"do"]);
+Route::get('/favorites', [UserController::class, "favorites"])->middleware('auth');
+Route::get('/admin', [AdminController::class,"index"])->middleware('admin');
+
+Route::patch('/addtofavorites', [UserController::class,"addToFavorites"])
+    ->middleware('authajax');
+Route::delete('/addtofavorites/{category}/{productId}', [UserController::class,
+    "removeFromFavorites"])->middleware('authajax');
+
+Route::post('/api/addtocart/{Id}', [CartController::class, "cart"]);
+Route::get('/api/{category}', [ProductListController::class, "indexApi"]);
+Route::post('/register', [UserController::class, 'register']);
+Route::post('/login', [UserController::class, 'login']);
+Route::get('/logout', [UserController::class, 'logout']);
+Route::get('/{category}', [ProductListController::class,"index"]);
+Route::get('/{category}/{productId}', [ProductController::class,"show"]);

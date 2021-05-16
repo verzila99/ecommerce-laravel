@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class Authenticate
+class AdminMiddleware
 {
     /**
      * Handle an incoming request.
@@ -15,11 +15,11 @@ class Authenticate
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): mixed
     {
-        if (Auth::check()) {
+        if (Auth::check()&& Auth::user()->role) {
             return $next($request);
         }
-       return redirect()->back();
+        abort(404);
     }
 }

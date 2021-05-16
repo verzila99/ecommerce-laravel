@@ -39,6 +39,7 @@
     right:0%;
     top:50%;
     z-index: 3;
+    color: white!important;
     &:before{
         content: '';
         width: 0;
@@ -161,9 +162,7 @@
     width: 70%;
     margin: 0 auto;
 }
-.oldprice{
-    width: 100px;
-}
+
 .arrow {
     display: flex;
     justify-content: center;
@@ -181,4 +180,7 @@
 .pagination-link.is-current{
     background-color: $primary!important;
     border-color: $primary!important;
+}
+.favorites-list{
+    margin-top: 2rem;
 }

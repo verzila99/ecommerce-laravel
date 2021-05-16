@@ -23,7 +23,7 @@
 
         <script
             defer
-            src="js/fontawesome.js"
+            src="/js/fontawesome.js"
             crossorigin="anonymous"
         ></script>
         <script defer src="/js/axios.min.js"></script>
@@ -117,13 +117,41 @@
             <div class="control search mr-3">
                 <input class="input" type="text" placeholder="Loading input" />
             </div>
-            @if (Auth::check())
-                <button class="button is-success login  ml-3">
-                    <span>{{$user->name}}</span>
-                    <span class="icon">
+            @if ( auth()->check())
+                <div class="dropdown  is-hoverable">
+                    <div class="dropdown-trigger">
+                        <button class="button is-success   ml-3"
+                                aria-haspopup="true" aria-controls="dropdown-menu">
+                            <span>{{auth()->user()->name}}</span>
+                            <span class="icon">
                     <i class="far fa-user"></i>
-                </span>
-                </button>
+                            </span>
+                        </button>
+                    </div>
+                    <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                        <div class="dropdown-content">
+                            <a href="#" class="dropdown-item">
+                                Dropdown item
+                            </a>
+                            <a class="dropdown-item">
+                                Other dropdown item
+                            </a>
+                            <a href="#" class="dropdown-item ">
+                                Active dropdown item
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                Other dropdown item
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="{{ url('/logout') }}"
+                               class="dropdown-item">
+                                Выйти
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
             @else
             <button class="button is-success login  ml-3">
                 <span>Войти</span>
@@ -138,19 +166,27 @@
                     <i class="fas fa-shopping-cart"></i>
                 </span>
             </a>
-            <button class="button is-success  ml-3">
+            <a
+               @if ( auth()->check())
+               href="/favorites"
+               data-status="user"
+               @else
+               data-status="quest"
+               @endif
+                   id="favorites-link"
+               class="button  is-success  ml-3">
                 <span>Избранное</span>
                 <span class="icon">
                     <i class="far fa-heart"></i>
                 </span>
-            </button>
+            </a>
         </div>
     </main>
     <div class="modal">
         <div class="modal-background"></div>
         <div class="modal-card">
 
-            <section class="modal-card-body">
+            <section class="modal-card-body login-form">
                 <button class="delete is-large" aria-label="close"></button>
                 <div class="tabs is-centered i is-medium">
                     <ul>
@@ -166,15 +202,18 @@
                         </li>
                     </ul>
                 </div>
-                <form
+                <div
                     action=""
                     method=""
                     class="login-modal is-flex-direction-column is-justify-content-space-around is-align-items-center"
                 >
 
                     <div class="field">
+                        <label for="login-email" class="label">Email</label>
                         <p class="control has-icons-left has-icons-right">
-                            <input class="input" type="email" placeholder="Email" />
+                            <input id="login-email" name="email" class="input"
+                                   type="email"
+                                    placeholder="Email" />
                             <span class="icon is-small is-left">
                                 <i class="fas fa-envelope"></i>
                             </span>
@@ -184,12 +223,16 @@
                         </p>
                     </div>
                     <div class="field">
+                        <label for="login-password" class="label
+
+">Пароль</label>
                         <p class="control has-icons-left">
                             <input
-
+                                id="login-password"
+                                name="password"
                                 class="input"
                                 type="password"
-                                placeholder="Password"
+                                placeholder="Пароль"
                             />
                             <span class="icon is-small is-left">
                                 <i class="fas fa-lock"></i>
@@ -197,18 +240,20 @@
                         </p>
                     </div>
                     <div class="field">
+                        <div id
+                             ="login-error" class=" has-text-danger mb-3"></div>
                         <p class="control">
-                            <a class="button is-success">Войти</a>
+                            <a id="login-button" class="button is-success send-form">Войти</a>
                         </p>
                     </div>
-                </form>
+                </div>
                 <div
                     action="" method=""
                     class="register-modal is-flex-direction-column is-justify-content-space-around is-align-items-center"
                 >
 
                     <div class="field">
-                        <label class="label">Имя</label>
+                        <label for="register-name" class="label">Имя</label>
                         <p class="control has-icons-left">
                             <input id="register-name" class="input" name="name"
                                    type="text"
@@ -220,6 +265,7 @@
                     </div>
 
                     <div class="field">
+                        <label for="register-email" class="label">Email</label>
                         <p class="control has-icons-left ">
                             <input id="register-email" class="input"
                                    name="email" type="email"
@@ -230,6 +276,7 @@
                         </p>
                     </div>
                     <div class="field">
+                        <label for="register-password" class="label">Пароль</label>
                         <p class="control has-icons-left">
                             <input
                                 id="register-password"
@@ -244,6 +291,8 @@
                         </p>
                     </div>
                     <div class="field">
+                        <label for="register-confirmation" class="label">Подтвердите
+                            пароль</label>
                         <p class="control has-icons-left">
                             <input
                                 id="register-confirmation"
@@ -262,7 +311,7 @@
                         ="register-error" class="mb-3"></div>
                         <p class="control">
 
-                            <a id="register" class="button is-success
+                            <a id="register" class="button is-success send-form
 ">Регистрация</a>
                         </p>
                     </div>

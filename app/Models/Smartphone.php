@@ -13,4 +13,6 @@ class Smartphone extends Model
 
 
     protected $table = 'smartphones';
+    protected $guarded =
+        [];
 }

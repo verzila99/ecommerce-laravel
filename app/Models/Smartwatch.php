@@ -12,4 +12,5 @@ class Smartwatch extends Model
  use HasFactory;
 
     protected $table = 'smartwatches';
+    protected $guarded = [];
 }

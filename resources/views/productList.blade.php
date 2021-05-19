@@ -368,36 +368,22 @@
                                                 class="is-size-8">{{$product->manufacturer}}</span>
                                         </li>
                                     @endif
+                                    @foreach($props as $param)
+                                            @php
+                                            $name = $param->name;
 
-                                    @if($product->diagonal)
+                                            @endphp
+
+                                        @if($product->$name)
                                         <li>
-                            <span class="has-text-grey-light is-size-7"
-                            >Диагональ экрана, в дюймах: </span
-
-                            ><span
-                                                class="is-size-8">{{$product->diagonal}}</span>
+                            <span class="has-text-grey-light is-size-7 is-capitalized"
+                            >{{ $param->name_ru}}: </span
+                            ><span class="is-size-8">{{$product->$name}}</span>
                                         </li>
                                     @endif
 
-                                    @if($product->memory)
-                                        <li>
-                            <span class="has-text-grey-light is-size-7"
-                            >Встроенная память, в Гб: </span
-                            ><span class="is-size-8">{{$product->memory}}</span>
-                                        </li>
-                                    @endif
-
-
-                                    @if($product->camera)
-                                        <li>
-                            <span class="has-text-grey-light is-size-7"
-                            >Фотокамера, Мп: </span
-                            ><span class="is-size-8">{{$product->camera
-                            }}</span>
-                                        </li>
-                                    @endif
+                                    @endforeach
                                 </ul>
-
                             </div>
                         </div>
                         <div class="category-list__item-price my-5 ">
@@ -434,11 +420,15 @@
                                            $product->price), 0, ',', ' ')}}
                                     р.
                                 </div>
-                                <button class="button is-primary mt-5
+
+                                <a class="button is-primary mt-5
                                 add-to-cart"
-                                        data-product_id="{{$product->product_id}}">
+                                        data-price="{{  $product->price }}"
+                                        data-category="{{ $product->category_name }}"
+                                        data-product_id="{{ $product->product_id}}">
                                     Добавить в корзину
-                                </button>
+                                </a>
+
                                 @auth
                                     @if( !str_contains($favoritesStatusList,$product->product_id))
                                         <a class="favorites favorites-list light-link is-flex

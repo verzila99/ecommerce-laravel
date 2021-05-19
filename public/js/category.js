@@ -85,7 +85,6 @@ const sortButtons = document.querySelectorAll('.sort-button');
 let urlObject = new URL(document.location.href);
 let urlParams = urlObject.searchParams;
 let sort = urlParams.get("sort_by");
-console.log(sort);
 sortButtons.forEach(elem => {
     if (elem.getAttribute('data-sort') === sort) {
         elem.classList.add('is-primary');

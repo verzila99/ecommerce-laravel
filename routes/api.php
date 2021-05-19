@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+Route::get('/cart/sum-of-products', [CartController::class, "getSumOfProducts"]);
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

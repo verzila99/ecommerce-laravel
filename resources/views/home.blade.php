@@ -1,9 +1,9 @@
 
    @extends('layouts.default')
    @section('scripts', )
-        <script defer src="/js/app.js"></script>
-        <script defer src="/js/sliderTop.js"></script>
-        <script defer src="/js/sliderBottom.js"></script>
+        <script defer src="{{ asset('js/app.js')}}"></script>
+        <script defer src="{{ asset('js/sliderTop.js')}}"></script>
+        <script defer src="{{ asset('js/sliderBottom.js')}}"></script>
    @endsection
    @section('title','Ecommerce shop')
    @section('content')
@@ -216,14 +216,15 @@
     <div class="container is-max-widescreen is-flex">
         <div class="subscription-block is-flex">
             <div
-                class="subscription-block__text text is-flex is-flex-direction-column is-justify-content-center is-align-items-end"
+                class="subscription-block__text text is-flex is-flex-direction-column is-justify-content-center
+                is-align-items-flex-start"
             >
                 <h3 class="has-text-weight-bold is-size-4">
                     подпишись и узнавай
                 </h3>
                 <h5 class="is-size-6">о выгодных акциях и суперпредложениях</h5>
             </div>
-            <img src="/images/svg/mails.svg" alt="" srcset="" />
+            <img src="{{ asset('storage/uploads/svg/mails.svg') }}" alt="" srcset="" />
         </div>
         <div
             class="subscription-form is-flex is-flex-direction-column is-justify-content-center is-align-items-end"
@@ -231,7 +232,7 @@
             <form action="" method="post" class="is-flex">
                 <input class="input" type="text" placeholder="Введите Email" />
 
-                <a type="submit" class="button is-info"> Подписаться </a>
+                <a type="submit" class="button is-warning ml-3"> Подписаться </a>
             </form>
 
             <div class="subscription-form__text mt-1">

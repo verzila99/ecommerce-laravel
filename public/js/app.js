@@ -1,4 +1,5 @@
 axios.defaults.withCredentials = true;
+renderCartButton();
 let profileButton = document.querySelector(".login"),
     closeModalArea = document.querySelector(".modal-background"),
     closeModalButton = document.querySelector(".delete"),
@@ -21,7 +22,7 @@ registerTab.addEventListener("click", () => {
     registerTab.classList.add("is-active");
     registerModal.style.display = "flex";
 });
-if(profileButton){
+if (profileButton) {
     profileButton.addEventListener("click", () => {
         modal.classList.add("is-active");
         htmlElement.classList.add("is-clipped");
@@ -45,43 +46,43 @@ closeModalArea.addEventListener("click", () => {
 // register
 axios.defaults.withCredentials = true;
 let registerButton = document.getElementById('register');
-registerButton.addEventListener("click", ev => {
+registerButton.addEventListener("click", () => {
     let name = document.getElementById('register-name').value;
     let email = document.getElementById('register-email').value;
     let password = document.getElementById('register-password').value;
-    let passwordconfirmation = document.getElementById('register-confirmation').value;
-    axios.get('/sanctum/csrf-cookie').then(response => {
+    let passwordConfirmation = document.getElementById('register-confirmation').value;
+    axios.get('/sanctum/csrf-cookie').then(() => {
         axios.post('/register', {
             name: name,
             email: email,
             password: password,
-            password_confirmation: passwordconfirmation
+            password_confirmation: passwordConfirmation
         }).then(response => {
             if (response.status === 200) {
                 window.location.reload(true);
             }
         })
-            .catch(error => {
-                if (error.response) {
-                    Object.values(error.response.data.errors).forEach(value => {
-                        value.forEach(e => {
-                            let i = document.createElement('p');
-                            i.classList.add('has-text-danger');
-                            i.innerHTML = e;
-                            document.getElementById('register-error').appendChild(i);
-                        });
-                    });
-                }
-            });
+             .catch(error => {
+                 if (error.response) {
+                     Object.values(error.response.data.errors).forEach(value => {
+                         value.forEach(e => {
+                             let i = document.createElement('p');
+                             i.classList.add('has-text-danger');
+                             i.innerHTML = e;
+                             document.getElementById('register-error').appendChild(i);
+                         });
+                     });
+                 }
+             });
     });
 });
 //login
 let loginButton = document.getElementById('login-button');
-loginButton.addEventListener("click", ev => {
+loginButton.addEventListener("click", () => {
     let email = document.getElementById('login-email').value;
     let password = document.getElementById('login-password').value;
 
-    axios.get('/sanctum/csrf-cookie').then(response => {
+    axios.get('/sanctum/csrf-cookie').then(()=> {
         axios.post('/login', {
             email: email,
             password: password,
@@ -91,30 +92,30 @@ loginButton.addEventListener("click", ev => {
                 window.location.reload(true);
             }
         })
-            .catch(error => {
-                if (error.response.status === 422) {
-                    Object.values(error.response.data.errors).forEach(value => {
-                        value.forEach(e => {
-                            let i = document.createElement('p');
-                            i.classList.add('has-text-danger');
-                            i.innerHTML = e;
-                            document.getElementById('login-error').appendChild(i);
-                        });
-                    });
-                } else {
-                    document.getElementById('login-error').innerHTML = 'Неправильный Email или пароль';
-                }
+             .catch(error => {
+                 if (error.response.status === 422) {
+                     Object.values(error.response.data.errors).forEach(value => {
+                         value.forEach(e => {
+                             let i = document.createElement('p');
+                             i.classList.add('has-text-danger');
+                             i.innerHTML = e;
+                             document.getElementById('login-error').appendChild(i);
+                         });
+                     });
+                 } else {
+                     document.getElementById('login-error').innerHTML = 'Неправильный Email или пароль';
+                 }
 
 
-            });
+             });
     });
 });
 let loginForm = document.querySelector(".login-form");
 let inputs = loginForm.querySelectorAll("input");
-inputs.forEach((elem=>{
+inputs.forEach((elem => {
     elem.addEventListener("keyup", function (event) {
         // Число 13 в "Enter" и клавиши на клавиатуре
-        if (event.keyCode === 13) {
+        if (event.key === 'Enter') {
             // При необходимости отмените действие по умолчанию
             event.preventDefault();
             // Вызов элемента button одним щелчком мыши
@@ -127,67 +128,128 @@ inputs.forEach((elem=>{
 //favorites
 let favorites = document.querySelectorAll('.favorites');
 let favoritesLink = document.getElementById('favorites-link');
-    if(favoritesLink.dataset.status==='quest'){
-        favoritesLink.addEventListener("click", () =>{
-            modal.classList.add("is-active");
-            htmlElement.classList.add("is-clipped");
-        });
-    }
+if (favoritesLink.dataset.status === 'quest') {
+    favoritesLink.addEventListener("click", () => {
+        modal.classList.add("is-active");
+        htmlElement.classList.add("is-clipped");
+    });
+}
 favorites.forEach((elem) => {
     elem.addEventListener("click", () => {
-            if (elem.getAttribute('id') === 'favorite-guest') {
-                modal.classList.add("is-active");
-                htmlElement.classList.add("is-clipped");
-            } else {
-                let category = elem.getAttribute('data-category');
-                let productId = elem.getAttribute('data-productId');
-                let favoritesStatus = +elem.getAttribute('data-status');
-                if (favoritesStatus === 1) {
+                              if (elem.getAttribute('id') === 'favorite-guest') {
+                                  modal.classList.add("is-active");
+                                  htmlElement.classList.add("is-clipped");
+                              } else {
+                                  let category = elem.getAttribute('data-category');
+                                  let productId = elem.getAttribute('data-productId');
+                                  let favoritesStatus = +elem.getAttribute('data-status');
+                                  if (favoritesStatus === 1) {
 
-                    axios.delete('/addtofavorites/' + category + '/'+ productId).then(response => {
-                        if (response.status === 200) {
-                            console.log(response);
-                            let heart = document.createElement('i');
-                            heart.classList.add('far');
-                            heart.classList.add('fa-heart');
-                            let oldChild = elem.querySelector('i');
-                            oldChild.replaceWith(heart);
-                            elem.querySelector('p').innerHTML = 'В избранноe';
-                            elem.dataset.status = '0';
-                        }
-                    })
-                        .catch(error => {
-                            console.log(error);
-                        } );
-                } else if (favoritesStatus === 0) {
-
-
-                        axios.patch('/addtofavorites', {
-                            category: category,
-                            productId: productId,
-                        }).then(response => {
-
-                            if (response.status === 200) {
-                                let heart = document.createElement('i');
-                                heart.classList.add('fas');
-                                heart.classList.add('fa-heart');
-                                let oldChild = elem.querySelector('i');
-                                oldChild.replaceWith(heart);
-
-                                elem.querySelector('p').innerHTML = 'В избранном';
-                                elem.dataset.status='1';
-
-                            }
-                        })
+                                      axios.delete('/addtofavorites/' + category + '/' + productId).then(response => {
+                                          if (response.status === 200) {
+                                              console.log(response);
+                                              let heart = document.createElement('i');
+                                              heart.classList.add('far');
+                                              heart.classList.add('fa-heart');
+                                              let oldChild = elem.querySelector('i');
+                                              oldChild.replaceWith(heart);
+                                              elem.querySelector('p').innerHTML = 'В избранноe';
+                                              elem.dataset.status = '0';
+                                          }
+                                      })
+                                           .catch(error => {
+                                               console.log(error);
+                                           });
+                                  } else if (favoritesStatus === 0) {
 
 
-                        .catch(error => {
-                            console.log(error);
-                            }
-                        );
-                }
-            }
+                                      axios.patch('/addtofavorites', {
+                                          category: category,
+                                          productId: productId,
+                                      }).then(response => {
 
-        }
+                                          if (response.status === 200) {
+                                              let heart = document.createElement('i');
+                                              heart.classList.add('fas');
+                                              heart.classList.add('fa-heart');
+                                              let oldChild = elem.querySelector('i');
+                                              oldChild.replaceWith(heart);
+
+                                              elem.querySelector('p').innerHTML = 'В избранном';
+                                              elem.dataset.status = '1';
+
+                                          }
+                                      })
+
+
+                                           .catch(error => {
+                                                      console.log(error);
+                                                  }
+                                           );
+                                  }
+                              }
+
+                          }
     );
 });
+// Cart logic
+let addToCartButtons = document.querySelectorAll('.add-to-cart');
+
+addToCartButtons.forEach(elem => {
+
+    let id = elem.dataset.product_id;
+
+    if (document.cookie.includes('cart') && document.cookie.match(/cart=[0-9,]+/g)) {
+        if (document.cookie.match(/cart=[0-9,]+/g)[0].includes(id)) {
+            changeAddToCartButton(elem);
+        }
+    }
+
+    elem.addEventListener('click', () => {
+        let productId = elem.dataset.product_id;
+
+            if (document.cookie.includes('cart') && document.cookie.match(/cart=[0-9,]+/g)) {
+
+                if (!document.cookie.includes(productId)){
+
+                    let productString = document.cookie.match(/cart=[0-9,]+/g)[0];
+                    document.cookie = productString + ',' +productId +';max-age=5000000;SameSite=Lax;path=/';
+                    changeAddToCartButton(elem);
+                    renderCartButton();
+
+                }
+        } else {
+               document.cookie = 'cart=' + productId + ';max-age=5000000;';
+                changeAddToCartButton(elem);
+                renderCartButton();
+            }
+    });
+});
+function changeAddToCartButton(elem){
+    elem.innerHTML = 'Перейти в корзину';
+    elem.classList.add('in-cart-button');
+    setTimeout(() =>elem.setAttribute('href', '/cart'),100);
+}
+
+function renderCartButton() {
+    let cartNavbar = document.getElementById('cart-navbar'),
+        cartNavbarText = cartNavbar.querySelector('.cart-text');
+
+    axios.get('/sanctum/csrf-cookie').
+    then(() => {
+        axios.get('/api/cart/sum-of-products')
+             .then(res => {
+
+            if (res.status === 200 && res.data === 0) {
+                cartNavbarText.style.fontWeight = '400';
+                cartNavbarText.innerText = 'Корзина';
+            } else {
+                cartNavbarText.style.fontWeight = '700';
+                cartNavbarText.innerText = res.data + ' р.';
+            }
+
+        }).catch(error => {
+                 console.log(error);
+             });
+    });
+}

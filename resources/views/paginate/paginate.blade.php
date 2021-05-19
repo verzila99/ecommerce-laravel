@@ -17,19 +17,12 @@
                 <li><a href="{{ $paginator->url(1) }}" class="pagination-link"
                        aria-label="Goto page 1">1</a></li>
             @endif
-            @if( $paginator->currentPage()>5)
+            @if( $paginator->currentPage()>4)
                 <li>
                     <span class="pagination-ellipsis">&hellip;</span>
                 </li>
             @endif
-            @if( $paginator->currentPage()>3 )
-                    <li>
-                    <a href="{{ $paginator->url( $paginator->currentPage()-3)}}"
-                    class="pagination-link"
-                    aria-label="Goto page  {{ $paginator->currentPage()-3
-                       }}"> {{ $paginator->currentPage()-3 }}</a>
-                        </li>
-                @endif
+
             @if( $paginator->currentPage()>2)
                 <li><a href="{{ $paginator->url( $paginator->currentPage()-2)}}"
                        class="pagination-link"
@@ -60,13 +53,7 @@
                        aria-label="Goto page {{ $paginator->currentPage()+2 }}">{{ $paginator->currentPage()+2 }}</a>
                 </li>
             @endif
-            @if( $paginator->currentPage()==$paginator->lastPage()-4 )
-                <li><a href="{{$paginator->url( $paginator->currentPage()+3)}}"
-                       class="pagination-link" aria-label="Goto
-                    page {{ $paginator->currentPage()+3 }}
-                        ">{{ $paginator->currentPage()+3 }}</a></li>
-            @endif
-            @if($paginator->currentPage() < $paginator->lastPage()-4)
+            @if($paginator->currentPage() < $paginator->lastPage()-3)
                 <li><span class="pagination-ellipsis">&hellip;</span></li>
             @endif
             @if($paginator->currentPage()!== $paginator->lastPage())

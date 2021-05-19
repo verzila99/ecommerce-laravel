@@ -8,7 +8,7 @@
         <div class="category-filter__total is-flex
                 is-align-items-center is-size-4
                 has-text-grey-light
-                " >Найдено товаров: {{$productList->total()}}</div >
+                " >Найдено товаров: {{$totalItems}}</div >
         @foreach( $productList as $product)
             <div class="category-list__item box is-flex mt-3" >
                 <a href="/{{$product->category . "/" .
@@ -146,15 +146,15 @@
                         </div >
                         <button class="button is-primary mt-5
                                 add-to-cart"
-                                data-product_id="{{$product->id}}" >
+                                data-product_id="{{$product->product_id}}" >
                             Добавить в корзину
                         </button >
                         @auth
-                            @if( !str_contains($favoritesStatusList,$product->id))
+                            @if( !str_contains($favoritesStatusList,$product->product_id))
                                 <a class="favorites favorites-list light-link is-flex
                     is-align-items-center " data-category="{{
                     $product->category }}"
-                                   data-productId="{{$product->id}}"
+                                   data-productId="{{$product->product_id}}"
                                    data-status="0" >
                         <span class="icon is-size-4 has-text-grey-lighter" >
                     <i class="far fa-heart" ></i >
@@ -167,7 +167,7 @@
                                 <a class="favorites favorites-list light-link is-flex
                     is-align-items-center " data-category="{{
                     $product->category }}"
-                                   data-productId="{{$product->id}}"
+                                   data-productId="{{$product->product_id}}"
                                    data-status="1" >
                         <span class="icon is-size-4 has-text-grey-lighter" >
                     <i class="fas fa-heart" ></i >
@@ -197,7 +197,7 @@
             </div >
         @endforeach
 
-        {{$productList->appends(request()->query())->links('paginate.paginate')}}
+        {{$paginator->appends(request()->query())->links('paginate.paginate')}}
 
     </div>
 

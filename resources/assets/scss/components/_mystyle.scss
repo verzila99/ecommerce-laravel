@@ -35,8 +35,16 @@ a{
 
 
 }
+
 .button .is-primary{
     color:$primary!important;
+}
+
+
+.in-cart-button {
+    background-color: $success!important;
+    color: $black!important;
+
 }
 .is-size-8 {
     font-size: .8rem;

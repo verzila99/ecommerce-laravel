@@ -342,9 +342,17 @@ abbr[title] {
 }
 
 .cart-item__icon {
-  height: 100px;
+  height: 70px;
+  width: 100px;
   -o-object-fit: contain;
      object-fit: contain;
+  display: flex;
+}
+
+.cart-item__icon img {
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto;
 }
 
 .cart-item {
@@ -354,6 +362,10 @@ abbr[title] {
 
 .cart-row td {
   vertical-align: middle !important;
+}
+
+#table-title {
+  margin-left: 2rem;
 }
 
 .quantity {
@@ -395,7 +407,7 @@ abbr[title] {
   border-top: 1px solid #d9dadc;
 }
 
-.deleteItem {
+.delete-item {
   cursor: pointer;
   width: 20px;
   height: 20px;
@@ -598,7 +610,7 @@ abbr[title] {
 }
 
 .pagination-container {
-  width: 70%;
+  width: 80%;
   margin: 0 auto;
 }
 
@@ -10890,6 +10902,11 @@ a {
 
 .button .is-primary {
   color: #F26419 !important;
+}
+
+.in-cart-button {
+  background-color: #FFD447 !important;
+  color: #000000 !important;
 }
 
 .is-size-8 {

@@ -83,6 +83,7 @@ showMoreButtons.forEach((elem) => {
 
 const sortButtons = document.querySelectorAll('.sort-button');
 let urlObject = new URL(document.location.href);
+
 let urlParams = urlObject.searchParams;
 let sort = urlParams.get("sort_by");
 sortButtons.forEach(elem => {
@@ -99,7 +100,7 @@ sortButtons.forEach(elem => {
 // Filtering
 let queryString = urlParams.toString();
 let priceFrom = document.querySelector('#price_from');
-let priceEnd = document.querySelector('#price_to');
+let priceTo = document.querySelector('#price_to');
 let newDiv = document.createElement('a');
 newDiv.classList.add('button');
 newDiv.classList.add('is-primary');
@@ -112,31 +113,31 @@ checkboxInputs.forEach(elem => {
         let parameter = elem.getAttribute('data-parameter') + '[]=' + elem.getAttribute('data-value');
         if (elem.checked) {
             queryString += queryString ? `&${parameter}` : parameter;
-        }
-         else if (!elem.checked) {
+        } else if (!elem.checked) {
             if (queryString.includes('&' + parameter)) {
                 queryString = queryString.replace('&' + parameter, '');
-            } else if (queryString.includes( parameter)) {
+            } else if (queryString.includes(parameter)) {
                 queryString = queryString.replace(parameter, '');
             }
         }
-        fetch('/api/smartphones?' + queryString)
+        fetch('/api' + urlObject.pathname + '?' + queryString.replace('+', '%2b'))
             .then(function (response) {
                 return response.json();
             })
             .then((res) => {
-                if(res!==0){
-                    queryString = queryString.replace('?','');
-                    newDiv.innerHTML = 'Найдено:' + res;
-                    newDiv.setAttribute('href', '/smartphones?' + queryString);
-                    elem.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
-                }else{
-                    newDiv.innerHTML = '0 найдено';
-                    elem.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
-                }
 
-                }
-                )
+                      if (res !== 0) {
+                          queryString = queryString.replace('?', '');
+                          newDiv.innerHTML = 'Найдено:' + res;
+                          newDiv.setAttribute('href', urlObject.pathname + '?' + queryString);
+                          elem.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
+                      } else {
+                          newDiv.innerHTML = '0 найдено';
+                          elem.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
+                      }
+
+                  }
+            )
             .catch(function (error) {
 
                 console.log(error);
@@ -148,17 +149,54 @@ checkboxInputs.forEach(elem => {
 });
 
 priceFrom.addEventListener('keyup', () => {
-    let priceFromValue = priceFrom.value;
-    fetch('/api/ok')
+    let priceFromValue = 'price_from=' + priceFrom.value;
+
+    fetch('/api' + urlObject.pathname + '?' + queryString.replace(/price_from=\d+/g, '').replace('&&', '&').replace('?&', '?') + '&' + priceFromValue)
         .then(function (response) {
 
-            console.log(response);
+            return response.json();
         })
-        .catch(function (error) {
+        .then((res) => {
 
+                  if (res !== 0) {
+                      queryString = queryString.replace('?', '');
+                      newDiv.style.right = '-65%';
+                      newDiv.innerHTML = 'Найдено:' + res;
+                      newDiv.setAttribute('href', urlObject.pathname + '?' + queryString.replace(/price_from=\d+/g, '').replace('&&', '&').replace('?&', '?') + '&' + priceFromValue);
+                      priceFrom.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
+                  } else {
+                      newDiv.innerHTML = '0 найдено';
+                      priceFrom.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
+                  }
+              }
+        )
+        .catch(function (error) {
             console.log(error);
+        });
+});
+priceTo.addEventListener('keyup', () => {
+    let priceToValue = 'price_to=' + priceTo.value;
+
+    fetch('/api' + urlObject.pathname + '?' + queryString.replace(/price_to=\d+/g, '').replace('&&', '&').replace('?&', '?') + '&' + priceToValue)
+        .then(function (response) {
+
+            return response.json();
         })
-        .then(function () {
-            // always executed
+        .then((res) => {
+
+                  if (res !== 0) {
+                      newDiv.style.right = '-40%';
+                      queryString = queryString.replace('?', '');
+                      newDiv.innerHTML = 'Найдено:' + res;
+                      newDiv.setAttribute('href', urlObject.pathname + '?' + queryString.replace(/price_to=\d+/g, '').replace('&&', '&').replace('?&', '?') + '&' + priceToValue);
+                      priceTo.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
+                  } else {
+                      newDiv.innerHTML = '0 найдено';
+                      priceTo.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
+                  }
+              }
+        )
+        .catch(function (error) {
+            console.log(error);
         });
 });

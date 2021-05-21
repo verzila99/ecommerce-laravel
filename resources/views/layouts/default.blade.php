@@ -32,7 +32,6 @@
 </head >
 
 <body >
-
 <nav
     class="navbar container is-max-widescreen"
     role="navigation"
@@ -92,30 +91,30 @@
                     <span >Каталог</span >
                 </button >
             </div >
+
             <div class="dropdown-menu" id="dropdown-menu4" role="menu" >
-                <div class="dropdown-content" >
-                    <div class="dropdown-item" >
-
-                        <div class="menu" >
-                            <p class="menu-label" ><a href={{ url("/smartphones") }}>Смартфоны</a ></p >
-                            <ul class="menu-list" >
-                                <li ><a href="/" ></a ></li >
-                                <li ><a ></a ></li >
-                            </ul >
-                            <p class="menu-label" ><a href="{{ url("/smartwatches") }}" >Умные Часы</a ></p >
-                            <ul class="menu-list" >
-                                <li ><a href="/" ></a ></li >
-                                <li ><a ></a ></li >
-                            </ul >
-                        </div >
-
+                <div class="dropdown-content is-flex" >
+                    @foreach ($categories as $key=>$category)
+                    <div class="px-5">
+                        <p class="menu-label is-capitalized" ><a href={{ url('/'. explode(',',$key)[0]) }}>{{ explode(',',$key)[1]
+                             }}</a ></p >
+                        <ul class="menu-list" >
+                            @foreach($category as $subcategory)
+                                <li ><a class="dropdown-item is-capitalized" href="{{ url('/'. explode(',',$key)[0])
+                                .'/?manufacturer[]=' . $subcategory->manufacturer }}"
+                                    >{{ explode(',',$key)[1] }}&nbsp;&nbsp;&nbsp;&nbsp;{{ $subcategory->manufacturer
+                             }} </a ></li >
+                            @endforeach
+                        </ul >
                     </div >
+                    @endforeach
                 </div >
             </div >
         </div >
 
         <div class="control search mr-3" >
-            <input class="input" type="text" placeholder="Loading input" />
+            <label for="main-search" ></label >
+            <input id="main-search" class="input" type="text" placeholder="Search products..." />
         </div >
         @if ( auth()->check())
             <div class="dropdown  is-hoverable" >
@@ -161,7 +160,7 @@
             </button >
         @endif
         <a id="cart-navbar" href="/cart" class="button  is-success ml-3" >
-            <span class="cart-text">Корзина</span >
+            <span class="cart-text" >Корзина</span >
             <span class="icon" >
                     <i class="fas fa-shopping-cart" ></i >
                 </span >
@@ -317,6 +316,37 @@
 </div >
 @yield('content')
 
+@if($viewed)
+<div class="container is-max-widescreen">
+    <h2 class="has-text-left has-text-weight-bold is-size-4 mt-4" >Вы недавно смотрели</h2 >
+    <div class="columns  my-4" >
+        @foreach ($viewed as $viewedItem)
+            <div class="column is-one-fifth" >
+                <div class="card" >
+                    <a href="{{  $viewedItem->product_category . "/" . $viewedItem->product_id}}" >
+                        <div class="card-image" >
+                            <img
+                                src="{{ asset('storage/uploads/' . $viewedItem->product_image) }}"
+                                alt="{{ $viewedItem->product_title }}"
+                            />
+                        </div >
+                        <div class="card-content p-1" >
+                            <p class="is-6 card-content__title has-text-weight-semibold has-text-centered" >
+                                {{ $viewedItem->product_title}}
+                            </p >
+                            <p
+                                class="price has-text-weight-bold has-text-centered is-4 my-3"
+                            >
+                                {{ number_format($viewedItem->product_price, 0, ',', ' ')}} ₽
+                            </p >
+                        </div >
+                    </a >
+                </div >
+            </div >
+        @endforeach
+    </div >
+</div>
+@endif
 <footer class="pagefooter-top py-6" >
     <div
         class="container is-max-widescreen is-flex is-justify-content-space-between"

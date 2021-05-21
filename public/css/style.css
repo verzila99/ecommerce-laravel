@@ -228,8 +228,16 @@ html {
   width: 70%;
 }
 
-.dropdown-item:hover {
-  background-color: #FFD447 !important;
+.menu-label {
+  padding: 0.5em 0.75em;
+  font-weight: 700;
+  font-size: 0.9rem !important;
+  letter-spacing: 0 !important;
+}
+
+.menu-list a {
+  font-size: 0.8rem !important;
+  color: #b5b5b5 !important;
 }
 
 .pagefooter-top nav {
@@ -424,6 +432,10 @@ abbr[title] {
 .noitems-title {
   font-weight: 900;
   font-size: 2rem;
+}
+
+.table tbody {
+  min-height: 400px !important;
 }
 
 .accordion-group {

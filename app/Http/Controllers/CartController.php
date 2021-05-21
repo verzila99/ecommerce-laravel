@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
+use App\Models\Smartphone;
+use App\Models\Smartwatch;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
-    public function index(Request $request): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    public function index(Request $request): Factory|View|Application
     {
 
         $items = is_array(explode(',', Cookie::get('cart')))
@@ -40,7 +45,31 @@ class CartController extends Controller
         return view('cart', compact('productList'));
 
     }
-    public function getSumOfProducts(){
+
+    public function do()
+    {
+            $h=664;
+            $f = DB::table('smartwatches')
+                   ->get();
+
+        foreach($f as $k){
+$i=$h++;
+
+                    $g = explode(',', $k->images)[0];
+
+                    Product::create(['product_image' => $g,
+                        'product_id'=>$i,'product_category'=>'smartwatches','product_title'=>$k->title, 'product_price' =>
+                            $k->price]);
+
+                    Smartwatch::where('id', $k->id)->update(['product_id' => $i]);
+
+            }
+
+
+    }
+
+    public function getSumOfProducts(): bool|int|string
+    {
 
         $items = is_array(explode(',', Cookie::get('cart')))
             ? explode(',', Cookie::get('cart'))
@@ -66,6 +95,10 @@ class CartController extends Controller
         }
 
 
-        return  0;
+        return 0;
     }
+
+
+
+
 }

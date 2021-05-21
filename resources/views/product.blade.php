@@ -11,18 +11,18 @@
                 <li ><a href="/" >Главная</a ></li >
 
                 <li >
-                    <a href="{{'/' . $product->category_name}}"
-                       aria-current="page" >{{ $product->category_name_ru }}</a >
+                    <a href="{{'/' . $product[0]->category_name}}"
+                       aria-current="page" >{{ $product[0]->category_name_ru }}</a >
                 </li >
             </ul >
         </nav >
         <section class="item" >
             <h1 class="item-name has-text-left is-size-3 mt-5" >
-                {{ $product->title}}
+                {{ $product[0]->title}}
             </h1 >
             <div class="item-art is-flex is-align-items-center mt-5" >
                 <div class="vendorcode has-text-grey-light" >
-                    Артикул {{ $product->vendorcode }}
+                    Артикул {{ $product[0]->vendorcode }}
                 </div >
                 <div
                     class="stars is-flex is-justify-content-space-between is-align-items-center"
@@ -46,7 +46,7 @@
                     class="item-main-gallery is-flex is-justify-content-center is-align-items-center"
                 >
                     <img
-                        src="{{ asset('storage/uploads/' . explode(',',$product->images)[0]) }}"
+                        src="{{ asset('storage/uploads/' . explode(',',$product[0]->images)[0]) }}"
                         alt=""
                         srcset=""
                     />
@@ -57,51 +57,39 @@
                      is-align-items-flex-start"
                 >
                     <ul >
-                        @if($product->vendorcode)
+                        @if($product[0]->vendorcode)
                             <li >
                                 <span class="has-text-grey-light is-size-7"
                                 >Артикул: </span
                                 ><span
-                                    class="is-size-8" >{{$product->vendorcode}}</span >
+                                    class="is-size-8" >{{$product[0]->vendorcode}}</span >
                             </li >
                         @endif
 
-                        @if($product->manufacturer)
+                        @if($product[0]->manufacturer)
                             <li >
                                 <span class="has-text-grey-light is-size-7"
                                 >Производитель: </span
                                 ><span
-                                    class="is-size-8" >{{$product->manufacturer}}</span >
+                                    class="is-size-8" >{{$product[0]->manufacturer}}</span >
                             </li >
                         @endif
 
-                        @if($product->diagonal)
-                            <li >
-                                <span class="has-text-grey-light is-size-7"
-                                >Диагональ экрана, в дюймах: </span
-                                ><span
-                                    class="is-size-8" >{{$product->diagonal}}</span >
-                            </li >
-                        @endif
+                            @foreach($props as $param)
+                                @php
+                                    $name = $param->name;
 
-                        @if($product->memory)
-                            <li >
-                                <span class="has-text-grey-light is-size-7"
-                                >Встроенная память, в Гб: </span
-                                ><span class
-                                       ="is-size-8" >{{$product->memory}}</span >
-                            </li >
-                        @endif
+                                @endphp
 
+                                @if($product[0]->$name)
+                                    <li >
+                            <span class="has-text-grey-light is-size-7 is-capitalized"
+                            >{{ $param->name_ru}}: </span
+                            ><span class="is-size-8" >{{$product[0]->$name}}</span >
+                                    </li >
+                                @endif
 
-                        @if($product->camera)
-                            <li >
-                                <span class="has-text-grey-light is-size-7"
-                                >Фотокамера, Мп: </span
-                                ><span
-                                    class="is-size-8" >{{$product->camera }}</span >
-                            </li >
-                        @endif
+                            @endforeach
 
                         <li >
                             <a class="is-size-7 mt-6 dark-link" href="/"
@@ -113,8 +101,8 @@
                         @if($favoritesStatus===0)
                             <a class="favorites favorites-item is-flex
                     is-align-items-center " data-category="{{
-                    $product->category_name }}"
-                               data-productId="{{$product->product_id}}"
+                    $product[0]->category_name }}"
+                               data-productId="{{$product[0]->product_id}}"
                                data-status="{{ $favoritesStatus }}" >
                         <span class="icon is-size-4 has-text-grey-lighter" >
                     <i class="far fa-heart" ></i >
@@ -126,8 +114,8 @@
                         @else
                             <a class="favorites favorites-item is-flex
                     is-align-items-center " data-category="{{
-                    $product->category_name }}"
-                               data-productId="{{$product->product_id}}"
+                    $product[0]->category_name }}"
+                               data-productId="{{$product[0]->product_id}}"
                                data-status="{{ $favoritesStatus }}" >
                         <span class="icon is-size-4 has-text-grey-lighter" >
                     <i class="fas fa-heart" ></i >
@@ -162,8 +150,8 @@
                     <div class="oldprice has-text-grey is-size-5" >
                         @php
                             $oldPrice=(round((int)
-                                    $product->price + round((random_int
-                                    (5,15) *  ((int)$product->price /
+                                    $product[0]->price + round((random_int
+                                    (5,15) *  ((int)$product[0]->price /
                                     100)))))
                         @endphp
 
@@ -171,15 +159,15 @@
                                     number_format($oldPrice, 0,',', ' ')}} р.</span >
                         <span class="tag is-success discount"
                         >-{{ number_format(((int)$oldPrice - (int)
-                                $product->price), 0, ',', ' ')}} р.</span >
+                                $product[0]->price), 0, ',', ' ')}} р.</span >
                     </div >
 
                     <div class="price has-text-weight-bold is-size-3 mt-3" >
                         {{ number_format(round((int)
-                               $product->price), 0, ',', ' ')}} р.
+                               $product[0]->price), 0, ',', ' ')}} р.
                     </div >
 
-                    <button class="button is-primary mt-5" data-product_id="{{$product->product_id}}">
+                    <button class="button is-primary mt-5" data-product_id="{{$product[0]->product_id}}">
                         Добавить в корзину
                     </button >
 

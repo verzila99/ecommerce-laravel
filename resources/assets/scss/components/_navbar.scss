@@ -24,7 +24,13 @@
 .register-modal .field {
     width: 70%;
 }
-
-.dropdown-item:hover {
-    background-color: $success !important;
+.menu-label{
+    padding: 0.5em 0.75em;
+    font-weight: 700;
+    font-size: .9rem!important;
+    letter-spacing: 0!important;
+}
+.menu-list a{
+    font-size: .8rem!important;
+    color: $grey-light!important;
 }

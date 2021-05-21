@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -89,32 +90,32 @@ class UserController extends Controller
 
                 if ($item) {
 
-                    $item = explode(':', $item);
+                    $query[] = [explode(':', $item)[0] => explode(':', $item)[1]];
 
-                    if (isset($query[$item[0]])) {
-
-                        $query[$item[0]][] = $item[1];
-
-                    } else {
-
-                        $query[$item[0]] = [$item[1]];
-
-                    }
                 }
             }
             $productList = new Collection();
 
-            foreach ($query as $key => $value) {
+            $i=0;
+            foreach ($query as $q) {
 
-                $result = DB::table('products')->select($key . '.*', 'products.product_id')
-                            ->join($key, 'products.product_id', '=', $key . '.product_id')
-                            ->whereIn($key . '.product_id', $value)->get();
+                foreach ($q as $key=>$value) {
+                    $props = Category::getPropsOfCategory($key);
 
-                $productList = $productList->concat($result);
+                    $result = DB::table('products')->select($key . '.*', 'products.product_id')
+                                ->join($key, 'products.product_id', '=', $key . '.product_id')
+                                ->select('products.*', $key . '.*')
+                                ->where($key . '.product_id', $value)
+                                ->get();
 
+
+                    $productList = $productList->concat($result);
+
+                    $H=$i++;
+                    $productList[$H]->bar =$props->pluck('name_ru', 'name');
+                }
             }
             $ITEMSPERPAGE = 10;
-
             $totalItems = count($productList);
 
             $pages = ceil($totalItems / $ITEMSPERPAGE);

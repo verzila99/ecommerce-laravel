@@ -3,16 +3,21 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Category;
+use App\Models\Smartphone;
+use App\Models\Smartwatch;
 use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use JetBrains\PhpStorm\ArrayShape;
 use JsonException;
 
@@ -23,65 +28,19 @@ class ProductListController extends Controller
     public function index(Request $request, $category): View|Factory|Redirector|RedirectResponse|Application
     {
 
-        if (!$this->getAllCategories()->pluck('category_name')->contains($category)) {
+        if (!Category::getAllCategories()->pluck('category_name')->contains($category)) {
 
             abort(404);
         }
-
-        $currentCategory = $this->getCategory($category);
-
-        $categoryProps = $currentCategory->pluck(['name']);
+        $page = $request->page;
+        $currentCategory = Category::getPropsOfCategory($category);
         $props = $currentCategory->toArray();
-        $parameters = [];
-        foreach ($categoryProps as $prop) {
-            if ($request->$prop) {
-                $parameters[$prop] = $request->$prop;
-            } else {
-                $parameters[$prop] = null;
-            }
+
+        if ($category === 'smartphones') {
+            $productList = Smartphone::getCountSmartphones($request,$category)->paginate(10);
+        } else if ($category === 'smartwatches') {
+            $productList = Smartwatch::getCountSmartwatches($request, $category)->paginate(10);
         }
-
-        $queryParams = $this->handleSmartphonesRequest($request);
-        $manufacturer = $queryParams['manufacturer'];
-        $priceFrom = $queryParams['priceFrom'];
-        $priceTo = $queryParams['priceTo'];
-        $sortBy = $queryParams['sortBy'];
-        $page = $queryParams['page'];
-
-        $productList = DB::table($category)
-                         ->join('categories', $category . '.category_id', '=', 'categories.category_id')
-                         ->join('props_of_category', $category .'.category_id', '=', 'props_of_category.category_id')
-                         ->select($category . '.*', 'props_of_category.*','categories.*')
-                         ->when($manufacturer, function ($query, $manufacturer) {
-                             return $query->whereIn('manufacturer', $manufacturer);
-                         })
-                         ->when($priceFrom, function ($query, $priceFrom) {
-                             return $query->where('price', '>', $priceFrom);
-                         })
-                         ->when($priceTo, function ($query, $priceTo) {
-                             return $query->where('price', '<', $priceTo);
-                         })
-                         ->when($sortBy,
-                             function ($query, $sortBy) {
-                                 if ($sortBy === 'popularity') {
-                                     return $query->orderBy('product_views', 'desc');
-                                 }
-                                 if ($sortBy === 'price') {
-                                     return $query->orderBy('price', 'asc');
-                                 }
-                                 if ($sortBy === '-price') {
-                                     return $query->orderBy('price', 'desc');
-                                 }
-                                 if ($sortBy === 'created_at') {
-                                     return $query->orderBy('created_at', 'desc');
-                                 }
-
-                                 return null;
-
-                             },
-                             function ($query) {
-                                 return $query->orderBy('product_views', 'desc');
-                             })->paginate(10);
 
         $requestUri = preg_replace('/sort_by\S+/', '', $request->fullUrl());
 
@@ -99,11 +58,10 @@ class ProductListController extends Controller
             $favoritesStatusList = '';
         }
 
-        $filterInputs = self::getInputFields();
+        $filterInputs = self::getInputFields($category);
 
 
         $explodedQueryString = preg_split('/[,=&]/', $requestUri);
-
 
         return view('productList', compact(['productList',
             'requestUri', 'filterInputs', 'explodedQueryString', 'favoritesStatusList','props']));
@@ -111,39 +69,27 @@ class ProductListController extends Controller
 
 
 
-    public function getAllCategories(): Collection
-    {
 
-        return DB::table('categories')->get();
-    }
-
-
-
-    public function getCategory($category): Collection
-    {
-        $currentCategory = DB::table('categories')->join('props_of_category', 'props_of_category.category_id', '=', 'categories.category_id')->where('category_name', $category)->get();
-        return $currentCategory;
-    }
 
 
 
     #[ArrayShape(['manufacturer' => "array|null", 'memory' => "array|null", 'priceFrom' => "mixed", 'priceTo' =>
         "mixed", 'sortBy' => "mixed", 'page' => "mixed"])]
-    protected function handleSmartphonesRequest(Request $request): array
+    public static function handleRequest(Request $request): array
     {
 
         if ($request->manufacturer) {
             foreach ($request->manufacturer as $man) {
-                $manufacturer[] = $man;
+                $manufacturer[] =$man;
             }
 
         } else {
             $manufacturer = null;
         }
-        $priceFrom = $request->price_from;
-        $priceTo = $request->price_to;
-        $sortBy = $request->sort_by;
-        $page = $request->page;
+        $priceFrom =$request->price_from;
+        $priceTo =$request->price_to;
+        $sortBy =$request->sort_by;
+        $page =$request->page;
 
         return ['manufacturer' => $manufacturer, 'priceFrom' =>
             $priceFrom, 'priceTo' => $priceTo, 'sortBy' => $sortBy, 'page' => $page];
@@ -152,20 +98,29 @@ class ProductListController extends Controller
 
 
     #[ArrayShape(['manufacturers' => Collection::class, 'memorySize' => Collection::class])]
-    protected static function getInputFields(): array
+    protected static function getInputFields($category): array
     {
-        $manufacturers = DB::table('smartphones')->select(DB::raw('count(*) as manufacturer_count,manufacturer'))
+
+            $propsOfCategory = Category::getPropsOfCategory($category);
+            foreach ($propsOfCategory as $prop){
+
+                $props[$prop->name.'|'. $prop->name_ru] = DB::table($category)
+                                        ->select(DB::raw('count(*) as some_count,'. $prop->name))
+                                        ->groupBy($prop->name)
+                                        ->orderBy('some_count', 'desc')
+                                        ->limit(20)
+                                        ->get();
+
+            }
+
+        $manufacturers = DB::table($category)->select(DB::raw('count(*) as some_count,manufacturer'))
                            ->groupBy('manufacturer')
-                           ->orderBy('manufacturer_count', 'desc')
+                           ->orderBy('some_count', 'desc')
                            ->get();
 
-        $memorySize = DB::table('smartphones')->select(DB::raw('count(*) as memory_count,memory'))
-                        ->groupBy('memory')
-                        ->orderBy('memory_count', 'desc')
-                        ->get();
+        $props['manufacturer|Производители'] = $manufacturers;
 
-        return ['manufacturers' => $manufacturers,
-            'memorySize' => $memorySize];
+        return array_reverse($props);
     }
 
 
@@ -174,48 +129,14 @@ class ProductListController extends Controller
     {
 
 
-        $queryParams = $this->handleSmartphonesRequest($request);
-        $manufacturer = $queryParams['manufacturer'];
-        $memory = $queryParams['memory'];
-        $priceFrom = $queryParams['priceFrom'];
-        $priceTo = $queryParams['priceTo'];
-        $sortBy = $queryParams['sortBy'];
-        $page = $queryParams['page'];
+        if ($category==='smartphones'){
+            $productList=Smartphone::getCountSmartphones($request,$category)->count();
+        }else if($category === 'smartwatches'){
+            $productList=Smartwatch::getCountSmartwatches($request, $category)->count();
+        }
 
 
-        $productList = DB::table('smartphones')->when($manufacturer,
-            function ($query, $manufacturer) {
-                return $query->whereIn('manufacturer', $manufacturer);
-            })->when($memory,
-            function ($query, $memory) {
-                return $query->whereIn('memory', $memory);
-            })->when($priceFrom,
-            function ($query, $priceFrom) {
-                return $query->where('price', '>', $priceFrom);
-            })->when($priceTo,
-            function ($query, $priceTo) {
-                return $query->where('price', '<', $priceTo);
-            })->when($sortBy,
-            function ($query, $sortBy) {
-                if ($sortBy === 'popularity') {
-                    return $query->orderBy('product_views', 'desc');
-                }
-                if ($sortBy === 'price') {
-                    return $query->orderBy('price', 'asc');
-                }
-                if ($sortBy === '-price') {
-                    return $query->orderBy('price', 'desc');
-                }
-                if ($sortBy === 'created_at') {
-                    return $query->orderBy('created_at', 'desc');
-                }
 
-                return null;
-
-            },
-            function ($query) {
-                return $query->orderBy('product_views', 'desc');
-            })->count();
 
         try {
             return json_encode($productList, JSON_THROW_ON_ERROR);

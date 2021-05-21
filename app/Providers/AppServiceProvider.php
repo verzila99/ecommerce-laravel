@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Category;
+
+use App\Models\Product;
 use Illuminate\Support\ServiceProvider;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +27,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+
+        view()->composer('layouts.default', static function($view,) {
+            $view->with('categories', Category::getCategoriesForCatalog());
+        });
+        view()->composer('layouts.default', static function ($view,) {
+            $view->with('viewed', Product::getViewedProducts());
+        });
     }
 }

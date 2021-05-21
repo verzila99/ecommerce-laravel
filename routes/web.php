@@ -25,6 +25,7 @@ Route::middleware('auth:sanctum')->get('/users/{user}', function (Request $reque
 Route::get('/', [HomeController::class,"index"]);
 Route::get('/cart', [CartController::class,"index"]);
 
+
 Route::get('/favorites', [UserController::class, "favorites"])->middleware('auth');
 Route::get('/admin', [AdminController::class,"index"])->middleware('admin');
 

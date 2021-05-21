@@ -9,10 +9,11 @@
                 is-align-items-center is-size-4
                 has-text-grey-light
                 " >Найдено товаров: {{$totalItems}}</div >
+
         @foreach( $productList as $product)
             <div class="category-list__item box is-flex mt-3" >
-                <a href="/{{$product->category . "/" .
-                        $product->id
+                <a href="/{{ $product->product_category . "/" .
+                        $product->product_id
                          }}"
                    class="category-list__item-image is-flex" >
 
@@ -78,34 +79,21 @@
                                         class="is-size-8" >{{$product->manufacturer}}</span >
                                 </li >
                             @endif
+                                @foreach($product->bar as $key=>$value)
+{{--                                    @php--}}
+{{--                                        $name = $param->name;--}}
 
-                            @if($product->diagonal)
-                                <li >
-                            <span class="has-text-grey-light is-size-7"
-                            >Диагональ экрана, в дюймах: </span
+{{--                                    @endphp--}}
 
-                            ><span
-                                        class="is-size-8" >{{$product->diagonal}}</span >
-                                </li >
-                            @endif
+                                    @if($product->$key)
+                                        <li >
+                            <span class="has-text-grey-light is-size-7 is-capitalized"
+                            >{{ $value}}: </span
+                            ><span class="is-size-8" >{{$product->$key}}</span >
+                                        </li >
+                                    @endif
 
-                            @if($product->memory)
-                                <li >
-                            <span class="has-text-grey-light is-size-7"
-                            >Встроенная память, в Гб: </span
-                            ><span class="is-size-8" >{{$product->memory}}</span >
-                                </li >
-                            @endif
-
-
-                            @if($product->camera)
-                                <li >
-                            <span class="has-text-grey-light is-size-7"
-                            >Фотокамера, Мп: </span
-                            ><span class="is-size-8" >{{$product->camera
-                            }}</span >
-                                </li >
-                            @endif
+                                @endforeach
                         </ul >
 
                     </div >

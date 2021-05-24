@@ -54,4 +54,9 @@ class Category extends Model
         return DB::table('categories')->join('props_of_category', 'props_of_category.category_id', '=', 'categories.category_id')->where('categories.category_name', $category)->get();
 
     }
+
+    public function products(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Product::class);
+    }
 }

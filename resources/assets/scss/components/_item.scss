@@ -36,6 +36,9 @@
     margin-top: -11px;
     border-left: 1px solid #d8d8d8;
 }
+.item-main{
+    width: 100%;
+}
 .item-main__specs {
     margin-left: 8em;
 }
@@ -46,11 +49,7 @@
     width: 400px;
     height: 400px;
 }
-.item-main-gallery img {
-    max-height: 90%;
-    max-width: 90%;
-    object-fit: contain;
-}
+
 .oldprice {
     position: relative;
     width:100px;

@@ -13,6 +13,10 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    public function orders(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
     /**
      * The attributes that are mass assignable.
      *

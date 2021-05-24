@@ -208,7 +208,7 @@ addToCartButtons.forEach(elem => {
         let productId = elem.dataset.product_id;
             if (document.cookie.includes('cart') && document.cookie.match(/cart=[0-9,]+/g)) {
 
-                if (checkCookie(productId)){
+                if (!checkCookie(productId)){
                     let productString = document.cookie.match(/cart=[0-9,]+/g)[0];
                     document.cookie = productString + ',' +productId +';max-age=5000000;SameSite=Lax;path=/';
                     changeAddToCartButton(elem);
@@ -234,10 +234,7 @@ function checkCookie(value) {
                                     .match(/cart=[0-9,]+/g)[0]
             .replace(/cart=/g, '')
             .split(',');
-        if(productsArray.indexOf(value)===-1){
-            return false;
-        };
-        return true;
+        return productsArray.indexOf(value)!==-1;
 
     }
 }

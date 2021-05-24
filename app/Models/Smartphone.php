@@ -47,11 +47,11 @@ class Smartphone extends Model
             function ($query, $memory) {
                 return $query->whereIn('memory', $memory);
             })
-                         ->when($manufacturer,
+              ->when($manufacturer,
                              function ($query, $manufacturer) {
                                  return $query->whereIn('manufacturer', $manufacturer);
                              })
-                         ->when($priceFrom,
+              ->when($priceFrom,
                              function ($query, $priceFrom) {
                                  return $query->where('price', '>', $priceFrom);
                              })->when($priceTo,

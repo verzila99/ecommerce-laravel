@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
@@ -22,8 +22,11 @@ use App\Http\Controllers\ProductListController;
 Route::middleware('auth:sanctum')->get('/users/{user}', function (Request $request) {
     return $request->user();
 });
-Route::get('/', [HomeController::class,"index"]);
+Route::get('/', [HomeController::class,"index"])->name('home');
 Route::get('/cart', [CartController::class,"index"]);
+Route::post('/order/confirmation', [OrderController::class,"orderConfirmationRequest"])->name('confirmation');
+Route::post('/order/confirmed', [OrderController::class,"orderConfirmation"])->name('order-confirmed');
+Route::get('/order/confirm', [OrderController::class, "getOrderConfirmationPage"])->name('getConfirmationPage');
 
 
 Route::get('/favorites', [UserController::class, "favorites"])->middleware('auth');

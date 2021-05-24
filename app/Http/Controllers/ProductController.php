@@ -19,16 +19,26 @@ class ProductController extends Controller
     \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
 
-        $currentCategory = Category::getPropsOfCategory($category);
+         Category::where('category_name',$category)->firstOrFail();
 
 
-        $props = $currentCategory->toArray();
+
+        $currentCategoryProps = Category::getPropsOfCategory($category);
+
+
+
+        $props = $currentCategoryProps->toArray();
 
 
         $product = DB::table('products')
                      ->join('categories', 'products.product_category', '=', 'categories.category_name')
                      ->join($category, 'products.product_id', '=', $category . '.product_id')
                      ->where('products.product_id', $productId)->get();
+
+        if (!$product) {
+
+            abort(404);
+        }
 
         $key = $category . '/' . $productId;
 
@@ -56,6 +66,7 @@ class ProductController extends Controller
         count($viewed) > 5 ? array_shift($viewed) : $viewed;
 
         if (!in_array($productId, $viewed, true)) {
+
             Cookie::queue('viewed', implode(',', $viewed) . ',' . $productId, 100000);
         }
 

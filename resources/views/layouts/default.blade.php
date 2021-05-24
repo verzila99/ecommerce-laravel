@@ -316,14 +316,15 @@
 </div >
 @yield('content')
 
-@if($viewed)
+@if (count($viewed) >= 1)
 <div class="container is-max-widescreen">
     <h2 class="has-text-left has-text-weight-bold is-size-4 mt-4" >Вы недавно смотрели</h2 >
     <div class="columns  my-4" >
         @foreach ($viewed as $viewedItem)
+            @if($loop->index < 5)
             <div class="column is-one-fifth" >
                 <div class="card" >
-                    <a href="{{  $viewedItem->product_category . "/" . $viewedItem->product_id}}" >
+                    <a href="{{  url('/' .$viewedItem->product_category . "/" . $viewedItem->product_id)}}" >
                         <div class="card-image" >
                             <img
                                 src="{{ asset('storage/uploads/' . $viewedItem->product_image) }}"
@@ -343,6 +344,7 @@
                     </a >
                 </div >
             </div >
+            @endif
         @endforeach
     </div >
 </div>

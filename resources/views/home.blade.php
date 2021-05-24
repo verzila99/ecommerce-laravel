@@ -55,7 +55,7 @@
 
         <div class="column is-one-fifth">
             <div class="card">
-                <a href="{{  $smartphone->category . "/" . $smartphone->id}}">
+                <a href="{{  $smartphone->category . "/" . $smartphone->product_id}}">
                     <div class="card-image">
                         <img
                             src="{{ asset('storage/uploads/' . explode(',',$smartphone->images)[0]) }}"
@@ -88,7 +88,7 @@
         @foreach ($smartwatches as $smartwatch)
         <div class="column is-one-fifth">
             <div class="card">
-                <a href="{{  $smartwatch->category . "/" . $smartwatch->id}}">
+                <a href="{{  $smartwatch->category . "/" . $smartwatch->product_id}}">
                     <div class="card-image">
                         <img
                             src="{{ asset('storage/uploads/' . explode(',',$smartwatch->images)[0]) }}"

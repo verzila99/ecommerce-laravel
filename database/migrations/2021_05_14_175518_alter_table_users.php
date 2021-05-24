@@ -16,7 +16,7 @@ class AlterTableUsers extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->tinyInteger('role')->default(0);
             $table->text('favorites')->nullable();
-            $table->text('cart')->nullable();
+
         });
     }
 
@@ -30,7 +30,6 @@ class AlterTableUsers extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('role');
             $table->dropColumn('favorites');
-            $table->dropColumn('cart');
         });
     }
 }

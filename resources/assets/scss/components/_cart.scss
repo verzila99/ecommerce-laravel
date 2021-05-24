@@ -37,10 +37,13 @@ abbr[title] {
     padding: 1rem 2rem;
     border: solid 1px #d9dadc;
     width: 30%;
-    height: 400px;
+    min-height: 450px;
 }
 .cart-continue {
     width: 100%;
+}
+.order-success{
+    height: 50vh;
 }
 .cart-summary__title {
     text-align: center;
@@ -72,6 +75,6 @@ abbr[title] {
     font-weight: 900;
     font-size: 2rem;
 }
-.table tbody{
-    min-height: 400px!important;
+.table-container{
+    min-height: 415px!important;
 }

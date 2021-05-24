@@ -1,5 +1,6 @@
 @extends('layouts.default')
 @section('scripts')
+    <script defer src="{{ asset('js/slider-product.js')}}" ></script >
     <script defer src="{{ asset('js/app.js')}}" ></script >
 @endsection
 @section('title','Ecommerce shop')
@@ -11,7 +12,7 @@
                 <li ><a href="/" >Главная</a ></li >
 
                 <li >
-                    <a href="{{'/' . $product[0]->category_name}}"
+                    <a class="is-capitalized" href="{{'/' . $product[0]->category_name}}"
                        aria-current="page" >{{ $product[0]->category_name_ru }}</a >
                 </li >
             </ul >
@@ -45,11 +46,42 @@
                 <div
                     class="item-main-gallery is-flex is-justify-content-center is-align-items-center"
                 >
-                    <img
-                        src="{{ asset('storage/uploads/' . explode(',',$product[0]->images)[0]) }}"
-                        alt=""
-                        srcset=""
-                    />
+                    <div class="slider-container__main my-5" >
+                        <div class="slider-container" >
+                            <div class="slider" >
+
+                                @foreach ( explode(',',$product[0]->images) as $image)
+                                    <div class="slide-product" >
+
+                                        <img src="{{ asset('storage/uploads/' . $image )}}" alt="{{
+                                    $product[0]->title
+                                    }}" />
+
+                                    </div >
+
+                                @endforeach
+                            </div >
+                        </div >
+                        <a class="fullscreen-slider-button" >
+                            <i class="fas fa-search-plus" ></i >
+                        </a >
+                        <div class="arrow-left__container" >
+                            <div class="product-arrow-left" ></div >
+                        </div >
+                        <div class="arrow-right__container" >
+                            <div class="product-arrow-right" ></div >
+                        </div >
+                        <div class="product-dot-container" >
+                            <div class="dot-product-container" >
+                                @foreach ( explode(',',$product[0]->images) as $key=>$image)
+                                    <div class="dot-product" data-index="{{$key}}" >
+                                        <img src="{{ asset('storage/uploads/' . $image )}}" alt="" >
+                                    </div >
+                                @endforeach
+                            </div >
+                        </div >
+
+                    </div >
                 </div >
                 <div
                     class="item-main__specs mt-5  is-flex
@@ -75,21 +107,21 @@
                             </li >
                         @endif
 
-                            @foreach($props as $param)
-                                @php
-                                    $name = $param->name;
+                        @foreach($props as $param)
+                            @php
+                                $name = $param->name
 
-                                @endphp
+                            @endphp
 
-                                @if($product[0]->$name)
-                                    <li >
+                            @if($product[0]->$name)
+                                <li >
                             <span class="has-text-grey-light is-size-7 is-capitalized"
                             >{{ $param->name_ru}}: </span
                             ><span class="is-size-8" >{{$product[0]->$name}}</span >
-                                    </li >
-                                @endif
+                                </li >
+                            @endif
 
-                            @endforeach
+                        @endforeach
 
                         <li >
                             <a class="is-size-7 mt-6 dark-link" href="/"
@@ -167,12 +199,55 @@
                                $product[0]->price), 0, ',', ' ')}} р.
                     </div >
 
-                    <button class="button is-primary mt-5" data-product_id="{{$product[0]->product_id}}">
+                    <a class="add-to-cart button is-primary mt-5" data-product_id="{{$product[0]->product_id}}" >
                         Добавить в корзину
-                    </button >
+                    </a >
 
                 </div >
             </div >
         </section >
     </div >
+
+    <div class="modal fullscreen-slider" >
+        <div class="modal-background slider-background" ></div >
+        <div class="modal-content fullscreen-slider-content " >
+
+            <div class="slider-container__main " >
+                <div class="slider-container" >
+                    <div class="slider" >
+
+                        @foreach ( explode(',',$product[0]->images) as $image)
+                            <div class="slide-product" >
+
+                                <img src="{{ asset('storage/uploads/' . $image )}}" alt="{{
+                            $product[0]->title
+                            }}" />
+
+                            </div >
+
+                        @endforeach
+                    </div >
+                </div >
+                <div class="arrow-left__container" >
+                    <div class="fullscreen-product-arrow-left" ></div >
+                </div >
+                <div class="arrow-right__container" >
+                    <div class="fullscreen-product-arrow-right" ></div >
+                </div >
+                <div class="fullscreen-slider-dot-container" >
+                    <div class="dot-product-container" >
+                        @foreach ( explode(',',$product[0]->images) as $key=>$image)
+                            <div class="dot-product" data-index="{{$key}}" >
+                                <img src="{{ asset('storage/uploads/' . $image )}}" alt="" >
+                            </div >
+                        @endforeach
+                    </div >
+                </div >
+            </div >
+
+        </div >
+        <button class="modal-close fullscreen-slider-close is-large" aria-label="close" ></button >
+    </div >
+
+
 @endsection

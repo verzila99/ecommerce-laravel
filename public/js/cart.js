@@ -1,11 +1,9 @@
 // Cart
 
 
-
-
-
 cart();
 noItem();
+
 function cart() {
     let products = document.querySelectorAll(".cart-row"),
         finalSumDiv = document.querySelector(".cart-summary__sum--number"),
@@ -18,7 +16,7 @@ function cart() {
     products.forEach((product) => {
         let increaseQuantity = product.querySelector(".increase-quantity"),
             decreaseQuantity = product.querySelector(".decrease-quantity"),
-            handInput = product.querySelector("input"),
+            handInput = product.querySelector(".quantity-of-products"),
             deleteFromCartButton = product.querySelector(".delete-item"),
             quantityOfProducts = +handInput.value,
             finalPriceDiv = product.querySelector(".finalPrice"),
@@ -48,7 +46,6 @@ function cart() {
         deleteFromCartButton.addEventListener("click", () => {
 
 
-
             if (document.cookie.includes(productId)) {
                 deleteCartCookie(productId);
             }
@@ -75,7 +72,7 @@ function cart() {
         });
 
         handInput.addEventListener('keyup', () => {
-            quantityOfProducts = +handInput.value ;
+            quantityOfProducts = +handInput.value;
             renderPrice();
             renderSummaryPrice();
 
@@ -85,11 +82,11 @@ function cart() {
 
     renderSummaryPrice();
 
-    function deleteCartCookie(value){
+    function deleteCartCookie(value) {
         let productsArray = document.cookie
                                     .match(/cart=[0-9,]+/g)[0]
-                                    .replace(/cart=/g, '')
-                                    .split(',');
+            .replace(/cart=/g, '')
+            .split(',');
         let index = productsArray.indexOf(value);
         productsArray.splice(index, 1);
         document.cookie = 'cart=' + productsArray.join(',') + ';';

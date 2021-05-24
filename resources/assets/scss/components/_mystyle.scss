@@ -14,7 +14,9 @@
     color: $primary !important;
     border-bottom-color: $primary !important;
 }
-
+.field{
+    width: 100%;
+}
 input:focus {
     border: 1px solid $success !important;
     box-shadow: 0 0 0 0.125em rgb(229, 205, 18, .4) !important;

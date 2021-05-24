@@ -33,7 +33,7 @@ function slider(arg) {
     dots[0].classList.add("dot-active");
     dots.forEach((dot) => {
         dot.addEventListener("click", (e) => {
-            let dotIndex = e.target.getAttribute("data-index");
+            let dotIndex = dot.dataset.index;
             setPositionByIndexByDots(dotIndex);
         });
     });

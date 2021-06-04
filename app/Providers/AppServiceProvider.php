@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
+use App\Http\Controllers\CategoryController;
 use App\Models\Category;
-
 use App\Models\Product;
 use Illuminate\Support\ServiceProvider;
 
@@ -29,7 +29,10 @@ class AppServiceProvider extends ServiceProvider
     {
 
         view()->composer('layouts.default', static function($view,) {
-            $view->with('categories', Category::getCategoriesForCatalog());
+            $view->with('categories', CategoryController::getCategoriesForCatalog());
+        });
+        view()->composer('admin.layouts.default', static function($view,) {
+            $view->with('categories', Category::All());
         });
         view()->composer('layouts.default', static function ($view,) {
             $view->with('viewed', Product::getViewedProducts());

@@ -8,7 +8,7 @@
         href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap"
         rel="stylesheet"
     />
-    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="{{ asset('css/style.css')}}" />
 
     <!-- Useful meta tags -->
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
@@ -32,6 +32,7 @@
 </head >
 
 <body >
+<div id="close-modal"></div>
 <nav
     class="navbar container is-max-widescreen"
     role="navigation"
@@ -96,9 +97,11 @@
                 <div class="dropdown-content is-flex" >
                     @foreach ($categories as $key=>$category)
                     <div class="px-5">
-                        <p class="menu-label is-capitalized" ><a href={{ url('/'. explode(',',$key)[0]) }}>{{ explode(',',$key)[1]
+                        <p class="menu-label catalog-label is-capitalized" ><a href={{ url('/'. explode(',',$key)[0])
+                         }}>{{
+                        explode(',',$key)[1]
                              }}</a ></p >
-                        <ul class="menu-list" >
+                        <ul class="menu-list catalog-list" >
                             @foreach($category as $subcategory)
                                 <li ><a class="dropdown-item is-capitalized" href="{{ url('/'. explode(',',$key)[0])
                                 .'/?manufacturer[]=' . $subcategory->manufacturer }}"
@@ -112,9 +115,11 @@
             </div >
         </div >
 
-        <div class="control search mr-3" >
+        <div id="search-parent" class="control search mr-3 is-flex is-flex-direction-column" >
             <label for="main-search" ></label >
             <input id="main-search" class="input" type="text" placeholder="Search products..." />
+          <div class="search-results">
+          </div>
         </div >
         @if ( auth()->check())
             <div class="dropdown  is-hoverable" >
@@ -129,17 +134,16 @@
                 </div >
                 <div class="dropdown-menu" id="dropdown-menu" role="menu" >
                     <div class="dropdown-content" >
-                        <a href="#" class="dropdown-item" >
-                            Dropdown item
+                        <a href="{{ route('profile') }}" class="dropdown-item" >
+                            Профиль
                         </a >
-                        <a class="dropdown-item" >
-                            Other dropdown item
+                      @can ( 'updateRole',App\Models\User::class)
+                        <a href="{{ route('orders') }}" class="dropdown-item " >
+                            Панель администратора
                         </a >
-                        <a href="#" class="dropdown-item " >
-                            Active dropdown item
-                        </a >
-                        <a href="#" class="dropdown-item" >
-                            Other dropdown item
+                      @endcan
+                        <a href="{{ route('userOrders') }}" class="dropdown-item" >
+                            Мои заказы
                         </a >
                         <hr class="dropdown-divider" >
                         <a href="{{ url('/logout') }}"
@@ -181,6 +185,8 @@
         </a >
     </div >
 </main >
+
+@guest
 <div class="modal" >
     <div class="modal-background" ></div >
     <div class="modal-card" >
@@ -235,6 +241,13 @@
                             </span >
                     </p >
                 </div >
+              <div class="field">
+                <label class="checkbox label" >
+                  <input type="checkbox" id="login-remember" name="remember_token" value="true" >
+                                                                          Remember me
+                </label >
+              </div>
+
                 <div class="field" >
                     <div id
                          ="login-error" class=" has-text-danger mb-3" ></div >
@@ -314,6 +327,8 @@
         </section >
     </div >
 </div >
+@endguest
+
 @yield('content')
 
 @if (count($viewed) >= 1)
@@ -327,7 +342,8 @@
                     <a href="{{  url('/' .$viewedItem->product_category . "/" . $viewedItem->product_id)}}" >
                         <div class="card-image" >
                             <img
-                                src="{{ asset('storage/uploads/' . $viewedItem->product_image) }}"
+                                src="{{ asset('storage/uploads/images/'.$viewedItem->product_id.'/225x225/' .
+                                $viewedItem->product_image) }}"
                                 alt="{{ $viewedItem->product_title }}"
                             />
                         </div >

@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    use HasFactory;
+  use HasFactory;
 
-    protected $fillable = ['username','email','phone_number'];
+  protected $fillable = ['username', 'email', 'phone_number', 'user_id', 'message', 'sum'];
 
-    public function products(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-       return $this->hasMany(Product::class);
-    }
+  public function products(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+  {
+    return $this->belongsToMany(Product::class, 'order_product', 'order_id', 'product_id')->withPivot('quantity');
+  }
+
 
 }

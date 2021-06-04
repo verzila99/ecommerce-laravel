@@ -1,0 +1,53 @@
+.admin{
+  position: relative;
+  height: 100vh;
+
+}
+.admin-sidebar{
+  padding: 1rem;
+  flex-shrink: 0;
+  height: 100%;
+  position: absolute;
+  width: 200px;
+  left: 0;
+  top: 0;
+  box-shadow: 11px 0px 12px 0px rgba(0, 0, 0, 0.14);
+  -webkit-box-shadow: 11px 0px 12px 0px rgba(0, 0, 0, 0.14);
+  -moz-box-shadow: 11px 0px 12px 0px rgba(0, 0, 0, 0.14);
+}
+
+.admin-modal__group{
+  margin-left: 220px;
+  padding: 2rem;
+}
+.admin-table{
+  width: 100%;
+}
+
+.admin-table tr{
+  border: 1px solid $grey-light;
+}
+
+.admin-table th, .admin-table td{
+  padding:.5rem 1rem;
+}
+.admin-product__title{
+  display: flex;
+  overflow: hidden;
+}
+
+.file-image{
+  display: block;
+  max-width: 100px;
+  max-height: 100px;
+}
+.file{
+  width: 208px;
+  height: 204px;
+}
+.file-name{
+  width: 100%!important;
+}
+.file-label{
+  width: 100%;
+}

@@ -20,6 +20,7 @@ class CreateOrdersTable extends Migration
             $table->string('phone_number');
             $table->string('email')->nullable();
             $table->text('message')->nullable();
+            $table->string('sum')->nullable();
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
             $table->foreign('user_id')

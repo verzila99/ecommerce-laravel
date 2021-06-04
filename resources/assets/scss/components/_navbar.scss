@@ -24,13 +24,59 @@
 .register-modal .field {
     width: 70%;
 }
-.menu-label{
+.catalog-label{
     padding: 0.5em 0.75em;
     font-weight: 700;
     font-size: .9rem!important;
     letter-spacing: 0!important;
 }
-.menu-list a{
+.catalog-list a{
     font-size: .8rem!important;
     color: $grey-light!important;
+}
+.body-inactive{
+
+  overflow: hidden;
+
+}
+.modal-background {
+  //z-index: 99;
+}
+#close-modal{
+  position: absolute;
+  display: none;
+
+  bottom: 0;
+  left: 0;
+
+  right: 0;
+  top: 0;
+
+  z-index: 31;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+#search-parent{
+  position: relative;
+  z-index: 32;
+  border-radius: 5px;
+
+}
+.search-results{
+  position: absolute;
+  display: none;
+  width: 100%;
+  max-height: 513px;
+  overflow: auto;
+  bottom: 0;
+  left: 0;
+  transform: translateY(100%);
+  background-color: $white;
+  box-shadow: 0 0.5em 1em -0.125em rgba(0, 0, 0, 0.3), 0 0px 0 1px rgba(0, 0, 0, 0.02);
+;
+}
+.search-item{
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  border-bottom:1px solid $grey-light;
 }

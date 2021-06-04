@@ -5,11 +5,11 @@
 @section('title','Ecommerce shop')
 @section('content')
     <div class="container is-max-widescreen">
+@if (isset($productList))
         <div class="category-filter__total is-flex
                 is-align-items-center is-size-4
                 has-text-grey-light
                 " >Найдено товаров: {{$totalItems}}</div >
-
         @foreach( $productList as $product)
             <div class="category-list__item box is-flex mt-3" >
                 <a href="/{{ $product->product_category . "/" .
@@ -186,10 +186,19 @@
         @endforeach
 
         {{$paginator->appends(request()->query())->links('paginate.paginate')}}
-
+@else
+            <section
+                class="is-flex is-flex-direction-column is-justify-content-center is-align-items-center order-success"
+            >
+                <h1 class="noitems-title" >Здесь пока пусто...</h1 >
+                <h2 class="has-text-grey has-text-weight-bold is-size-5 mt-6" >
+                    Добавьте товары в избранное.
+                </h2 >
+                <a href="/" class="button is-warning mt-6" >На главную</a >
+            </section >
     </div>
 
 
 
-
+@endif
 @endsection

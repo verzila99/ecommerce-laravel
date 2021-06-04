@@ -9,6 +9,7 @@
          htmlElem.classList.add("is-clipped");
          document.body.classList.add('fullscreen-slider-active');
          fullscreenSliderOpenButton.style.display="none";
+         sliderProduct('.fullscreen-slider');
      });
 
 
@@ -25,15 +26,15 @@
      fullscreenSliderOpenButton.style.display = "flex";
  });
 
-sliderProduct('.fullscreen-slider',640);
-sliderProduct(".item-main-gallery", 342.5);
 
-function sliderProduct(arg,width=0) {
+sliderProduct(".item-main-gallery" );
+
+function sliderProduct(arg,width=null) {
     let parent = document.querySelector(arg),
         slider = parent.querySelector(".slider"),
         slides = Array.from(parent.querySelectorAll(".slide-product")),
         sliderContainer = parent.querySelector(".slider-container"),
-        containerWidth = width ,
+        containerWidth =width?width: sliderContainer.offsetWidth,
         dotContainer = parent.querySelector(".dot-product-container"),
         container = parent.querySelector(".slider-container__main"),
         arrowLeft = parent.querySelector(".arrow-left__container"),

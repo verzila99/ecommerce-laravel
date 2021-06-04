@@ -32,8 +32,10 @@ function cart() {
                 if (quantityOfProducts >= 0) {
                     let finalPriceValue = +priceOfProduct * quantityOfProducts;
 
-                    finalPriceDiv.innerHTML = finalPriceValue;
-                    sumOfProducts += finalPriceValue;
+                    finalPriceDiv.innerHTML = finalPriceValue.
+                    toLocaleString(
+                        undefined);
+                    finalPriceDiv.dataset.finalPrice = finalPriceValue;
                 } else {
                     quantityOfProducts = 0;
                     handInput.value = quantityOfProducts;
@@ -98,19 +100,24 @@ function cart() {
         let allPrices = document.querySelectorAll(".finalPrice");
         let summaryPrice = 0;
         allPrices.forEach((elem) => {
-            summaryPrice += +elem.textContent;
+            summaryPrice += +elem.dataset.finalPrice;
+            console.log(summaryPrice);
         });
 
-        finalSumDiv.textContent = summaryPrice;
+        finalSumDiv.textContent = summaryPrice.toLocaleString(
+            undefined);
 
         if (summaryPrice === 0) {
             cartNavbarText.style.fontWeight = '400';
             cartNavbarText.innerText = 'Корзина';
         } else {
             cartNavbarText.style.fontWeight = '700';
-            cartNavbarText.innerText = summaryPrice + ' р.';
+            cartNavbarText.
+            innerHTML = summaryPrice.toLocaleString(
+                undefined) + ' р.';
         }
-        finalPriceWithDeliveryDiv.textContent = +summaryPrice + 944;
+        finalPriceWithDeliveryDiv.innerHTML = (+summaryPrice + 944).toLocaleString(
+            undefined);
     }
 
 }

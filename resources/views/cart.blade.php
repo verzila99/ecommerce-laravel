@@ -33,7 +33,7 @@
                              <td class="cart-item" >
                                  <div class="cart-item__icon" >
                                      <img
-                                         src="{{ asset('storage/uploads/' . explode(',',$product->images)[0])}}"
+                                         src="{{ asset('storage/uploads/images/'.$product->product_id.'/45x45/' . explode(',',$product->images)[0])}}"
 
                                          alt=""
                                          srcset=""
@@ -45,7 +45,7 @@
                                  >
                                      {{ $product->title}}</a >
                              </td >
-                             <td class="price" > {{ $product->price}}</td >
+                             <td class="price" > {{ number_format($product->price,0,',',' ')}}</td >
                              <td >
                                  <div class="quantity" >
                                      <a class="button is-primary decrease-quantity" >
@@ -93,18 +93,20 @@
                      >
                     <span class="cart-summary__sum--text" >Доставка</span
                     ><span class="cart-delivery-price has-text-weight-bold"
-                         >944 <span >р.</span ></span
+                         >944<span class="has-text-weight-bold"> р.</span ></span
                          >
                      </div >
                      <div
                          class="cart-summary__sum is-flex is-justify-content-space-between is-align-items-center"
                      >
                     <span class="cart-summary__sum--text" >Всего к оплате</span
-                    ><span
+                    ><div >
+                         <span
                              class="cart-summary__sum--number-final has-text-weight-bold"
                          >
-                        <span >р.</span ></span
-                         >
+                        </span
+                         ><span class="has-text-weight-bold"> р.</span >
+                         </div >
                      </div >
                      <button type="submit" id="confirm-btn" class="button is-success is-fullwidth mt-6" >
                          Продолжить оформление

@@ -58,7 +58,7 @@
                 <a href="{{  $smartphone->category . "/" . $smartphone->product_id}}">
                     <div class="card-image">
                         <img
-                            src="{{ asset('storage/uploads/' . explode(',',$smartphone->images)[0]) }}"
+                            src="{{ asset('storage/uploads/images/'.$smartphone->product_id.'/225x225/' . explode(',',$smartphone->images)[0]) }}"
                             alt="Placeholder image"
                         />
 
@@ -91,7 +91,7 @@
                 <a href="{{  $smartwatch->category . "/" . $smartwatch->product_id}}">
                     <div class="card-image">
                         <img
-                            src="{{ asset('storage/uploads/' . explode(',',$smartwatch->images)[0]) }}"
+                            src="{{ asset('storage/uploads/images/'.$smartwatch->product_id.'/225x225/' . explode(',',$smartwatch->images)[0]) }}"
                             alt="{{ $smartwatch->title }}"
                         />
                     </div>

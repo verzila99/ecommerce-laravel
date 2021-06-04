@@ -29,6 +29,10 @@ class AlterTableUsers extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('role');
+
+        });
+        Schema::table('users', function (Blueprint $table) {
+
             $table->dropColumn('favorites');
         });
     }

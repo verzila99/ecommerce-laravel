@@ -20,11 +20,22 @@
     margin-top: -11px;
     border-left: 1px solid #d8d8d8;
 }
-.stars {
-    margin-left: 1em;
-    width: 100px;
+.stars-container {
+
     position: relative;
 }
+.stars-inactive{
+  display: inline-block;
+  white-space: nowrap;
+}
+.stars-active{
+  display: inline-block;
+  position: absolute;
+  overflow: hidden;
+  white-space: nowrap;
+  z-index: 10;
+}
+
 .stars::before {
     content: "";
     position: absolute;
@@ -40,14 +51,16 @@
     width: 100%;
 }
 .item-main__specs {
-    margin-left: 8em;
+    margin-left: 4em;
+  flex-shrink: 99;
 }
 .item-main__addtocart {
-    margin-left: 8em;
+    margin-left: 4em;
 }
 .item-main-gallery {
     width: 400px;
     height: 400px;
+  flex-shrink: 0;
 }
 
 .oldprice {

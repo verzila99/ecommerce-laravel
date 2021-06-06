@@ -39,7 +39,7 @@
 
                     <div
                       class="is-flex is-justify-content-space-between " >
-                      <span class="admin-product__title" >{{$product->product_title }}</span ><span
+                      <span class="admin-product__title" >{{$product->title }}</span ><span
                         class="ml-3" >{{$product->pivot->quantity
                   }}</span >
                     </div >

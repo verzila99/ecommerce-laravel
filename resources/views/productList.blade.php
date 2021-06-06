@@ -17,6 +17,7 @@
         </li >
       </ul >
     </nav >
+    @if ($productList->total()>0)
     <h1 class="has-text-weight-bold is-size-4 is-capitalized" >{{
         $productList->first()->category_name_ru }}</h1 >
     <div class="category-container is-flex" >
@@ -79,9 +80,9 @@
           </div >
 
         </div >
-        {{--@dd($filterInputs)--}}
+{{--        @dd($filterInputs)--}}
+
         @foreach($filterInputs as $filter=>$variants)
-          {{--                                                    @dd(explode('|',$filter)[0])--}}
           @php
             $filterItem =explode('|',$filter)[0];
           @endphp
@@ -99,31 +100,60 @@
             <div class="accordion" >
               <div class="accordion-item" >
                 <div class="measuring" >
-                  @foreach($variants as
-                  $variant)
-                    @if($variant->$filterItem)
-                      <label class="checkbox" >
-                        <input type="checkbox"
-                               class="manufacturer checkbox-filter"
-                               data-parameter='{{$filterItem}}'
-                               data-value="{{$variant->$filterItem}}"
-                        @foreach($explodedQueryString as $elem)
-                          @php
-                            $var = explode('=',$elem)
-                          @endphp
+                  {{--@dd($variants)--}}
+                  @if($filterItem==='manufacturer')
+                    @foreach($variants as
+                    $variant)
+                      @if($variant->$filterItem)
+                        <label class="checkbox" >
+                          <input type="checkbox"
+                                 class="manufacturer checkbox-filter"
+                                 data-parameter='{{$filterItem}}'
+                                 data-value="{{ $variant->$filterItem }}"
+                          @foreach($explodedQueryString as $elem)
+                            @php
+                              $var = explode('=',$elem)
+                            @endphp
                             @if( str_contains($var[0],$filterItem) && $var[1]===$variant->$filterItem )
                               {{'checked'}}
-                            @endif
-                          @endforeach
-                        >
-                        {{$variant->$filterItem}}
-                        <span
-                          class="input_count has-text-grey-light
+                              @endif
+                            @endforeach
+                          >
+                          {{$variant->$filterItem}}
+                          <span
+                            class="input_count has-text-grey-light
                                  ml-3
-                                        " >{{$variant->some_count}}</span >
-                      </label >
-                    @endif
-                  @endforeach
+                                        " >{{$variant->count}}</span >
+                        </label >
+                      @endif
+                    @endforeach
+                  @else
+                    @foreach($variants as
+                    $variant)
+                      @if($variant->value)
+                        <label class="checkbox" >
+                          <input type="checkbox"
+                                 class="manufacturer checkbox-filter"
+                                 data-parameter='{{$filterItem}}'
+                                 data-value="{{ $variant->value }}"
+                          @foreach($explodedQueryString as $elem)
+                            @php
+                              $var = explode('=',$elem)
+                            @endphp
+                            @if( str_contains($var[0],$filterItem) && $var[1]===$variant->value )
+                              {{'checked'}}
+                              @endif
+                            @endforeach
+                          >
+                          {{$variant->value}}
+                          <span
+                            class="input_count has-text-grey-light
+                                 ml-3
+                                        " >{{$variant->count}}</span >
+                        </label >
+                      @endif
+                    @endforeach
+                  @endif
                 </div >
               </div >
               <p class="show-more mt-3" >Показать ещё</p >
@@ -131,88 +161,6 @@
 
           </div >
         @endforeach
-        {{--                <div--}}
-        {{--                    class="category-filter__brands accordion-group mt-3--}}
-        {{--                    is-flex is-flex-direction-column is-align-items-flex-start is-justify-content-space-between"--}}
-        {{--                >--}}
-        {{--                    <div--}}
-        {{--                        class="category-filter__title is-flex is-justify-content-space-between is-align-items-flex-end my-4"--}}
-        {{--                    >--}}
-        {{--                        <h4>Производители</h4>--}}
-        {{--                        <div class="category-filter__arrow"></div>--}}
-        {{--                    </div>--}}
-
-        {{--                    <div class="accordion">--}}
-        {{--                        <div class="accordion-item">--}}
-        {{--                            <div class="measuring">--}}
-        {{--                                @foreach($filterInputs['manufacturers'] as--}}
-        {{--                                $manufacturer)--}}
-        {{--                                    <label class="checkbox">--}}
-        {{--                                        <input type="checkbox"--}}
-        {{--                                               class="manufacturer checkbox-filter"--}}
-        {{--                                               data-parameter='manufacturer'--}}
-        {{--                                               data-value="{{$manufacturer->manufacturer}}"--}}
-        {{--                                        @foreach($explodedQueryString as $elem)--}}
-        {{--                                            @if( ($elem ===--}}
-        {{--                                            $manufacturer->manufacturer ))--}}
-        {{--                                                {{'checked'}}--}}
-        {{--                                                @endif--}}
-        {{--                                            @endforeach--}}
-        {{--                                        >--}}
-        {{--                                        {{$manufacturer->manufacturer}}--}}
-        {{--                                        <span--}}
-        {{--                                            class="input_count has-text-grey-light--}}
-        {{--                                 ml-3--}}
-        {{--                                        ">{{$manufacturer->manufacturer_count}}</span>--}}
-        {{--                                    </label>--}}
-        {{--                                @endforeach--}}
-        {{--                            </div>--}}
-        {{--                        </div>--}}
-        {{--                        <p class="show-more mt-3">Показать ещё</p>--}}
-        {{--                    </div>--}}
-
-        {{--                </div>--}}
-        {{--                <div--}}
-        {{--                    class="category-filter__memory accordion-group mt-3 is-flex--}}
-        {{--                    is-flex-direction-column is-align-items-flex-start  is-justify-content-space-between"--}}
-        {{--                    id='memory'--}}
-        {{--                >--}}
-        {{--                    <div--}}
-        {{--                        class="category-filter__title  is-flex is-justify-content-space-between is-align-items-flex-end  my-4"--}}
-        {{--                    >--}}
-        {{--                        <h4>Память</h4>--}}
-        {{--                        <div class="category-filter__arrow"></div>--}}
-
-        {{--                    </div>--}}
-        {{--                    <div class="accordion">--}}
-        {{--                        <div class="accordion-item">--}}
-        {{--                            <div class="measuring">--}}
-        {{--                                @foreach($filterInputs['memorySize'] as--}}
-        {{--                                $memorySize)--}}
-        {{--                                    <label class="checkbox">--}}
-        {{--                                        <input type="checkbox"--}}
-        {{--                                               class="memory checkbox-filter"--}}
-        {{--                                               data-parameter='memory'--}}
-        {{--                                               data-value="{{$memorySize->memory}}"--}}
-        {{--                                        @foreach($explodedQueryString as $elem)--}}
-        {{--                                            @if($elem === $memorySize->memory )--}}
-
-        {{--                                                {{'checked'}}--}}
-        {{--                                                @endif--}}
-        {{--                                            @endforeach--}}
-        {{--                                        >--}}
-        {{--                                        {{$memorySize->memory}}--}}
-        {{--                                        <span--}}
-        {{--                                            class="input_count has-text-grey-light--}}
-        {{--                                 ml-3">{{$memorySize->memory_count}}--}}
-        {{--                                    </span>--}}
-        {{--                                    </label>--}}
-        {{--                                @endforeach--}}
-        {{--                            </div>--}}
-        {{--                        </div>--}}
-        {{--                        <p class="show-more mt-3">Показать ещё</p>--}}
-        {{--                    </div>--}}
-        {{--                </div>--}}
       </aside >
       <main
         class="category-list ml-4 is-flex is-flex-direction-column is-justify-content-flex-start"
@@ -353,13 +301,14 @@
         </div >
         @foreach( $productList as $product)
           <div class="category-list__item box is-flex mt-3" >
-            <a href="/{{$product->category_name . "/" .
-                        $product->product_id
+            <a href="/{{$product->category . "/" .
+                        $product->id
                          }}"
                class="category-list__item-image is-flex" >
 
               <img
-                src="{{ asset('storage/uploads/images/'.$product->product_id.'/225x225/' . explode(',',$product->images)[0]) }}"
+                src="{{ asset('storage/uploads/images/'.$product->id.'/225x225/' . explode(',',$product->images)
+                [0]) }}"
                 alt=""
                 srcset=""
               />
@@ -432,17 +381,13 @@
                         class="is-size-8" >{{$product->manufacturer}}</span >
                     </li >
                   @endif
-                  @foreach($props as $param)
-                    @php
-                      $name = $param->name;
+                  @foreach($product->properties  as $param)
 
-                    @endphp
-
-                    @if($product->$name)
+                    @if($param->name)
                       <li >
                             <span class="has-text-grey-light is-size-7 is-capitalized"
                             >{{ $param->name_ru}}: </span
-                            ><span class="is-size-8" >{{$product->$name}}</span >
+                            ><span class="is-size-8" >{{$param->pivot->value}}</span >
                       </li >
                     @endif
 
@@ -488,24 +433,24 @@
                 <a class="button is-primary mt-5
                                 add-to-cart"
                    data-price="{{  $product->price }}"
-                   data-category="{{ $product->category_name }}"
-                   data-product_id="{{ $product->product_id}}" >
+                   data-category="{{ $product->category }}"
+                   data-id="{{ $product->id}}" >
                   Добавить в корзину
                 </a >
                 @can('updateProduct',App\Models\Product::class)
                   <a
-                    href="{{'/product/'. $product->category_name .'/'.$product->product_id .'/edit'}}"
+                    href="{{'/product/'. $product->category .'/'.$product->id .'/edit'}}"
                     class="button is-primary mt-5
                                 " >
                     Редактировать
                   </a >
                 @endcan
                 @auth
-                  @if( !str_contains($favoritesStatusList,$product->product_id))
+                  @if(!in_array($product->id,explode(',',$favoritesStatusList)))
                     <a class="favorites favorites-list light-link is-flex
                     is-align-items-center " data-category="{{
                     $product->category_name }}"
-                       data-productId="{{$product->product_id}}"
+                       data-productId="{{$product->id}}"
                        data-status="0" >
                         <span class="icon is-size-4 has-text-grey-lighter" >
                     <i class="far fa-heart" ></i >
@@ -518,7 +463,7 @@
                     <a class="favorites favorites-list light-link is-flex
                     is-align-items-center " data-category="{{
                     $product->category_name }}"
-                       data-productId="{{$product->product_id}}"
+                       data-productId="{{$product->id}}"
                        data-status="1" >
                         <span class="icon is-size-4 has-text-grey-lighter" >
                     <i class="fas fa-heart" ></i >
@@ -548,10 +493,22 @@
           </div >
         @endforeach
 
-        {{$productList->appends(request()->query())->links('paginate.paginate')}}
-
       </main >
 
     </div >
+        {{$productList->appends(request()->query())->links('paginate.paginate')}}
+        @else
+          <section
+            class="is-flex is-flex-direction-column is-justify-content-center is-align-items-center order-success"
+          >
+            <h1 class="noitems-title" >Ни одного товара не найдено</h1 >
+
+            <a href="/" class="button is-warning mt-6" >На главную</a >
+          </section >
+    </div >
+
+
+
+      @endif
 
 @endsection

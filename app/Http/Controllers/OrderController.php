@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
-use App\Models\PropsOfCategory;
+use App\Models\Property;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -26,24 +26,26 @@ class OrderController extends Controller
     $productsInOrder = $request->except('_token');
 
     if (empty($productsInOrder)) {
-      return redirect()->route('home');
+      return redirect()->back()->with('status', 'Добавьте товары в корзину');
     }
     $sum = 0;
     $productList = new Collection();
 
     foreach ($productsInOrder as $productId => $quantity) {
       if (is_int((int)$productId) && is_int((int)$quantity)) {
-        $item = Product::where('product_id', $productId)->get()->toArray();
+        $item = Product::where('id', $productId)->get()->toArray();
         if ($item) {
           $item[0]['quantity'] = $quantity;
           $productList = $productList->concat(collect($item));
-          $sum += $item[0]['product_price'] * $quantity;
+          $sum += $item[0]['price'] * $quantity;
         }
       } else {
         return redirect()->route('home');
       }
     }
-
+    if($sum===0){
+      return redirect()->back()->with('status','Добавьте товары в корзину');
+    }
     $request->session()->put('productList', $productList);
     $request->session()->put('sum', $sum);
 
@@ -84,8 +86,8 @@ class OrderController extends Controller
     $sum = 0;
 
     foreach ($productsInOrder as $product) {
-      $currentProduct = Product::find($product['product_id']);
-      $sum += $currentProduct->product_price * $product['quantity'];
+      $currentProduct = Product::find($product['id']);
+      $sum += $currentProduct->price * $product['quantity'];
     }
 
     $order = Order::create([
@@ -100,7 +102,7 @@ class OrderController extends Controller
 
     foreach ($productsInOrder as $product) {
 
-      $currentProduct = Product::find($product['product_id']);
+      $currentProduct = Product::find($product['id']);
 
       $currentProduct->orders()->attach($order, [
 

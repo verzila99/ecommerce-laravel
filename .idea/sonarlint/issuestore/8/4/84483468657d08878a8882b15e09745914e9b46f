@@ -1,8 +1,0 @@
-
-ujavascript:S3776"TRefactor this function to reduce its Cognitive Complexity from 23 to the 15 allowed.(€ç½¤úÿÿÿÿ
-Qjavascript:S1117"0'slider' is already declared in the upper scope.(¦Œ²şÿÿÿÿ
-}javascript:S2703"aAdd the "let", "const" or "var" keyword to this declaration of "sliderTimer" to make it explicit.(¬Ë¨ò
-djavascript:S1481"CRemove the declaration of the unused 'animationInProceed' variable.(íÁ°Òùÿÿÿÿ
-Wjavascript:S930U"7This function expects no arguments, but 1 was provided.(ã×¯•úÿÿÿÿ
-Wjavascript:S930Z"7This function expects no arguments, but 1 was provided.(Î»²‚ıÿÿÿÿ
-Cjavascript:S1125"'Remove the unnecessary boolean literal.(´•Æì

@@ -1,5 +1,0 @@
-
-n	php:S3776-"TRefactor this function to reduce its Cognitive Complexity from 16 to the 15 allowed.(ˆğ×üÿÿÿÿ
-i	php:S1192"TDefine a constant instead of duplicating this literal "products.product_id" 4 times.(×È¬
-l	php:S11928"WDefine a constant instead of duplicating this literal "public/uploads/images/" 3 times.(ë‹â‹
-a	php:S1192"LDefine a constant instead of duplicating this literal ".product_id" 4 times.(×È¬

@@ -26,6 +26,10 @@ use App\Http\Controllers\ProductListController;
 
 Route::get('/', [HomeController::class,"index"])->name('home');
 
+//search
+Route::get('/search', [ProductController::class, "search"])->name('search');
+
+
 //Cart
 Route::get('/cart', [CartController::class,"index"]);
 Route::post('/api/addtocart/{Id}', [CartController::class, "cart"]);
@@ -65,10 +69,10 @@ Route::get('/logout', [UserController::class, 'logout']);
 Route::middleware(['admin'])->prefix('product')->group(function () {
   Route::get('/create', [ProductController::class, "create"])->name('createProduct');
   Route::post('/create', [ProductController::class, "store"])->name('storeProduct');
-  Route::delete('/{product_id}', [ProductController::class, "destroy"])->name('deleteProduct');
+  Route::delete('/{id}', [ProductController::class, "destroy"])->name('deleteProduct');
   Route::put('/update', [ProductController::class, "update"])->name('updateProduct');
-  Route::get('/{category}/{product_id}/edit', [ProductController::class, "edit"])->name('editProduct');
+  Route::get('/{category}/{id}/edit', [ProductController::class, "edit"])->name('editProduct');
 });
 
 Route::get('/{category}', [ProductListController::class,"index"]);
-Route::get('/{category}/{productId}', [ProductController::class,"show"]);
+Route::get('/{cat}/{productId}', [ProductController::class,"show"]);

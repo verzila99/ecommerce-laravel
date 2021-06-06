@@ -59,25 +59,23 @@
       </div >
 
       <div class="category-props" >
-        @foreach($propsOfCategory as $prop)
-          @php
-            $name = $prop->name;
-          @endphp
+        @foreach($product->properties as $param)
           <div class="field" >
-            <label class="label" >{{$prop->name_ru}}</label >
+            <label class="label" >{{$param->name_ru}}</label >
             <div class="control" >
-              <input class="input" type="text" placeholder="{{$prop->name}}"
-                     name="{{$prop->name}}" value="{{$product->$name}}" >
+              <input class="input" type="text" placeholder="{{$param->name}}"
+                     name="{{$param->name}}" value="{{$param->pivot->value}}" >
             </div >
           </div >
 
         @endforeach
       </div >
       <div class="file-inputs is-flex is-flex-wrap-wrap py-2" >
-
+        @foreach(explode(',',$product->images) as $image)
         <div class="file has-name  is-flex is-flex-direction-column is-align-items-center is-justify-content-flex-end
     my-3 mr-3" >
-          <img class="file-image " src="" alt="" >
+          <img class="file-image " src="{{ asset('storage/uploads/images/'.$product->id.'/225x225/' .
+                                         $image )}}" alt="" >
           <label class="file-label my-3" >
             <input class="file-input" type="file" accept="image/gif, image/jpeg, image/png" name="image[]" >
             <span class="file-cta" >
@@ -96,6 +94,7 @@
           </a >
 
         </div >
+          @endforeach
       </div >
 
       <div class="field is-grouped" >

@@ -1,10 +1,11 @@
-let sliderTop = new slider(".top-promotions");
+slider(".top-promotions");
+slider(".bottom-promotions");
 
 function slider(arg) {
     let parent = document.querySelector(arg),
         slider = parent.querySelector(".slider"),
         slides = Array.from(parent.querySelectorAll(".slide")),
-        sliderContainer = parent.querySelector(".slider-container"),
+        sliderContainer = parent.querySelector(".slider-container__homepage"),
         containerWidth = sliderContainer.offsetWidth,
         dotContainer = parent.querySelector(".dot-container"),
         container = parent.querySelector(".slider-container__main"),

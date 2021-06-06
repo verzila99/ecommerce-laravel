@@ -122,16 +122,16 @@ checkboxInputs.forEach(elem => {
                 queryString = queryString.replace(parameter, '');
             }
         }
-        fetch('/api' + urlObject.pathname + '?' + queryString.replace(/\+\+\+/g,' + '))
+        axios.get('/api' + urlObject.pathname + '?' + queryString.replace(/\+\+\+/g,' + ').replace(/\+/g, ' ').replace(/\s\s\s/g, ' + '))
             .then(function (response) {
-                return response.json();
+                return response.data;
             })
             .then((res) => {
 
                       if (res !== 0) {
                           queryString = queryString.replace('?', '');
                           newDiv.innerHTML = 'Найдено:' + res;
-                          newDiv.setAttribute('href', urlObject.pathname + '?' + queryString.replace(/\+\+\+/g, ' + '));
+                          newDiv.setAttribute('href', urlObject.pathname + '?' + queryString.replace(/\+\+\+/g, ' + ').replace(/\+/g, ' ').replace(/\s\s\s/g, ' + '));
                           elem.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
                       } else {
                           newDiv.innerHTML = '0 найдено';

@@ -10,7 +10,14 @@
 
  <section class="cart">
      <div class="container is-max-widescreen">
+       @if (session('status'))
+         <div class="message is-primary" >
+           <div class="message-body" >
+             {{ session('status') }}
+           </div >
+         </div >
 
+       @endif
          <form action="{{ route('confirmation')}}" method="POST">
             @csrf
              <div class="table-container" >
@@ -28,19 +35,20 @@
                      <tfoot ></tfoot >
                      <tbody >
                      @foreach($productList as $product)
-                         <tr class="cart-row" data-price="{{ $product->price}}" data-product_id="{{
-                    $product->product_id}}" >
+                         <tr class="cart-row" data-price="{{ $product->price}}" data-id="{{
+                    $product->id}}" >
                              <td class="cart-item" >
                                  <div class="cart-item__icon" >
                                      <img
-                                         src="{{ asset('storage/uploads/images/'.$product->product_id.'/45x45/' . explode(',',$product->images)[0])}}"
+                                         src="{{ asset('storage/uploads/images/'.$product->id.'/45x45/' .
+                                         explode(',',$product->images)[0])}}"
 
                                          alt=""
                                          srcset=""
                                      />
                                  </div >
                                  <a
-                                     href="/{{$product->category . "/" . $product->product_id }}"
+                                     href="/{{$product->category . "/" . $product->id }}"
                                      title="{{ $product->title}}"
                                  >
                                      {{ $product->title}}</a >
@@ -53,7 +61,7 @@
                                      </a>
                                      <label for="quantity-of-products" >
                                          <input class="quantity-of-products" type="text"
-                                                name="{{$product->product_id}}"
+                                                name="{{$product->id}}"
                                                 value="1" />
                                      </label >
                                      <a class="button is-primary increase-quantity" >

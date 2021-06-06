@@ -3,7 +3,7 @@
    @section('scripts', )
         <script defer src="{{ asset('js/app.js')}}"></script>
         <script defer src="{{ asset('js/sliderTop.js')}}"></script>
-        <script defer src="{{ asset('js/sliderBottom.js')}}"></script>
+
    @endsection
    @section('title','Ecommerce shop')
    @section('content')
@@ -13,7 +13,7 @@
  <div class="top-promotions">
     <div class="container is-max-widescreen">
         <div class="slider-container__main my-5">
-            <div class="slider-container">
+            <div class="slider-container__homepage">
                 <div class="slider">
                     <div class="slide">
                         <!-- <h2>Something</h2>
@@ -55,10 +55,10 @@
 
         <div class="column is-one-fifth">
             <div class="card">
-                <a href="{{  $smartphone->category . "/" . $smartphone->product_id}}">
+                <a href="{{  $smartphone->category . "/" . $smartphone->id}}">
                     <div class="card-image">
                         <img
-                            src="{{ asset('storage/uploads/images/'.$smartphone->product_id.'/225x225/' . explode(',',$smartphone->images)[0]) }}"
+                            src="{{ asset('storage/uploads/images/'.$smartphone->id.'/225x225/' . explode(',',$smartphone->images)[0]) }}"
                             alt="Placeholder image"
                         />
 
@@ -88,10 +88,10 @@
         @foreach ($smartwatches as $smartwatch)
         <div class="column is-one-fifth">
             <div class="card">
-                <a href="{{  $smartwatch->category . "/" . $smartwatch->product_id}}">
+                <a href="{{  $smartwatch->category . "/" . $smartwatch->id}}">
                     <div class="card-image">
                         <img
-                            src="{{ asset('storage/uploads/images/'.$smartwatch->product_id.'/225x225/' . explode(',',$smartwatch->images)[0]) }}"
+                            src="{{ asset('storage/uploads/images/'.$smartwatch->id.'/225x225/' . explode(',',$smartwatch->images)[0]) }}"
                             alt="{{ $smartwatch->title }}"
                         />
                     </div>
@@ -114,7 +114,7 @@
 <section class="bottom-promotions">
     <div class="container is-max-widescreen">
         <div class="slider-container__main my-5">
-            <div class="slider-container">
+            <div class="slider-container__homepage">
                 <div class="slider">
                     <div class="slide">
                         <img src="/images/10.jpg" alt="" />

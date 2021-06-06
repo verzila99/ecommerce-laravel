@@ -20,7 +20,7 @@
 
           <select id="category" name="category_id">
             @foreach($categories as $category)
-              <option data-category="{{$category->category_name}}" value="{{ $category->category_id
+              <option data-category="{{$category->category_name}}" value="{{ $category->id
               }}" >{{$category->category_name_ru}}</option >
             @endforeach
           </select >

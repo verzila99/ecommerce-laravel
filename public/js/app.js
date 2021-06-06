@@ -203,7 +203,7 @@ let addToCartButtons = document.querySelectorAll('.add-to-cart');
 
 addToCartButtons.forEach(elem => {
 
-  let id = elem.dataset.product_id;
+  let id = elem.dataset.id;
 
   if (checkCookie(id)) {
     changeAddToCartButton(elem);
@@ -211,7 +211,7 @@ addToCartButtons.forEach(elem => {
 
 
   elem.addEventListener('click', () => {
-    let productId = elem.dataset.product_id;
+    let productId = elem.dataset.id;
     if (document.cookie.includes('cart') && document.cookie.match(/cart=[0-9,]+/g)) {
 
       if (!checkCookie(productId)) {
@@ -319,8 +319,8 @@ searchInput.addEventListener('keyup', (elem) => {
                response.data.forEach((el) => {
                  let div = document.createElement('a');
                  div.classList.add('search-item');
-                 div.innerHTML = el.product_title;
-                 div.setAttribute('href', `/${el.product_category}/${el.product_id}`);
+                 div.innerHTML = el.title;
+                 div.setAttribute('href', `/${el.category}/${el.id}`);
                  searchParent.appendChild(div);
 
                });

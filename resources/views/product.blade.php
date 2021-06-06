@@ -12,8 +12,8 @@
                 <li ><a href="/" >Главная</a ></li >
 
                 <li >
-                    <a class="is-capitalized" href="{{'/' . $product->category_name}}"
-                       aria-current="page" >{{ $product->category_name_ru }}</a >
+                    <a class="is-capitalized" href="{{'/' . $product->categories->category_name}}"
+                       aria-current="page" >{{ $product->categories->category_name_ru }}</a >
                 </li >
             </ul >
         </nav >
@@ -66,7 +66,7 @@
                                 @foreach ( explode(',',$product->images) as $image)
                                     <div class="slide-product" >
 
-                                        <img src="{{ asset('storage/uploads/images/'.$product->product_id.'/700x700/'
+                                        <img src="{{ asset('storage/uploads/images/'.$product->id.'/700x700/'
                                          . $image )}}" alt="{{
                                     $product->title
                                     }}" />
@@ -89,7 +89,7 @@
                             <div class="dot-product-container" >
                                 @foreach ( explode(',',$product->images) as $key=>$image)
                                     <div class="dot-product" data-index="{{$key}}" >
-                                        <img src="{{ asset('storage/uploads/images/'.$product->product_id.'/45x45/' .
+                                        <img src="{{ asset('storage/uploads/images/'.$product->id.'/45x45/' .
                                          $image )}}" alt="" >
                                     </div >
                                 @endforeach
@@ -122,17 +122,14 @@
                             </li >
                         @endif
 
-                        @foreach($props as $param)
-                            @php
-                                $name = $param->name
 
-                            @endphp
+                        @foreach($product->properties as $param)
 
-                            @if($product->$name)
+                            @if($param->name)
                                 <li >
                             <span class="has-text-grey-light is-size-7 is-capitalized"
                             >{{ $param->name_ru}}: </span
-                            ><span class="is-size-8" >{{$product->$name}}</span >
+                            ><span class="is-size-8" >{{$param->pivot->value}}</span >
                                 </li >
                             @endif
 
@@ -145,12 +142,12 @@
                         </li >
                     </ul >
                     @auth
-                        @if($favoritesStatus===0)
+                        @if(!in_array($product->id,explode(',',$favoritesStatusList)))
                             <a class="favorites favorites-item is-flex
                     is-align-items-center " data-category="{{
                     $product->category_name }}"
-                               data-productId="{{$product->product_id}}"
-                               data-status="{{ $favoritesStatus }}" >
+                               data-productId="{{$product->id}}"
+                               data-status="0" >
                         <span class="icon is-size-4 has-text-grey-lighter" >
                     <i class="far fa-heart" ></i >
                         </span >
@@ -162,8 +159,8 @@
                             <a class="favorites favorites-item is-flex
                     is-align-items-center " data-category="{{
                     $product->category_name }}"
-                               data-productId="{{$product->product_id}}"
-                               data-status="{{ $favoritesStatus }}" >
+                               data-productId="{{$product->id}}"
+                               data-status="1" >
                         <span class="icon is-size-4 has-text-grey-lighter" >
                     <i class="fas fa-heart" ></i >
 
@@ -214,7 +211,7 @@
                                $product->price), 0, ',', ' ')}} р.
                     </div >
 
-                    <a class="add-to-cart button is-primary mt-5" data-product_id="{{$product->product_id}}" >
+                    <a class="add-to-cart button is-primary mt-5" data-id="{{$product->id}}" >
                         Добавить в корзину
                     </a >
 
@@ -234,7 +231,7 @@
                         @foreach ( explode(',',$product->images) as $image)
                             <div class="slide-product" >
 
-                                <img src="{{ asset('storage/uploads/images/'.$product->product_id.'/700x700/' . $image )}}" alt="{{
+                                <img src="{{ asset('storage/uploads/images/'.$product->id.'/700x700/' . $image )}}" alt="{{
                             $product->title
                             }}" />
 
@@ -253,7 +250,7 @@
                     <div class="dot-product-container" >
                         @foreach ( explode(',',$product->images) as $key=>$image)
                             <div class="dot-product" data-index="{{$key}}" >
-                                <img src="{{ asset('storage/uploads/images/'.$product->product_id.'/45x45/' . $image
+                                <img src="{{ asset('storage/uploads/images/'.$product->id.'/45x45/' . $image
                                 )}}" alt="" >
                             </div >
                         @endforeach

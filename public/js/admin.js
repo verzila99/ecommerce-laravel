@@ -1,27 +1,12 @@
-let adminMenuItems = document.querySelectorAll('.admin-menu__item');
-let modals = document.querySelectorAll('.admin-modal');
 
-adminMenuItems.forEach((elem) => {
 
-  elem.addEventListener('click', () => {
-    adminMenuItems.forEach((el) => {
-      el.classList.remove('is-active');
-    });
-    modals.forEach(el => {
-      el.classList.add('is-hidden');
-    });
-    document.getElementById(elem.dataset.link).classList.remove('is-hidden');
-    elem.classList.add('is-active');
-
-  });
-});
-
+//get Props Of Category
 let categorySelect = document.getElementById('category');
 let categoryProps = document.querySelector('.category-props');
 if (categorySelect) {
   categorySelect.addEventListener('change', (e) => {
 
-    axios.get('api/getPropsOfCategory/' + e.target.value)
+    axios.get('/api/getPropsOfCategory/' + e.target.value)
          .then(response => {
            console.log(response.data);
            while (categoryProps.lastChild) {
@@ -40,6 +25,9 @@ if (categorySelect) {
          .catch(err => {console.log(err);});
   });
 }
+
+
+
 //clone file input
 if (document.querySelector('.file-inputs')) {
   cloneFileInput();
@@ -58,6 +46,7 @@ function cloneFileInput() {
     showFileName();
   });
 }
+
 function showFileName(){
   let inputs = document.querySelectorAll('.file-input');
   inputs.forEach((elem)=>{

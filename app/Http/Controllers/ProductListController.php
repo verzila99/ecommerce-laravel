@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 
+use App\Actions\FavoritesList\FavoritesList;
+use App\Models\Property;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
@@ -13,81 +15,54 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
-use JsonException;
 
 
 class ProductListController extends Controller
 {
 
-    public function index(Request $request, $category): View|Factory|Redirector|RedirectResponse|Application
-    {
+  public function index(Request $request, $category): View|Factory|Redirector|RedirectResponse|Application
+  {
 
 
-        Category::where('category_name',$category)->firstOrFail();
+    Category::where('category_name', $category)->firstOrFail();
 
-        $page = $request->page;
 
-        $currentCategory = CategoryController::getPropsOfCategory($category);
+    $attributes = Property::where('category_name', $category)->get();
 
-        $props = $currentCategory->toArray();
 
-        $productList = Product::getProducts($request,$category)->paginate(10);
+    $productList = Product::getProducts($request, $attributes,$category)->paginate(10);
 
-        $requestUri = preg_replace('/sort_by\S+/', '', str_replace('   ',' + ',urldecode
-    ($request->fullUrl())));
+    $requestUri = preg_replace('/sort_by\S+/', '', str_replace('   ', ' + ', urldecode($request->fullUrl())));
 
-        if ($productList->lastPage() < (int)$page) {
+    $page = $request->page;
 
-            return redirect($request->fullUrlWithQuery(['page' => 1]));
-        }
+    if ($productList->lastPage() < (int)$page) {
 
-// Favorites
-        if (Auth::check()) {
+      return redirect($request->fullUrlWithQuery(['page' => 1]));
+    }
 
-            $user = User::find(auth()->id());
-            $favoritesStatusList = $user->favorites;
+    $attributes = $attributes->toArray();
 
-        } else {
 
-            $favoritesStatusList = '';
+    $favoritesStatusList =FavoritesList::getFavoritesList();
 
-        }
 
 //sidebar inputs
-        $filterInputs = CategoryController::getInputFieldsForSidebar($category);
+    $filterInputs = CategoryController::getInputFieldsForSidebar($category);
 
-        $explodedQueryString = explode("&", str_replace('   ', ' + ', urldecode($request->getQueryString())));
-
-        return view('productList', compact(['productList',
-            'requestUri', 'filterInputs', 'explodedQueryString', 'favoritesStatusList','props']));
-    }
+    $explodedQueryString = explode("&", str_replace('   ', ' + ', urldecode($request->getQueryString())));
 
 
-    public static function handleRequest(Request $request): array
-    {
-
-        if ($request->manufacturer) {
-
-            foreach ($request->manufacturer as $man) {
-                $manufacturer[] =$man;
-
-            }
-        } else {
-            $manufacturer = null;
-        }
-        $priceFrom =$request->price_from;
-        $priceTo =$request->price_to;
-        $sortBy =$request->sort_by;
-
-        return [$manufacturer, $priceFrom, $priceTo, $sortBy ];
-    }
+    return view('productList', compact(['productList', 'requestUri', 'filterInputs', 'explodedQueryString', 'favoritesStatusList', 'attributes']));
+  }
 
 
-    public function indexApi(Request $request, $category): bool|string
-    {
+  public function indexApi(Request $request, $category): bool|string
+  {
+    $attributes = Property::where('category_name', $category)->get();
 
-      return Product::getProducts($request, $category)->count();
+    return Product::getProducts($request,$attributes,$category)->count();
 
-    }
+  }
 
 }

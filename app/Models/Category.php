@@ -12,17 +12,17 @@ class Category extends Model
 
   protected $table = 'categories';
 
-  protected $fillable = ['name', 'name_ru'];
+  protected $guarded= [];
 
 
   public function products(): \Illuminate\Database\Eloquent\Relations\HasMany
   {
-    return $this->hasMany(Product::class, 'product_category','category_name' );
+    return $this->hasMany(Product::class);
 
   }
 
-  public function props_of_categories()
+  public function properties(): \Illuminate\Database\Eloquent\Relations\HasMany
   {
-    return $this->hasMany(PropsOfCategory::class);
+    return $this->hasMany(Property::class);
   }
 }

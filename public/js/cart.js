@@ -7,22 +7,21 @@ noItem();
 function cart() {
     let products = document.querySelectorAll(".cart-row"),
         finalSumDiv = document.querySelector(".cart-summary__sum--number"),
-        sumOfProducts = 0,
-        cartNavbar = document.getElementById('cart-navbar'),
+      cartNavbar = document.getElementById('cart-navbar'),
         cartNavbarText = cartNavbar.querySelector('.cart-text'),
         finalPriceWithDeliveryDiv = document.querySelector('.cart-summary__sum--number-final');
 
 
     products.forEach((product) => {
-        let increaseQuantity = product.querySelector(".increase-quantity"),
+        product.querySelector('.cart-delivery-price');
+      let increaseQuantity = product.querySelector(".increase-quantity"),
             decreaseQuantity = product.querySelector(".decrease-quantity"),
             handInput = product.querySelector(".quantity-of-products"),
             deleteFromCartButton = product.querySelector(".delete-item"),
             quantityOfProducts = +handInput.value,
             finalPriceDiv = product.querySelector(".finalPrice"),
-            productId = product.dataset.product_id,
-            priceOfProduct = product.dataset.price,
-            DeliveryPriceDiv = product.querySelector('.cart-delivery-price');
+            productId = product.dataset.id,
+            priceOfProduct = product.dataset.price;
 
 
         renderPrice();
@@ -101,7 +100,6 @@ function cart() {
         let summaryPrice = 0;
         allPrices.forEach((elem) => {
             summaryPrice += +elem.dataset.finalPrice;
-            console.log(summaryPrice);
         });
 
         finalSumDiv.textContent = summaryPrice.toLocaleString(

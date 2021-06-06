@@ -12,8 +12,8 @@
                 " >Найдено товаров: {{$totalItems}}</div >
         @foreach( $productList as $product)
             <div class="category-list__item box is-flex mt-3" >
-                <a href="/{{ $product->product_category . "/" .
-                        $product->product_id
+                <a href="/{{ $product->category . "/" .
+                        $product->id
                          }}"
                    class="category-list__item-image is-flex" >
 
@@ -79,11 +79,7 @@
                                         class="is-size-8" >{{$product->manufacturer}}</span >
                                 </li >
                             @endif
-                                @foreach($product->bar as $key=>$value)
-{{--                                    @php--}}
-{{--                                        $name = $param->name;--}}
-
-{{--                                    @endphp--}}
+                                @foreach($product->propsOfCategory as $key=>$value)
 
                                     @if($product->$key)
                                         <li >
@@ -134,15 +130,15 @@
                         </div >
                         <button class="button is-primary mt-5
                                 add-to-cart"
-                                data-product_id="{{$product->product_id}}" >
+                                data-id="{{$product->id}}" >
                             Добавить в корзину
                         </button >
                         @auth
-                            @if( !str_contains($favoritesStatusList,$product->product_id))
+                            @if( !str_contains($favoritesStatusList,$product->id))
                                 <a class="favorites favorites-list light-link is-flex
                     is-align-items-center " data-category="{{
                     $product->category }}"
-                                   data-productId="{{$product->product_id}}"
+                                   data-productId="{{$product->id}}"
                                    data-status="0" >
                         <span class="icon is-size-4 has-text-grey-lighter" >
                     <i class="far fa-heart" ></i >
@@ -155,7 +151,7 @@
                                 <a class="favorites favorites-list light-link is-flex
                     is-align-items-center " data-category="{{
                     $product->category }}"
-                                   data-productId="{{$product->product_id}}"
+                                   data-productId="{{$product->id}}"
                                    data-status="1" >
                         <span class="icon is-size-4 has-text-grey-lighter" >
                     <i class="fas fa-heart" ></i >

@@ -25,31 +25,31 @@
                     <tbody >
 
                     @foreach($productList as $product)
-                        <tr class="cart-row" data-price="{{ $product['product_price']}}" data-product_id="{{
-                    $product['product_id']}}" >
+                        <tr class="cart-row" data-price="{{ $product['price']}}" data-id="{{
+                    $product['id']}}" >
                             <td class="cart-item" >
                                 <div class="cart-item__icon" >
                                     <img
-                                        src="{{ asset('storage/uploads/' .$product['product_image'])}}"
+                                        src="{{ asset('storage/uploads/' .$product['explode(',',$product->images)[0]'])}}"
 
                                         alt=""
                                         srcset=""
                                     />
                                 </div >
                                 <a
-                                    href="/{{$product['product_category'] . "/" . $product['product_id'] }}"
-                                    title="{{ $product['product_title']}}"
+                                    href="/{{$product['category'] . "/" . $product['id'] }}"
+                                    title="{{ $product['title']}}"
                                 >
-                                    {{ $product['product_title']}}</a >
+                                    {{ $product['title']}}</a >
                             </td >
-                            <td class="price" > {{ number_format($product['product_price'],0,',',' ')}}</td >
+                            <td class="price" > {{ number_format($product['price'],0,',',' ')}}</td >
                             <td >
                                 <div class="quantity" >
                                     {{ $product['quantity']}}
                                 </div >
                             </td >
                             <td ><span class
-                                       ="finalPrice" >{{number_format($product['product_price'] * $product['quantity'],0,',',' ')  }}</span >
+                                       ="finalPrice" >{{number_format($product['price'] * $product['quantity'],0,',',' ')  }}</span >
                             </td >
 
                         </tr >

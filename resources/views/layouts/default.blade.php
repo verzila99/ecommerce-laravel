@@ -115,12 +115,16 @@
             </div >
         </div >
 
-        <div id="search-parent" class="control search mr-3 is-flex is-flex-direction-column" >
+        <form id="search-parent" class="control search mr-3 is-flex is-flex-direction-column" method="get"
+              action="{{ route('search')}}">
+          <div class="search-field is-flex">
             <label for="main-search" ></label >
-            <input id="main-search" class="input" type="text" placeholder="Search products..." />
+            <input id="main-search" class="input" type="text" autocomplete="off" name="search_string" placeholder="Поиск товаров..." />
+          <button type="submit" class="button is-success search-submit">Найти</button >
+          </div >
           <div class="search-results">
           </div>
-        </div >
+        </form >
         @if ( auth()->check())
             <div class="dropdown  is-hoverable" >
                 <div class="dropdown-trigger" >
@@ -339,22 +343,22 @@
             @if($loop->index < 5)
             <div class="column is-one-fifth" >
                 <div class="card" >
-                    <a href="{{  url('/' .$viewedItem->product_category . "/" . $viewedItem->product_id)}}" >
+                    <a href="{{  url('/' .$viewedItem->category . "/" . $viewedItem->id)}}" >
                         <div class="card-image" >
                             <img
-                                src="{{ asset('storage/uploads/images/'.$viewedItem->product_id.'/225x225/' .
-                                $viewedItem->product_image) }}"
-                                alt="{{ $viewedItem->product_title }}"
+                                src="{{ asset('storage/uploads/images/'.$viewedItem->id.'/225x225/' .
+                                explode(',',$viewedItem->images)[0]) }}"
+                                alt="{{ $viewedItem->title }}"
                             />
                         </div >
                         <div class="card-content p-1" >
                             <p class="is-6 card-content__title has-text-weight-semibold has-text-centered" >
-                                {{ $viewedItem->product_title}}
+                                {{ $viewedItem->title}}
                             </p >
                             <p
                                 class="price has-text-weight-bold has-text-centered is-4 my-3"
                             >
-                                {{ number_format($viewedItem->product_price, 0, ',', ' ')}} ₽
+                                {{ number_format($viewedItem->price, 0, ',', ' ')}} ₽
                             </p >
                         </div >
                     </a >

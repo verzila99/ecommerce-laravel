@@ -1,5 +1,8 @@
 axios.defaults.withCredentials = true;
+
 renderCartButton();
+
+//login modal
 let profileButton = document.querySelector(".login"),
   closeModalArea = document.querySelector(".modal-background"),
   closeModalButton = document.querySelector(".delete"),
@@ -151,7 +154,7 @@ favorites.forEach((elem) => {
                             let favoritesStatus = +elem.getAttribute('data-status');
                             if (favoritesStatus === 1) {
 
-                              axios.delete('/addtofavorites/' + category + '/' + productId).then(response => {
+                              axios.delete('/removefromfavorites/' , {data: {productId: productId}}).then(response => {
                                 if (response.status === 200) {
                                   console.log(response);
                                   let heart = document.createElement('i');
@@ -198,6 +201,7 @@ favorites.forEach((elem) => {
                         }
   );
 });
+
 // Cart logic
 let addToCartButtons = document.querySelectorAll('.add-to-cart');
 
@@ -250,7 +254,6 @@ function renderCartButton() {
   let cartNavbar = document.getElementById('cart-navbar'),
     cartNavbarText = cartNavbar.querySelector('.cart-text');
 
-  axios.get('/sanctum/csrf-cookie').then(() => {
     axios.get('/api/cart/sum-of-products')
          .then(res => {
 
@@ -265,7 +268,7 @@ function renderCartButton() {
          }).catch(error => {
       console.log(error);
     });
-  });
+
 }
 
 //Searching
@@ -347,4 +350,29 @@ function closeSearchResults(){
   html.classList.remove('is-clipped');
   closeModal.style.display = 'none';
   searchParent.style.display = 'none';
+}
+
+//news subscription
+
+let emailNewsSubscription =document.querySelector('#email-news-subscription');
+let submitNewsSubscription = document.querySelector('#submit-news-subscription');
+
+if (submitNewsSubscription) {
+  submitNewsSubscription.addEventListener('click',(e)=>{
+      e.preventDefault();
+    console.log(emailNewsSubscription.value);
+      axios.post('/subscribe',{email:emailNewsSubscription.value}).then((res)=>{
+
+        if(res.status===200){
+
+        submitNewsSubscription.parentNode.parentNode.parentElement.remove();
+
+        document.querySelector('.subscription').innerHTML=`<h3 class="is-size-3 has-text-success">Подписка оформлена!</h3>`;
+        }
+      }).catch(err=> {
+
+        submitNewsSubscription.parentNode.innerHTML=`<p class="has-text-warning">${err.response.data}</p>`;
+        console.log(err.response);
+      });
+  });
 }

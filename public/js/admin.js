@@ -32,6 +32,7 @@ if (categorySelect) {
 if (document.querySelector('.file-inputs')) {
   cloneFileInput();
   showFileName();
+  deleteImage();
 }
 
 function cloneFileInput() {
@@ -44,6 +45,7 @@ function cloneFileInput() {
 
     cloneFileInput();
     showFileName();
+    deleteImage();
   });
 }
 
@@ -54,6 +56,14 @@ function showFileName(){
       elem.parentNode.querySelector('span[class=file-label]').textContent='';
       elem.parentNode.querySelector('span[class=file-name]').textContent=elem.files.item(0).name;
       elem.parentNode.parentNode.querySelector('.file-image').src= URL.createObjectURL(elem.files[0]);
+    });
+  });
+}
+function deleteImage() {
+  let deleteButtons = document.querySelectorAll('.icon-delete');
+  deleteButtons.forEach((elem)=>{
+    elem.addEventListener('click', (e)=>{
+      e.target.parentNode.parentNode.remove();
     });
   });
 }

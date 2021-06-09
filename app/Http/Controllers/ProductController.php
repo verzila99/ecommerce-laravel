@@ -6,49 +6,33 @@ namespace App\Http\Controllers;
 use App\Actions\FavoritesList\FavoritesList;
 use App\Actions\Paginator\CustomPaginator;
 use App\Actions\RecentlyViewed\RecentlyViewed;
+use App\Actions\WorkingWithImage\WorkingWithImage;
+use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Property;
-use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Validator;
+
 
 
 class ProductController extends Controller
 {
-  //
 
-  public function show(Request $request,$cat, $productId):
+  public function show($cat, $productId):
 \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
   {
 
-    $product = Product::with('properties')->with('categories')->findOrFail($productId);
+    $product = Product::with(['properties','categories'])->findOrFail($productId);
 
-    $category = $product->category;
-
-    $attributes = Property::where('category_name', $category)->get()->toArray();
-
-    $key = $category . '/' . $productId;
-
-
+    $attributes = Property::where('category_name', $product->category)->get()->toArray();
 
     $favoritesStatusList = FavoritesList::getFavoritesList();
 
-//views
-    if (!$request->session()->has($key)) {
-
-      Product::where('id', $productId)->update(['views' => (int)$product->views + 1]);
-
-      $request->session()->put($key, '1');
-    }
-
-//recently viewed
+    Product::updateProductViews($product);
 
     RecentlyViewed::addToRecentlyViewed($productId);
 
@@ -67,62 +51,20 @@ class ProductController extends Controller
   }
 
 
-  public function store(Request $request): \Illuminate\Http\RedirectResponse
+  public function store(StoreProductRequest $request): \Illuminate\Http\RedirectResponse
   {
 
-    $validated = $request->except(['_token']);
+    $validated = $request->validated();
 
-    $category = Category::where('category_id', $validated['category_id'])->firstOrFail();
+    $category = Category::where('category_name', $validated['category'])->firstOrFail();
 
-    $product = Product::create(['title' => $validated['title'], 'category' => $category->category_name, 'price' => $validated['price']]);
+    $product = Product::create($validated+['category_id'=> $category->id]);
 
-    if ($request->hasFile('image')) {
+    $names = WorkingWithImage::storeImages($request,$product);
 
-      $images = Collection::wrap($validated['image']);
+    PropertyController::store($request,$category,$product);
 
-      $path = 'public/uploads/images/';
-      $pathApp = 'app/public/uploads/images/';
-
-      $images->each(function ($image) use ($pathApp, $path, $product) {
-        $image->storeAs('public/uploads/images/' . $product->id . '/full', $image->getClientOriginalName());
-        $name = $image->getClientOriginalName();
-
-        if (!is_dir(storage_path($path . $product->id . '/700x700'))) {
-          Storage::makeDirectory($path . $product->id . '/700x700');
-        }
-        if (!is_dir(storage_path($path . $product->id . '/225x225'))) {
-          Storage::makeDirectory($path . $product->id . '/225x225');
-        }
-        if (!is_dir(storage_path($path . $product->id . '/45x45'))) {
-          Storage::makeDirectory($path . $product->id . '/45x45');
-        }
-
-        Image::make($image)->resize(700, 700, function ($constraint) {
-          $constraint->aspectRatio();
-          $constraint->upsize();
-        })->save(storage_path($pathApp . $product->id . '/700x700/' . $name));
-
-        Image::make($image)->resize(225, 225, function ($constraint) {
-          $constraint->aspectRatio();
-          $constraint->upsize();
-        })->save(storage_path($pathApp . $product->id . '/225x225/' . $name));
-
-        Image::make($image)->resize(45, 45, function ($constraint) {
-          $constraint->aspectRatio();
-          $constraint->upsize();
-
-        })->save(storage_path($pathApp . $product->id . '/45x45/' . $name));
-      });
-      foreach ($images as $image) {
-        $names[] = $image->getClientOriginalName();
-      }
-
-      array_pop($validated);
-
-      DB::table($category->category_name)->insert(['id' => $product->id, 'category' => $category->category_name, 'images' => implode(',', $names)] + $validated);
-    }
-
-    Product::where('id', $product->id)->update(['explode(',',$product->images)[0]' => $names[0]]);
+    Product::where('id', $product->id)->update(['images'=> implode(',',$names)]);
 
     return redirect()->back()->with('status', 'Товар добавлен!');
   }
@@ -131,12 +73,6 @@ class ProductController extends Controller
   public function edit($category, $id): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
   {
 
-
-    try {
-      $this->authorize('updateProduct', Product::class);
-    } catch (AuthorizationException $e) {
-      abort(403);
-    }
     $categories = Category::all();
 
     $propsOfCategory = Property::where('category_id', 1)->get();
@@ -144,10 +80,31 @@ class ProductController extends Controller
     $product = Product::with('properties')->findOrFail($id);
 
     return view('admin.editProduct', compact('product', 'categories', 'propsOfCategory'));
+
   }
 
 
-  public function update()
+  public function update(Request $request): \Illuminate\Http\RedirectResponse
+  {
+
+
+    $validated=Product::validateUpdateProductRequest($request);
+
+    $category = Category::where('category_name', $validated['category'])->firstOrFail();
+
+    $product = Product::findOrFail($validated['id']);
+
+    $names = WorkingWithImage::updateImages($request, $product);
+
+    PropertyController::update($request, $category, $product);
+
+    Product::where('id', $product->id)->update($validated + ['images' => implode(',', $names)]);
+
+    return redirect()->back()->with('status', 'Товар обновлён!');
+  }
+
+
+  public function destroy(Request $request): \Illuminate\Http\RedirectResponse
   {
     try {
       $this->authorize('updateProduct', Product::class);
@@ -155,14 +112,13 @@ class ProductController extends Controller
       abort(403);
     }
 
-  }
+    $validated = $request->validate(['id'=>'required|numeric']);
 
+    Product::destroy($validated['id']);
 
-  public function destroy($id): \Illuminate\Http\RedirectResponse
-  {
-    Product::destroy($id);
+    Storage::deleteDirectory('public/uploads/images/'. $validated['id']);
 
-    return redirect()->back()->with('status', 'Товар удалён!');
+    return redirect()->route('createProduct')->with('status', 'Товар удалён!');
   }
 
 
@@ -193,11 +149,10 @@ class ProductController extends Controller
   public function searchApi(Request $request): string
   {
 
-    $data = Product::where('title', 'LIKE', '%' . $request->validate(['search_string' => 'required|string'])['search_string'] . '%')->get();
-
+    $data = Product::where('title', 'LIKE', '%' .
+      $request->validate(['search_string' => 'required|string'])['search_string'] . '%')
+                   ->get();
 
     return $data ? $data->toJson() : 'Не найдено товаров';
-
   }
-
 }

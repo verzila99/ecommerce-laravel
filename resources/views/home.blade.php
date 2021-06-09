@@ -18,21 +18,21 @@
                     <div class="slide">
                         <!-- <h2>Something</h2>
                         <h4>$199</h4> -->
-                        <img src="{{ asset('storage/uploads/10.jpg') }}" alt="" />
+                        <img src="{{ asset('storage/uploads/1.jpg') }}" alt="" />
 
                         <!-- <a class="btn button is-light" href="#">Купить</a> -->
                     </div>
                     <div class="slide">
-                        <img src="{{ asset('storage/uploads/18.jpg') }}" alt="" />
+                        <img src="{{ asset('storage/uploads/2.jpg') }}" alt="" />
                     </div>
                     <div class="slide">
-                        <img src="{{ asset('storage/uploads/26.jpg') }}" alt="" />
+                        <img src="{{ asset('storage/uploads/3.jpg') }}" alt="" />
                     </div>
                     <div class="slide">
-                        <img src="{{ asset('storage/uploads/25.jpg') }}" alt="" />
+                        <img src="{{ asset('storage/uploads/4.jpg') }}" alt="" />
                     </div>
                     <div class="slide">
-                        <img src="{{ asset('storage/uploads/27.jpg') }}" alt="" />
+                        <img src="{{ asset('storage/uploads/5.jpg') }}" alt="" />
                     </div>
                 </div>
             </div>
@@ -117,19 +117,16 @@
             <div class="slider-container__homepage">
                 <div class="slider">
                     <div class="slide">
-                        <img src="/images/10.jpg" alt="" />
+                        <img src="{{ asset('storage/uploads/6.jpg') }}" alt="" />
                     </div>
                     <div class="slide">
-                        <img src="/images/18.jpg" alt="" />
+                        <img src="{{ asset('storage/uploads/7.jpg') }}" alt="" />
                     </div>
                     <div class="slide">
-                        <img src="/images/26.jpg" alt="" />
+                        <img src="{{ asset('storage/uploads/8.jpg') }}" alt="" />
                     </div>
                     <div class="slide">
-                        <img src="/images/25.jpg" alt="" />
-                    </div>
-                    <div class="slide">
-                        <img src="/images/27.jpg" alt="" />
+                        <img src="{{ asset('storage/uploads/9.jpg') }}" alt="" />
                     </div>
                 </div>
             </div>
@@ -212,7 +209,7 @@
         </div>
     </div>
 </section>
-<section class="subscription">
+<section class="subscription  is-flex is-justify-content-center is-align-items-center">
     <div class="container is-max-widescreen is-flex">
         <div class="subscription-block is-flex">
             <div
@@ -220,7 +217,7 @@
                 is-align-items-flex-start"
             >
                 <h3 class="has-text-weight-bold is-size-4">
-                    подпишись и узнавай
+                    Подпишись и узнавай
                 </h3>
                 <h5 class="is-size-6">о выгодных акциях и суперпредложениях</h5>
             </div>
@@ -230,9 +227,10 @@
             class="subscription-form is-flex is-flex-direction-column is-justify-content-center is-align-items-end"
         >
             <form action="" method="post" class="is-flex">
-                <input class="input" type="text" placeholder="Введите Email" />
-
-                <a type="submit" class="button is-warning ml-3"> Подписаться </a>
+              @csrf
+              <label for="email-news-subscription" style="display:none">Введите свой Email</label >
+              <input class="input" id="email-news-subscription" type="email" name="email" placeholder="Введите Email" />
+              <a id="submit-news-subscription" class="button is-warning ml-3"> Подписаться </a>
             </form>
 
             <div class="subscription-form__text mt-1">

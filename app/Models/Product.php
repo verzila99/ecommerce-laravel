@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class Product extends Model
 {
@@ -43,13 +44,23 @@ class Product extends Model
   }
 
 
+  public static function updateProductViews($product): void
+  {
+    $key = $product->category . '/' . $product->id;
+
+    !session($key) ? self::where('id', $product->id)->update(['views' => (int)$product->views + 1]) : session([$key=>'1']);
+
+  }
+
+
   public static function getProducts($request, $properties, $category)
   {
     $query = self::with(['properties','categories'])->where('category', $category);
-//                 ->join('product_property','products.id','=','product_property.product_id');
 
     $propertyValue = [];
+
     foreach ($properties as $property) {
+
       $name = $property->name;
 
       if ($request->has($name)) {
@@ -62,7 +73,6 @@ class Product extends Model
 
         $query = $query->whereHas('properties', function ($q) use ($propertyValue) {
           $q->whereIn("value",  $propertyValue);
-//        $query = $query->whereIn('product_property.value', $propertyValue);
 
         });
       }
@@ -70,5 +80,21 @@ class Product extends Model
 
       return SearchFilter::applyFilters($request, $query);
 
+  }
+
+
+  public static function validateUpdateProductRequest( $request): array
+  {
+    return Validator::make($request->except([
+          $request->title === null ? 'title' : null,
+          $request->price === null ? 'price' : null,
+          $request->vendorcode === null ? 'vendorcode' : null,
+          $request->manufacturer === null ? 'manufacturer' : null]),
+          ['id'=>'required|numeric',
+            'title' => 'string',
+            'category' => 'string',
+            'price' => 'sometimes|numeric',
+            'manufacturer' => 'sometimes|string',
+            'vendorcode' => 'sometimes|numeric',])->validate();
   }
 }

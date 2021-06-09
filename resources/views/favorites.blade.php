@@ -18,7 +18,8 @@
                    class="category-list__item-image is-flex" >
 
                     <img
-                        src="{{ asset('storage/uploads/' . explode(',',$product->images)[0]) }}"
+                        src="{{ asset('storage/uploads/images/'.$product->id.'/225x225/' . explode(',',$product->images)
+                [0]) }}"
                         alt=""
                         srcset=""
                     />
@@ -79,17 +80,17 @@
                                         class="is-size-8" >{{$product->manufacturer}}</span >
                                 </li >
                             @endif
-                                @foreach($product->propsOfCategory as $key=>$value)
+                              @foreach($product->properties  as $param)
 
-                                    @if($product->$key)
-                                        <li >
+                                @if($param->name)
+                                  <li >
                             <span class="has-text-grey-light is-size-7 is-capitalized"
-                            >{{ $value}}: </span
-                            ><span class="is-size-8" >{{$product->$key}}</span >
-                                        </li >
-                                    @endif
+                            >{{ $param->name_ru}}: </span
+                            ><span class="is-size-8" >{{$param->pivot->value}}</span >
+                                  </li >
+                                @endif
 
-                                @endforeach
+                              @endforeach
                         </ul >
 
                     </div >

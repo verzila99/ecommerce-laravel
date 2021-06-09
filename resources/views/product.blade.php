@@ -158,7 +158,7 @@
                         @else
                             <a class="favorites favorites-item is-flex
                     is-align-items-center " data-category="{{
-                    $product->category_name }}"
+                    $product->category }}"
                                data-productId="{{$product->id}}"
                                data-status="1" >
                         <span class="icon is-size-4 has-text-grey-lighter" >

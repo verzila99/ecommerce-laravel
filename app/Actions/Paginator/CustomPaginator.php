@@ -1,38 +1,28 @@
 <?php
 
-
 namespace App\Actions\Paginator;
 
-
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Routing\Redirector;
 
 class CustomPaginator
 {
 
-  public static function makeCustomPaginator($productList,$itemsPerPage,$request, $path = '/'): array|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse|\Illuminate\Contracts\Foundation\Application
+  /**
+   * @param $productList
+   * @param $itemsPerPage
+   * @param $request
+   * @param string $path
+   * @return array|Redirector|RedirectResponse|Application
+   */
+  public static function makeCustomPaginator($productList, $itemsPerPage, $request, $path = '/'): array|Redirector|RedirectResponse|Application
   {
-    $totalItems = count($productList);
+
+    $totalItems = $productList->count();
 
     $pages = ceil($totalItems / $itemsPerPage);
-
-    $paginator = new lengthAwarePaginator($productList, count($productList), $itemsPerPage, null, ['path' => $path]);
-
-    for ($i = 1; $i <= $pages; $i++) {
-
-      if ((int)$request->page === $i) {
-
-        $productList = $productList->forPage($i, $itemsPerPage);
-
-        return [$productList, $totalItems, $paginator];
-      }
-
-      if (!$request->page) {
-
-        $productList = $productList->forPage(1, $itemsPerPage);
-
-        return [$productList, $totalItems, $paginator];
-
-      }
 
       if ((int)$request->page > $pages) {
 
@@ -40,8 +30,21 @@ class CustomPaginator
 
       }
 
+    $paginator = new lengthAwarePaginator($productList, $totalItems, $itemsPerPage, null, ['path' => $path]);
 
-    }
+
+      if (!$request->page) {
+
+        $productList = $productList->forPage(1, $itemsPerPage);
+
+      }
+
+      else {
+
+        $productList = $productList->forPage((int)$request->page, $itemsPerPage);
+
+      }
+
       return [$productList, $totalItems, $paginator];
 
   }

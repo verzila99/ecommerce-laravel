@@ -37,10 +37,15 @@ Route::post('/api/addtocart/{Id}', [CartController::class, "cart"]);
 
 //Order
 Route::post('/order/confirmation', [OrderController::class,"orderConfirmationRequest"])->name('confirmation');
-Route::post('/order/confirmed', [OrderController::class,"orderConfirmation"])->name('order-confirmed');
-Route::get('/order/confirm', [OrderController::class, "getOrderConfirmationPage"])->name('getConfirmationPage');
+Route::post('/order/confirmed', [OrderController::class, "store"])->name('order-confirmed');
+Route::get('/order/confirm', [OrderController::class, "create"])->name('getConfirmationPage');
 Route::put('/order/updateStatus/', [OrderController::class, "updateStatus"])->middleware('admin')->name('orderUpdateStatus');
 Route::get('/orders', [OrderController::class, "index"])->middleware('admin')->name('orders');
+
+
+//News subscription
+Route::post('/subscribe', [UserController::class, "subscribeForNews"])->name('subscribeForNews');
+
 
 //Profile
 Route::middleware(['auth'])->prefix('profile')->group(function () {
@@ -55,7 +60,7 @@ Route::middleware(['auth'])->prefix('profile')->group(function () {
 Route::get('/favorites', [FavoritesController::class, "favorites"])->middleware('auth');
 Route::patch('/addtofavorites', [FavoritesController::class, "addToFavorites"])
      ->middleware('authajax');
-Route::delete('/addtofavorites/{category}/{productId}', [FavoritesController::class,
+Route::delete('/removefromfavorites/', [FavoritesController::class,
     "removeFromFavorites"])->middleware('authajax');
 
 
@@ -69,7 +74,7 @@ Route::get('/logout', [UserController::class, 'logout']);
 Route::middleware(['admin'])->prefix('product')->group(function () {
   Route::get('/create', [ProductController::class, "create"])->name('createProduct');
   Route::post('/create', [ProductController::class, "store"])->name('storeProduct');
-  Route::delete('/{id}', [ProductController::class, "destroy"])->name('deleteProduct');
+  Route::delete('/delete', [ProductController::class, "destroy"])->name('deleteProduct');
   Route::put('/update', [ProductController::class, "update"])->name('updateProduct');
   Route::get('/{category}/{id}/edit', [ProductController::class, "edit"])->name('editProduct');
 });

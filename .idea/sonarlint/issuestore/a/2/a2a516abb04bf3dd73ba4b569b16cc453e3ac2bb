@@ -2,7 +2,7 @@
 r%Web:ItemTagNotWithinContainerTagCheck"<Surround this <li> item tag by a <ul> or <ol> container one.(Ë¯–ÿûÿÿÿÿ
 NWeb:AvoidCommentedOutCodeCheck"Remove this commented out code.(ã¶¯¾øÿÿÿÿ
 NWeb:AvoidCommentedOutCodeCheck"Remove this commented out code.(„ï¹”ıÿÿÿÿ
-IWeb:BoldAndItalicTagsCheck¸"Replace this <i> tag by <em>.(ò¡ª‚şÿÿÿÿ
-IWeb:BoldAndItalicTagsCheckÀ"Replace this <i> tag by <em>.(ôÉşÿÿÿÿ
-DWeb:BoldAndItalicTagsCheckÈ"Replace this <i> tag by <em>.(­ ×Ç
-DWeb:BoldAndItalicTagsCheckĞ"Replace this <i> tag by <em>.(¡¸¥¼
+IWeb:BoldAndItalicTagsCheckµ"Replace this <i> tag by <em>.(ò¡ª‚şÿÿÿÿ
+IWeb:BoldAndItalicTagsCheck½"Replace this <i> tag by <em>.(ôÉşÿÿÿÿ
+DWeb:BoldAndItalicTagsCheckÅ"Replace this <i> tag by <em>.(­ ×Ç
+DWeb:BoldAndItalicTagsCheckÍ"Replace this <i> tag by <em>.(¡¸¥¼

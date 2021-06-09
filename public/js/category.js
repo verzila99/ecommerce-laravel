@@ -116,7 +116,6 @@ checkboxInputs.forEach(elem => {
           console.log(queryString);
         } else if (!elem.checked) {
             if (queryString.includes('&' + parameter)) {
-              console.log(queryString);
                 queryString = queryString.replace('&' + parameter, '');
             } else if (queryString.includes(parameter)) {
                 queryString = queryString.replace(parameter, '');

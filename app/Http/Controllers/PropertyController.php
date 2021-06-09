@@ -13,9 +13,41 @@ class PropertyController extends Controller
     return Property::find($id);
   }
 
-  public function index($id)
+
+  public function index($category)
   {
-    return Property::where('category_id',$id)->get();
+    return Property::where('category_id',$category)->get();
   }
 
+
+  public static function store($request,$category,$product)
+  {
+    $propertiesOfCategory = Property::where('category_id', $category->id)->get();
+
+    foreach ($propertiesOfCategory as $property) {
+
+    $name= $property->name;
+
+      if ($request->has($name)) {
+
+        $product->properties()->attach($property,['value'=>$request->$name]);
+      }
+    }
+  }
+
+
+  public static function update($request,$category,$product)
+  {
+    $propertiesOfCategory = Property::where('category_id', $category->id)->get();
+
+    foreach ($propertiesOfCategory as $property) {
+
+    $name= $property->name;
+
+      if ($request->has($name)) {
+
+        $product->properties()->updateExistingPivot($property,['value'=>$request->$name]);
+      }
+    }
+  }
 }

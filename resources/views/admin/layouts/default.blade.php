@@ -40,7 +40,6 @@
       <ul class="menu-list" >
         <li ><a href="{{ route('orders')}}" class="admin-menu__item" >Заказы</a ></li >
         <li ><a href="{{ route('createProduct')}}" class="admin-menu__item"  >Добавить товар</a ></li >
-        <li ><a class="admin-menu__item">Товары</a ></li >
       </ul >
       <p class="menu-label" >
         Категории

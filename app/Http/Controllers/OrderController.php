@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\CartActions\CartActions;
+use App\Http\Requests\StoreOrderRequest;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
@@ -26,79 +28,82 @@ class OrderController extends Controller
     $productsInOrder = $request->except('_token');
 
     if (empty($productsInOrder)) {
+
       return redirect()->back()->with('status', 'Добавьте товары в корзину');
     }
+
     $sum = 0;
+
     $productList = new Collection();
 
     foreach ($productsInOrder as $productId => $quantity) {
+
       if (is_int((int)$productId) && is_int((int)$quantity)) {
+
         $item = Product::where('id', $productId)->get()->toArray();
+
         if ($item) {
+
           $item[0]['quantity'] = $quantity;
+
           $productList = $productList->concat(collect($item));
+
           $sum += $item[0]['price'] * $quantity;
         }
       } else {
+
         return redirect()->route('home');
       }
     }
+
     if($sum===0){
+
       return redirect()->back()->with('status','Добавьте товары в корзину');
+
     }
     $request->session()->put('productList', $productList);
+
     $request->session()->put('sum', $sum);
 
-    return redirect()->action([OrderController::class, "getOrderConfirmationPage"]);
+    return redirect()->action([OrderController::class, "create"]);
   }
 
 
-  public function getOrderConfirmationPage():
+  public function create():
   \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
   {
     $sum = session()->get('sum');
+
     $productList = session()->get('productList');
+
     return view('order', compact('sum', 'productList'));
   }
 
-  public function orderConfirmation(Request $request): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Contracts\Foundation\Application
+
+  public function store(StoreOrderRequest $request): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Contracts\Foundation\Application
   {
 
-    $userCredentials = $request->validate([
-      'name' => 'required|string',
-      'email' => 'required|email',
-      'phone_number' => 'required|string',
-      'message' => 'nullable|string'
-    ]);
+    $userCredentials = $request->validated();
 
     $productsInOrder = session()->get('productList');
 
     if (is_null($productsInOrder)) {
 
-      return redirect()->route('home');
+      return redirect()->back();
     }
 
+    $userId = auth()->id();
 
-    if (Auth::check()) {
-      $userId = User::find(auth()->id())->id;
-    }
-
-    $sum = 0;
-
-    foreach ($productsInOrder as $product) {
-      $currentProduct = Product::find($product['id']);
-      $sum += $currentProduct->price * $product['quantity'];
-    }
+    $sum = CartActions::getSumOfProducts($productsInOrder);
 
     $order = Order::create([
       'username' => $userCredentials['name'],
       'email' => $userCredentials['email'],
       'phone_number' => $userCredentials['phone_number'],
       'message' => $userCredentials['message'],
-      'user_id' => $userId ? $userId : null,
+      'user_id' => $userId ?: null,
       'sum' => $sum
     ]);
-
 
     foreach ($productsInOrder as $product) {
 
@@ -114,9 +119,9 @@ class OrderController extends Controller
 
     Cookie::queue('cart', '');
 
-
     return view('orderSuccess');
   }
+
 
   public function updateStatus(Request $request): \Illuminate\Http\RedirectResponse
   {

@@ -23,12 +23,9 @@ class ProductListController extends Controller
   public function index(Request $request, $category): View|Factory|Redirector|RedirectResponse|Application
   {
 
-
     Category::where('category_name', $category)->firstOrFail();
 
-
     $attributes = Property::where('category_name', $category)->get();
-
 
     $productList = Product::getProducts($request, $attributes,$category)->paginate(10);
 
@@ -42,7 +39,6 @@ class ProductListController extends Controller
     }
 
     $attributes = $attributes->toArray();
-
 
     $favoritesStatusList =FavoritesList::getFavoritesList();
 

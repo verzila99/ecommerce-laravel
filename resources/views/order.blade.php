@@ -2,7 +2,7 @@
 @section('scripts')
 
     <script defer src="{{ asset('js/app.js')}}" ></script >
-    <script defer src="{{ asset('js/cart.js')}}" ></script >
+
 
 @endsection
 @section('title','Ecommerce shop')
@@ -30,7 +30,8 @@
                             <td class="cart-item" >
                                 <div class="cart-item__icon" >
                                     <img
-                                        src="{{ asset('storage/uploads/' .$product['explode(',',$product->images)[0]'])}}"
+                                        src="{{ asset('storage/uploads/images/'.$product['id'].'/45x45/'
+                                         . explode(',',$product['images'])[0] )}}"
 
                                         alt=""
                                         srcset=""

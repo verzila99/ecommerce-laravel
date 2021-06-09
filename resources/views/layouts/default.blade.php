@@ -34,26 +34,13 @@
 <body >
 <div id="close-modal"></div>
 <nav
-    class="navbar container is-max-widescreen"
+    class="navbar container is-max-widescreen py-2 px-2"
     role="navigation"
     aria-label="main navigation"
 >
-    <div class="navbar-brand" >
-        <a class="navbar-item mr-5 has-text-weight-bold is-size-3" href="/"
-        ><img src="/images/logo.png" alt="" srcset="" />
+        <a class="logo mr-5 has-text-weight-bold is-size-3 is-flex is-align-items-center" href="/"
+        ><img src="{{asset('storage/uploads/logo/logo.gif')}}" alt="" srcset="" />
         </a >
-        <a
-            role="button"
-            class="navbar-burger"
-            aria-label="menu"
-            aria-expanded="false"
-            data-target="navbarBasicExample"
-        >
-            <span aria-hidden="true" ></span >
-            <span aria-hidden="true" ></span >
-            <span aria-hidden="true" ></span >
-        </a >
-    </div >
 
     <div id="navbarBasicExample" class="navbar-menu" >
         <div class="navbar-start is-flex is-align-items-center" >
@@ -75,7 +62,7 @@
         </div >
     </div >
 </nav >
-<main class="py-5" >
+<main class="py-3" >
     <div
         class="container is-max-widescreen second-bar is-flex is-align-items-center is-justify-content-space-between"
     >

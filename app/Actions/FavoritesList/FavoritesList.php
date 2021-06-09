@@ -11,16 +11,16 @@ class FavoritesList
 {
   public static function getFavoritesList(): string
   {
+    $favoritesStatusList = '';
+
     if (Auth::check()) {
 
       $user = User::find(auth()->id());
 
-      $favoritesStatusList = $user->favorites;
+      if ($user->favorites!== null) {
 
-    } else {
-
-      $favoritesStatusList = '';
-
+        $favoritesStatusList = $user->favorites;
+      }
     }
 
     return $favoritesStatusList;

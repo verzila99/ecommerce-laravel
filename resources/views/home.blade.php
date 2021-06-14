@@ -15,25 +15,16 @@
         <div class="slider-container__main my-5">
             <div class="slider-container__homepage">
                 <div class="slider">
-                    <div class="slide">
+                  @foreach($topSlider as $slide)
+                    <a href="{{$slide->url}}" target="_blank" class="slide">
                         <!-- <h2>Something</h2>
                         <h4>$199</h4> -->
-                        <img src="{{ asset('storage/uploads/1.jpg') }}" alt="" />
+                        <img src="{{ asset('storage/uploads/banners/1152x300/' . $slide->image)  }}" alt="" />
 
                         <!-- <a class="btn button is-light" href="#">Купить</a> -->
-                    </div>
-                    <div class="slide">
-                        <img src="{{ asset('storage/uploads/2.jpg') }}" alt="" />
-                    </div>
-                    <div class="slide">
-                        <img src="{{ asset('storage/uploads/3.jpg') }}" alt="" />
-                    </div>
-                    <div class="slide">
-                        <img src="{{ asset('storage/uploads/4.jpg') }}" alt="" />
-                    </div>
-                    <div class="slide">
-                        <img src="{{ asset('storage/uploads/5.jpg') }}" alt="" />
-                    </div>
+                    </a>
+                  @endforeach
+
                 </div>
             </div>
 
@@ -48,12 +39,12 @@
         </div>
     </div>
 </div>
-<section class="smartphones-section container is-max-widescreen mt-5">
+<section class="smartphones-section container is-max-widescreen mt-5 px-3">
     <h2 class="has-text-left has-text-weight-bold is-size-3">Смартфоны</h2>
-    <div class="columns is-multiline my-4">
+    <div class="columns is-mobile is-multiline is-centered my-4">
         @foreach ($smartphones as $smartphone)
 
-        <div class="column is-one-fifth">
+        <div class="column is-one-fifth-desktop is-one-quarter-tablet is-half-mobile">
             <div class="card">
                 <a href="{{  $smartphone->category . "/" . $smartphone->id}}">
                     <div class="card-image">
@@ -82,11 +73,11 @@
         @endforeach
     </div>
 </section>
-<section class="earphones-section container is-max-widescreen">
+<section class="earphones-section container is-max-widescreen px-3">
     <h2 class="has-text-left has-text-weight-bold is-size-3">Умные часы</h2>
-    <div class="columns is-multiline my-4">
+    <div class="columns is-mobile is-multiline is-centered my-4">
         @foreach ($smartwatches as $smartwatch)
-        <div class="column is-one-fifth">
+        <div class="column is-one-fifth-desktop is-one-quarter-tablet is-half-mobile">
             <div class="card">
                 <a href="{{  $smartwatch->category . "/" . $smartwatch->id}}">
                     <div class="card-image">
@@ -116,18 +107,15 @@
         <div class="slider-container__main my-5">
             <div class="slider-container__homepage">
                 <div class="slider">
-                    <div class="slide">
-                        <img src="{{ asset('storage/uploads/6.jpg') }}" alt="" />
-                    </div>
-                    <div class="slide">
-                        <img src="{{ asset('storage/uploads/7.jpg') }}" alt="" />
-                    </div>
-                    <div class="slide">
-                        <img src="{{ asset('storage/uploads/8.jpg') }}" alt="" />
-                    </div>
-                    <div class="slide">
-                        <img src="{{ asset('storage/uploads/9.jpg') }}" alt="" />
-                    </div>
+                  @foreach($bottomSlider as $slide)
+                    <a href="{{$slide->url}}" target="_blank" class="slide" >
+                      <!-- <h2>Something</h2>
+                      <h4>$199</h4> -->
+                      <img src="{{ asset('storage/uploads/banners/1152x300/' . $slide->image)  }}" alt="" />
+
+                      <!-- <a class="btn button is-light" href="#">Купить</a> -->
+                    </a >
+                  @endforeach
                 </div>
             </div>
 
@@ -142,36 +130,36 @@
         </div>
     </div>
 </section>
-<section class="brands container is-max-widescreen mt-5">
+<section class="brands container is-max-widescreen mt-5 px-3 is-hidden-mobile">
     <h2 class="has-text-left has-text-weight-bold is-size-3">Брэнды</h2>
-    <div class="columns is-multiline my-4">
-        <div class="column is-3">
+    <div class="columns is-mobile is-centered is-multiline my-4">
+        <div class="column  is-3-desktop is-4-tablet is-6-mobile">
             <div class="box is-size-2 has-text-centered">Apple</div>
         </div>
-        <div class="column is-3">
+        <div class="column is-3-desktop is-4-tablet is-6-mobile">
             <div class="box is-size-2 has-text-centered">Huawei</div>
         </div>
-        <div class="column is-3">
+        <div class="column is-3-desktop is-4-tablet is-6-mobile">
             <div class="box is-size-2 has-text-centered">Xiaomi</div>
         </div>
-        <div class="column is-3">
+        <div class="column is-3-desktop is-4-tablet is-6-mobile">
             <div class="box is-size-2 has-text-centered">Samsung</div>
         </div>
-        <div class="column is-3">
+        <div class="column is-3-desktop is-4-tablet is-6-mobile">
             <div class="box is-size-2 has-text-centered">LG</div>
         </div>
-        <div class="column is-3">
+        <div class="column is-3-desktop is-4-tablet is-6-mobile">
             <div class="box is-size-2 has-text-centered">Sony</div>
         </div>
-        <div class="column is-3">
+        <div class="column is-3-desktop is-4-tablet is-6-mobile">
             <div class="box is-size-2 has-text-centered">Oppo</div>
         </div>
-        <div class="column is-3">
+        <div class="column is-3-desktop is-4-tablet is-6-mobile">
             <div class="box is-size-2 has-text-centered">Realme</div>
         </div>
     </div>
 </section>
-<section class="advantages has-background-light is-flex is-align-items-center">
+<section class="advantages has-background-light is-flex is-align-items-center is-hidden-mobile px-6">
     <div
         class="container is-max-widescreen is-flex is-flex-wrap-wrap is-justify-content-space-between is-align-items-center"
     >
@@ -209,9 +197,9 @@
         </div>
     </div>
 </section>
-<section class="subscription  is-flex is-justify-content-center is-align-items-center">
-    <div class="container is-max-widescreen is-flex">
-        <div class="subscription-block is-flex">
+<section class="subscription  is-flex is-justify-content-center is-align-items-center px-6">
+    <div class="container columns is-max-widescreen is-flex">
+        <div class="column subscription-block is-flex is-6-desktop is-hidden-tablet is-hidden-mobile">
             <div
                 class="subscription-block__text text is-flex is-flex-direction-column is-justify-content-center
                 is-align-items-flex-start"
@@ -224,9 +212,11 @@
             <img src="{{ asset('storage/uploads/svg/mails.svg') }}" alt="" srcset="" />
         </div>
         <div
-            class="subscription-form is-flex is-flex-direction-column is-justify-content-center is-align-items-end"
+            class="column subscription-form is-flex is-flex-direction-column is-justify-content-center
+            is-align-items-end
+               is-6-desktop  is-12-tablet"
         >
-            <form action="" method="post" class="is-flex">
+            <form action="" method="post" class="is-flex field">
               @csrf
               <label for="email-news-subscription" style="display:none">Введите свой Email</label >
               <input class="input" id="email-news-subscription" type="email" name="email" placeholder="Введите Email" />

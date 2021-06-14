@@ -7,7 +7,7 @@
 @section('content')
 
     <div class="container is-max-widescreen" >
-        <nav class="breadcrumb mt-3" aria-label="breadcrumbs" >
+        <nav class="breadcrumb mt-3 px-3" aria-label="breadcrumbs" >
             <ul >
                 <li ><a href="/" >Главная</a ></li >
 
@@ -17,7 +17,7 @@
                 </li >
             </ul >
         </nav >
-        <section class="item" >
+        <section class="item px-3" >
             <h1 class="item-name has-text-left is-size-3 mt-5" >
                 {{ $product->title}}
             </h1 >
@@ -53,10 +53,13 @@
 
             </div >
             <div
-                class="item-main mt-5 is-flex is-justify-content-space-between"
+                class="item-main  mt-5 is-flex is-flex-wrap-wrap is-justify-content-space-around"
             >
                 <div
-                    class="item-main-gallery is-flex is-justify-content-center is-align-items-center is-flex-shrink-1
+                    class="item-main-gallery  is-flex
+                    is-justify-content-center
+                    is-align-items-center
+                    is-flex-shrink-1
                      "
                 >
                     <div class="slider-container__main my-5" >
@@ -99,11 +102,11 @@
                     </div >
                 </div >
                 <div
-                    class="item-main__specs mt-5  is-flex
+                    class="item-main__specs  mt-5  is-flex
                     is-flex-direction-column is-justify-content-space-between
                      is-align-items-flex-start"
                 >
-                    <ul >
+                    <ul class="mb-4">
                         @if($product->vendorcode)
                             <li >
                                 <span class="has-text-grey-light is-size-7"
@@ -136,7 +139,7 @@
                         @endforeach
 
                         <li >
-                            <a class="is-size-7 mt-6 dark-link" href="/"
+                            <a class="is-size-7 mt-6 dark-link " href="/"
                             >Все характеристики ></a
                             >
                         </li >
@@ -187,7 +190,7 @@
 
                 </div >
                 <div
-                    class="item-main__addtocart mt-4  is-flex
+                    class="item-main__addtocart   mt-4  is-flex
                         is-flex-direction-column is-justify-content-start
                         is-align-items-flex-start"
                 >

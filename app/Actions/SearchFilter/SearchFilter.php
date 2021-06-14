@@ -4,11 +4,6 @@
 namespace App\Actions\SearchFilter;
 
 
-use App\Http\Controllers\ProductListController;
-use Illuminate\Database\Query\Builder;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-
 class SearchFilter
 {
 
@@ -16,32 +11,31 @@ class SearchFilter
   {
     [$manufacturer, $priceFrom, $priceTo, $sortBy] = self::handleRequest($request);
 
-    return $query
-      ->when($manufacturer, function ($query, $manufacturer) {
-      return $query->whereIn('manufacturer', $manufacturer);
-    })->when($priceFrom, function ($query, $priceFrom) {
-      return $query->where('price', '>', $priceFrom);
-    })->when($priceTo, function ($query, $priceTo) {
-      return $query->where('price', '<', $priceTo);
-    })->when($sortBy, function ($query, $sortBy) {
-      if ($sortBy === 'popularity') {
+    return $query->when($manufacturer, function ($query, $manufacturer) {
+        return $query->whereIn('manufacturer', $manufacturer);
+      })->when($priceFrom, function ($query, $priceFrom) {
+        return $query->where('price', '>', $priceFrom);
+      })->when($priceTo, function ($query, $priceTo) {
+        return $query->where('price', '<', $priceTo);
+      })->when($sortBy, function ($query, $sortBy) {
+        if ($sortBy === 'popularity') {
+          return $query->orderBy('product_views', 'desc');
+        }
+        if ($sortBy === 'price') {
+          return $query->orderBy('price', 'asc');
+        }
+        if ($sortBy === '-price') {
+          return $query->orderBy('price', 'desc');
+        }
+        if ($sortBy === 'created_at') {
+          return $query->orderBy('created_at', 'desc');
+        }
+
+        return null;
+
+      }, function ($query) {
         return $query->orderBy('product_views', 'desc');
-      }
-      if ($sortBy === 'price') {
-        return $query->orderBy('price', 'asc');
-      }
-      if ($sortBy === '-price') {
-        return $query->orderBy('price', 'desc');
-      }
-      if ($sortBy === 'created_at') {
-        return $query->orderBy('created_at', 'desc');
-      }
-
-      return null;
-
-    }, function ($query) {
-      return $query->orderBy('product_views', 'desc');
-    });
+      });
 
   }
 

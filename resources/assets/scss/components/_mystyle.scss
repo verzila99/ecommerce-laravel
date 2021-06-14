@@ -1,3 +1,33 @@
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: $dark $white;
+}
+
+
+
+*::-webkit-scrollbar {
+  height: 12px;
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: $white;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: $dark;
+  border-radius: 5px;
+  //border: 3px solid orange;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: $warning;
+}
+
+.breadcrumb{
+  padding: 0 .75rem;
+}
 .breadcrumb  a {
     color: $grey-light!important;
     font-size: .8rem;
@@ -17,11 +47,16 @@
 .field{
     width: 100%;
 }
+.checkbox{
+  font-size: .8rem;
+}
 input:focus {
     border: 1px solid $success !important;
     box-shadow: 0 0 0 0.125em rgb(229, 205, 18, .4) !important;
 }
-
+.button{
+  border-width: 0;
+}
 .button, .tag {
     box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
 }
@@ -37,19 +72,10 @@ a{
 
 
 }
-.logo{
-  display: block;
-  box-shadow: 0 0.5em 1em -0.125em rgba(0, 0, 0, 0.1), 0 0px 0 1px rgba(0, 0, 0, 0.02);
-}
-.logo img{
-  max-width: 100px!important;
-  border-radius: 10px;
-}
-.button .is-primary{
-    color:$primary!important;
-}
 
-
+.button .is-primary {
+  color: $primary !important;
+}
 .in-cart-button {
     background-color: $success!important;
     color: $black!important;
@@ -59,15 +85,7 @@ a{
     font-size: .8rem;
 }
 
-.second-bar {
-    width: 100%;
-}
 
-.search {
-    width: auto;
-    flex-grow: 1;
-    // margin-right: auto;
-}
 
 .card-content__title {
     color: #000;
@@ -103,7 +121,6 @@ a{
 }
 
 .brands {
-    font-family: "Lato", sans-serif;
     font-weight: 900;
 }
 
@@ -164,7 +181,6 @@ a{
 
 .subscription-form {
     margin-top: 20px;
-    width: 50%;
     margin-left: auto;
 }
 
@@ -178,7 +194,6 @@ a{
 
 .subscription-block {
     position: relative;
-    width: 50%;
 }
 
 .subscription-block img {
@@ -193,18 +208,4 @@ a{
 .subscription-form__text p {
     color: white;
     font-size: 0.8rem;
-}
-
-.search-field{
-  position: relative;
-}
-
-.search-field input{
-  border-radius: 1px;
-}
-.search-submit{
-  position: absolute;
-  right: 0;
-  top: 0;
-  border-radius: 1px;
 }

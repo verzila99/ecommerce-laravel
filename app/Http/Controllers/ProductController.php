@@ -6,27 +6,25 @@ namespace App\Http\Controllers;
 use App\Actions\FavoritesList\FavoritesList;
 use App\Actions\Paginator\CustomPaginator;
 use App\Actions\RecentlyViewed\RecentlyViewed;
+use App\Actions\SearchFilter\SearchFilter;
 use App\Actions\WorkingWithImage\WorkingWithImage;
+use App\Actions\WorkingWithQueryString\WorkingWithQueryString;
 use App\Http\Requests\StoreProductRequest;
-use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Property;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
-
 
 
 class ProductController extends Controller
 {
 
-  public function show($cat, $productId):
-\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+  public function show($cat, $productId): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
   {
 
-    $product = Product::with(['properties','categories'])->findOrFail($productId);
+    $product = Product::with(['properties', 'categories'])->findOrFail($productId);
 
     $attributes = Property::where('category_name', $product->category)->get()->toArray();
 
@@ -58,13 +56,13 @@ class ProductController extends Controller
 
     $category = Category::where('category_name', $validated['category'])->firstOrFail();
 
-    $product = Product::create($validated+['category_id'=> $category->id]);
+    $product = Product::create($validated + ['category_id' => $category->id]);
 
-    $names = WorkingWithImage::storeImages($request,$product);
+    $names = WorkingWithImage::storeImages($request, $product);
 
-    PropertyController::store($request,$category,$product);
+    PropertyController::store($request, $category, $product);
 
-    Product::where('id', $product->id)->update(['images'=> implode(',',$names)]);
+    Product::where('id', $product->id)->update(['images' => implode(',', $names)]);
 
     return redirect()->back()->with('status', 'Товар добавлен!');
   }
@@ -88,7 +86,7 @@ class ProductController extends Controller
   {
 
 
-    $validated=Product::validateUpdateProductRequest($request);
+    $validated = Product::validateUpdateProductRequest($request);
 
     $category = Category::where('category_name', $validated['category'])->firstOrFail();
 
@@ -112,11 +110,11 @@ class ProductController extends Controller
       abort(403);
     }
 
-    $validated = $request->validate(['id'=>'required|numeric']);
+    $validated = $request->validate(['id' => 'required|numeric']);
 
     Product::destroy($validated['id']);
 
-    Storage::deleteDirectory('public/uploads/images/'. $validated['id']);
+    Storage::deleteDirectory('public/uploads/images/' . $validated['id']);
 
     return redirect()->route('createProduct')->with('status', 'Товар удалён!');
   }
@@ -125,23 +123,26 @@ class ProductController extends Controller
   public function search(Request $request): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
   {
 
-    $productList = Product::where('title', 'LIKE', '%' . $request->validate(['search_string' => 'required|string|min:1'])['search_string'] .
-        '%')->get();
+    $query = Product::where('title', 'LIKE', '%' . $request->validate(['search_string' => 'required|string|min:1'])['search_string'] . '%');
+
+    $productList = SearchFilter::applyFilters($request, $query)->get();
 
     $favoritesStatusList = FavoritesList::getFavoritesList();
 
     $propsOfCategory = Property::All();
 
     $productList->each(function ($product) use ($propsOfCategory) {
-      $product->propsOfCategory = $propsOfCategory
-        ->filter(fn($item) => $item->category_name === $product->category)
-        ->pluck('name_ru', 'name')
-        ->toArray();
+      $product->propsOfCategory = $propsOfCategory->filter(fn($item) => $item->category_name === $product->category)
+                                                  ->pluck('name_ru', 'name')
+                                                  ->toArray();
     });
+    $sortingType = WorkingWithQueryString::getSortingType($request);
+
+    $requestUri = WorkingWithQueryString::getQueryStringWithoutSorting($request);
 
     [$productList, $totalItems, $paginator] = CustomPaginator::makeCustomPaginator($productList, 10, $request, 'search');
 
-    return view('search', compact('productList', 'totalItems', 'paginator', 'favoritesStatusList'));
+    return view('search', compact('productList', 'totalItems', 'paginator', 'favoritesStatusList','sortingType','requestUri'));
 
   }
 
@@ -149,9 +150,7 @@ class ProductController extends Controller
   public function searchApi(Request $request): string
   {
 
-    $data = Product::where('title', 'LIKE', '%' .
-      $request->validate(['search_string' => 'required|string'])['search_string'] . '%')
-                   ->get();
+    $data = Product::where('title', 'LIKE', '%' . $request->validate(['search_string' => 'required|string'])['search_string'] . '%')->get();
 
     return $data ? $data->toJson() : 'Не найдено товаров';
   }

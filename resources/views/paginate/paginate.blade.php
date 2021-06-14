@@ -1,4 +1,4 @@
-<div class="pagination-container">
+<div class="pagination-container my-6">
 
     <nav class="pagination is-centered" role="navigation"
          aria-label="pagination">

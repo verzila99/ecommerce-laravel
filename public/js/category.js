@@ -121,7 +121,7 @@ checkboxInputs.forEach(elem => {
                 queryString = queryString.replace(parameter, '');
             }
         }
-        axios.get('/api' + urlObject.pathname + '?' + queryString.replace(/\+\+\+/g,' + ').replace(/\+/g, ' ').replace(/\s\s\s/g, ' + '))
+        axios.get('/api' + urlObject.pathname + '?' + decodeURIComponent(queryString))
             .then(function (response) {
                 return response.data;
             })

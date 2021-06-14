@@ -37,8 +37,8 @@
                      @foreach($productList as $product)
                          <tr class="cart-row" data-price="{{ $product->price}}" data-id="{{
                     $product->id}}" >
-                             <td class="cart-item" >
-                                 <div class="cart-item__icon" >
+                             <td class="cart-item " >
+                                 <div class="cart-item__icon is-hidden-mobile" >
                                      <img
                                          src="{{ asset('storage/uploads/images/'.$product->id.'/45x45/' .
                                          explode(',',$product->images)[0])}}"
@@ -77,9 +77,11 @@
                      </tbody >
                  </table >
              </div >
-             <div class="cart-continue mt-5 is-flex is-justify-content-flex-end" >
+             <div class="cart-continue mt-5 is-flex is-justify-content-flex-end px-3" >
                  <div
-                     class="cart-summary is-flex is-flex-direction-column is-justify-content-space-around is-align-items-center"
+                     class="cart-summary is-flex is-flex-direction-column is-justify-content-space-around is-align-items-center
+                            is-one-third-desktop is-half-tablet is-full-mobile
+"
                  >
                      <h2 class="cart-summary__title has-text-weight-bold is-size-4" >
                          Итого

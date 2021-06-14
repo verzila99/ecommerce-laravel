@@ -52,8 +52,25 @@
   right: 0;
   top: 0;
 
-  z-index: 31;
+  z-index: 15;
   background-color: rgba(0, 0, 0, 0.1);
+}
+.filter-active{
+  z-index: 31!important;
+}
+.search-field {
+  position: relative;
+}
+
+.search-field input {
+  border-radius: 1px;
+}
+
+.search-submit {
+  position: absolute;
+  right: 0;
+  top: 0;
+  border-radius: 1px;
 }
 #search-parent{
   position: relative;
@@ -64,19 +81,90 @@
 .search-results{
   position: absolute;
   display: none;
-  width: 100%;
+  width: 593px;
   max-height: 513px;
   overflow: auto;
   bottom: 0;
   left: 0;
-  transform: translateY(100%);
+  border-radius: 4px;
+  transform: translate(130px,100%);
   background-color: $white;
   box-shadow: 0 0.5em 1em -0.125em rgba(0, 0, 0, 0.3), 0 0px 0 1px rgba(0, 0, 0, 0.02);
-;
+
 }
 .search-item{
-  display: block;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   padding: 1rem;
   border-bottom:1px solid $grey-light;
+}
+.search-item p{
+  width: 80%;
+  overflow: hidden;
+  white-space:nowrap;
+  text-overflow: ellipsis;
+}
+
+.logo-m {
+  display: block;
+  box-shadow: 0 0.5em 1em -0.125em rgba(0, 0, 0, 0.1), 0 0px 0 1px rgba(0, 0, 0, 0.02);
+}
+
+.logo-m img {
+  max-width: 100px !important;
+  border-radius: 10px;
+}
+
+.logo-mr {
+  display: block;
+  box-shadow: 0 0.5em 1em -0.125em rgba(0, 0, 0, 0.1), 0 0px 0 1px rgba(0, 0, 0, 0.02);
+}
+.logo-mr img{
+  height: 40px!important;
+  border-radius: 10px;
+}
+.second-bar {
+  width: 100%;
+}
+
+.search {
+  width: auto;
+  flex-grow: 1;
+
+}
+
+.catalog-icon{
+  font-size: 1.2rem;
+
+}
+
+.catalog{
+  z-index:32 ;
+}
+.catalog-menu{
+  overflow: scroll;
+}
+@media (max-width: 1024px) {
+  .search-results{
+    transform: translate(0,100%);
+    width: 100%;
+  }
+}
+@media (max-width: 770px) {
+  .search-results{
+    transform: translate(0,100%);
+    width: 100%;
+  }
+  .catalog-menu{
+    flex-direction: column;
+  }
+  .catalog-menu-buttons{
+    flex-direction: column;
+  }
+  .catalog-menu-buttons .button{
+    width: 100%;
+    margin: 1rem 0;
+  }
 }

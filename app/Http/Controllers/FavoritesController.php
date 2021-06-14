@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\FavoritesList\FavoritesList;
 use App\Actions\Paginator\CustomPaginator;
+use App\Actions\WorkingWithQueryString\WorkingWithQueryString;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
@@ -23,11 +24,15 @@ class FavoritesController extends Controller
 
     $favoritesList = explode(",", $favoritesStatusList);
 
-    $productList = Product::with(['properties', 'categories'])->whereIn('id', $favoritesList)->get();
+    $productList = Product::getProducts($request)->whereIn('id', $favoritesList)->get();
+
+    $sortingType = WorkingWithQueryString::getSortingType($request);
+
+    $requestUri = WorkingWithQueryString::getQueryStringWithoutSorting($request);
 
     [$productList, $totalItems, $paginator] = CustomPaginator::makeCustomPaginator($productList, 10, $request, 'favorites');
 
-    return view('favorites', compact('productList', 'favoritesStatusList', 'totalItems', 'paginator'));
+    return view('favorites', compact('productList', 'favoritesStatusList', 'totalItems', 'paginator','requestUri','sortingType'));
 
   }
 

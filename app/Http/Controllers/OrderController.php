@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Actions\CartActions\CartActions;
+use App\Events\OrderCreatedEvent;
+use App\Events\UserRegisteredEvent;
 use App\Http\Requests\StoreOrderRequest;
 use App\Models\Category;
 use App\Models\Order;
@@ -115,9 +117,11 @@ class OrderController extends Controller
       ]);
     }
 
-    session()->forget('productList');
+    session()->forget(['productList','sum']);
 
     Cookie::queue('cart', '');
+
+    event(new OrderCreatedEvent($order));
 
     return view('orderSuccess');
   }

@@ -53,9 +53,12 @@ class Product extends Model
   }
 
 
-  public static function getProducts($request, $properties, $category)
+  public static function getProducts($request,$category=null,$properties=[])
   {
-    $query = self::with(['properties','categories'])->where('category', $category);
+    $query = self::with(['properties','categories'])->when($category,function ($query,$category){
+
+        return $query->where('category', $category);
+    });
 
     $propertyValue = [];
 
@@ -72,6 +75,7 @@ class Product extends Model
         }
 
         $query = $query->whereHas('properties', function ($q) use ($propertyValue) {
+
           $q->whereIn("value",  $propertyValue);
 
         });

@@ -19,7 +19,7 @@
     <option es3="false" />
     <option es5="false" />
     <option esnext="false" />
-    <option esversion="8" />
+    <option esversion="9" />
     <option evil="false" />
     <option expr="false" />
     <option forin="true" />
@@ -58,7 +58,7 @@
     <option passfail="false" />
     <option phantom="false" />
     <option plusplus="false" />
-    <option predef="console,axios" />
+    <option predef="console,axios,ResizeObserver" />
     <option proto="false" />
     <option prototypejs="false" />
     <option qunit="false" />

@@ -50,18 +50,16 @@
    @endforeach
       </ul >
       <p class="menu-label" >
-        Transactions
+       Баннеры>
       </p >
       <ul class="menu-list" >
-        <li ><a class="admin-menu__item">Payments</a ></li >
-        <li ><a class="admin-menu__item">Transfers</a ></li >
-        <li ><a class="admin-menu__item">Balance</a ></li >
+        <li ><a href="{{ route('indexBanner') }}" class="admin-menu__item">Список баннеров</a ></li >
+        <li ><a href="{{ route('createBanner') }}" class="admin-menu__item">Добавить баннер</a ></li >
       </ul >
     </aside >
   </div>
   <div class="admin-modal__group">
     @yield('content')
-
   </div>
 </div>
 </body >

@@ -4,17 +4,16 @@ namespace App\Http\Controllers;
 
 
 use App\Actions\FavoritesList\FavoritesList;
-use App\Models\Property;
+use App\Actions\WorkingWithQueryString\WorkingWithQueryString;
 use App\Models\Category;
 use App\Models\Product;
-use App\Models\User;
+use App\Models\Property;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Auth;
 
 
 class ProductListController extends Controller
@@ -25,11 +24,13 @@ class ProductListController extends Controller
 
     Category::where('category_name', $category)->firstOrFail();
 
-    $attributes = Property::where('category_name', $category)->get();
+    $properties = Property::where('category_name', $category)->get();
 
-    $productList = Product::getProducts($request, $attributes,$category)->paginate(10);
+    $productList = Product::getProducts($request, $category, $properties)->paginate(10);
 
-    $requestUri = preg_replace('/sort_by\S+/', '', str_replace('   ', ' + ', urldecode($request->fullUrl())));
+    $sortingType = WorkingWithQueryString::getSortingType($request);
+
+    $requestUri = WorkingWithQueryString::getQueryStringWithoutSorting($request);
 
     $page = $request->page;
 
@@ -38,9 +39,9 @@ class ProductListController extends Controller
       return redirect($request->fullUrlWithQuery(['page' => 1]));
     }
 
-    $attributes = $attributes->toArray();
+    $properties = $properties->toArray();
 
-    $favoritesStatusList =FavoritesList::getFavoritesList();
+    $favoritesStatusList = FavoritesList::getFavoritesList();
 
 
 //sidebar inputs
@@ -49,15 +50,21 @@ class ProductListController extends Controller
     $explodedQueryString = explode("&", str_replace('   ', ' + ', urldecode($request->getQueryString())));
 
 
-    return view('productList', compact(['productList', 'requestUri', 'filterInputs', 'explodedQueryString', 'favoritesStatusList', 'attributes']));
+    return view('category', compact(['productList',
+                                     'requestUri',
+                                     'filterInputs',
+                                     'explodedQueryString',
+                                     'favoritesStatusList',
+                                     'properties',
+                                     'sortingType']));
   }
 
 
   public function indexApi(Request $request, $category): bool|string
   {
-    $attributes = Property::where('category_name', $category)->get();
+    $properties = Property::where('category_name', $category)->get();
 
-    return Product::getProducts($request,$attributes,$category)->count();
+    return Product::getProducts($request, $category, $properties)->count();
 
   }
 

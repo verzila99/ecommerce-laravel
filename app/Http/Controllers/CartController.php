@@ -9,6 +9,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
@@ -23,27 +24,26 @@ class CartController extends Controller
 
   }
 
-//
+
 //  public function do(): void
 //  {
 //
 //
-//    $f = DB::table('smartphones')->get();
+//    $f = DB::table('product_property')->where('property_id',3)->get();
 //
 //    foreach ($f as $product) {
-//      DB::table('product_prop')->insert([
-//        ['product_id' => $product->product_id, 'prop_id' => 1, 'value' => $product->diagonal],
-//        ['product_id' => $product->product_id, 'prop_id' => 2, 'value' => $product->memory],
-//        ['product_id' => $product->product_id, 'prop_id' => 3, 'value' => $product->camera],
-//      ]);
 //
-//    }
+//      $r = preg_match('/^\d+/',$product->value,$matches);
+//
+//if (isset($matches[0])){
+//      DB::table('product_property')->where('product_id', $product->product_id)->where('property_id', 3)->update(['value'=>$matches[0]]);
+//    }}
 //
 //
 //  }
 
 
-  public function getSumOfProducts(Request $request): bool|int|string
+  public function getSumOfProducts(): bool|int|string
   {
 
     if (session()->get('sum')) {
@@ -54,7 +54,7 @@ class CartController extends Controller
 
     $items = CartActions::getCartItemsFromCookies();
 
-    if ($items[0]) {
+    if (isset($items[0])) {
 
       return Product::whereIn('id', $items)->sum('price');
 

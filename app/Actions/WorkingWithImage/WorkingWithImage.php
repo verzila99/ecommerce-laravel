@@ -4,16 +4,52 @@
 namespace App\Actions\WorkingWithImage;
 
 
-use App\Models\Product;
+use App\Models\Banner;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
 class WorkingWithImage
 {
+  public static function updateImages(Request $request, $product): array|\Illuminate\Http\RedirectResponse
+  {
+    $pathApp = 'app/public/uploads/images/';
+
+    if ($request->current) {
+
+      $toDelete = array_diff(explode(',', $product->images), $request->current);
+      if (!empty($toDelete)) {
+
+
+        foreach ($toDelete as $item) {
+
+
+          if (file_exists(storage_path($pathApp . $product->id . '/full/' . $item))) {
+            File::delete(storage_path($pathApp . $product->id . '/full/' . $item));
+          }
+          if (file_exists(storage_path($pathApp . $product->id . '/700x700/' . $item))) {
+            File::delete(storage_path($pathApp . $product->id . '/700x700/' . $item));
+          }
+          if (file_exists(storage_path($pathApp . $product->id . '/225x225/' . $item))) {
+            File::delete(storage_path($pathApp . $product->id . '/225x225/' . $item));
+          }
+          if (file_exists(storage_path($pathApp . $product->id . '/45x45/' . $item))) {
+            File::delete(storage_path($pathApp . $product->id . '/45x45/' . $item));
+          }
+
+        }
+      }
+    }
+
+    return self::storeImages($request, $product);
+
+  }
+
+
   public static function storeImages(Request $request, $product): array|\Illuminate\Http\RedirectResponse
   {
 
@@ -75,38 +111,162 @@ class WorkingWithImage
   }
 
 
-  public static function updateImages(Request $request, $product): array|\Illuminate\Http\RedirectResponse
+  public static function storeBanner(Request $request, $validated): \Illuminate\Http\RedirectResponse
   {
-    $pathApp = 'app/public/uploads/images/';
+    $banner= new Banner;
+    $banner->url = $validated['url'];
+    $banner->location = $validated['location'];
+    $banner->position = $validated['position'];
 
-    if ($request->current) {
+    $image = $request->image;
 
-      $toDelete = array_diff(explode(',', $product->images), $request->current);
-      if (!empty($toDelete)) {
+    $name = $image->getClientOriginalName();
+
+    $banner->image = $name;
+
+    $pathApp = 'app/public/uploads/banners/';
+
+    $path = 'public/uploads/banners/';
+
+    try {
+
+      if (!file_exists(storage_path($pathApp . $name))) {
 
 
-        foreach ($toDelete as $item) {
+      self::storeBannerImage($path,$pathApp,$image,$name);
 
+      } else {
 
-          if (file_exists(storage_path($pathApp . $product->id . '/full/' . $item))) {
-            File::delete(storage_path($pathApp . $product->id . '/full/' . $item));
-          }
-          if (file_exists(storage_path($pathApp . $product->id . '/700x700/' . $item))) {
-            File::delete(storage_path($pathApp. $product->id . '/700x700/' . $item));
-          }
-          if (file_exists(storage_path($pathApp . $product->id . '/225x225/' . $item))) {
-            File::delete(storage_path($pathApp . $product->id . '/225x225/' . $item));
-          }
-          if (file_exists(storage_path($pathApp . $product->id . '/45x45/' . $item))) {
-            File::delete(storage_path($pathApp. $product->id . '/45x45/' . $item));
-          }
-
-        }
+        return redirect()->back()->with('status', 'Файл с таким именем уже существует.');
       }
+    } catch (Exception $e) {
+
+      abort(500);
+
+    }
+    if(Banner::where('location', $banner->location)->where('position', $banner->position)->first() !== null){
+
+    DB::table('banners')->where('location',$banner->location)->where('position', '>=', $banner->position)->increment('position');
     }
 
-    return self::storeImages($request, $product);
+    $banner->save();
+
+    return redirect()->back()->with('status', 'Баннер добавлен!');
 
   }
+
+
+  public static function deleteBanner($banner): bool|\Illuminate\Http\RedirectResponse
+  {
+    $pathApp = 'app/public/uploads/banners/';
+
+    try {
+      if (file_exists(storage_path($pathApp . $banner->image))) {
+
+        File::delete(storage_path($pathApp . '/1152x300/' . $banner->image));
+        File::delete(storage_path($pathApp . $banner->image));
+      } else {
+
+        return redirect()->back()->with('status', 'Файла с таким именем нет.');
+      }
+    } catch (Exception $e) {
+
+      return redirect()->back()->with('status', 'Что-то пошло не так, попробуйте еще раз.');
+
+    }
+
+    $countBanners= Banner::where('location', $banner->location)->count();
+
+    $location =$banner->location;
+
+    $banner->delete();
+
+    Banner::orderBanners($countBanners,$location);
+
+    return redirect()->back()->with('status', 'Баннер удалён!');
+  }
+
+
+  public static function updateBanner($request, $validated)
+  {
+    $pathApp = 'app/public/uploads/banners/';
+    $path = 'public/uploads/banners/';
+
+    $banner = Banner::findOrFail($validated['id']);
+    $location = $banner->location;
+    $banner->url = $validated['url'];
+    $banner->location = $validated['location'];
+    $banner->position = $validated['position'];
+
+
+    if ($request->has('image')) {
+
+      $name = $banner->image;
+
+      try {
+        if (file_exists(storage_path($pathApp . $name))) {
+
+          File::delete(storage_path($pathApp . '/1152x300/' . $name));
+          File::delete(storage_path($pathApp . $name));
+
+        }
+
+      } catch (Exception $e) {
+
+        return redirect()->back()->with('status', 'Что-то пошло не так, попробуйте еще раз.');
+
+      }
+
+      $image = $request->image;
+
+      $name = $image->getClientOriginalName();
+
+      $banner->image = $name;
+
+      try {
+
+        if (!file_exists(storage_path($pathApp . $name))) {
+
+          self::storeBannerImage($path, $pathApp, $image, $name);
+
+        } else {
+
+          return redirect()->back()->with('status', 'Файл с таким именем уже существует.');
+        }
+      } catch (Exception $e) {
+
+        abort(500);
+
+      }
+    }
+    if (Banner::where('location', $banner->location)->where('position', $banner->position)->first() !== null) {
+
+      DB::table('banners')->where('location', $banner->location)->where('position', '>=', $banner->position)->increment('position');
+    }
+
+    $banner->save();
+
+    $countBanners = Banner::where('location', $location)->count();
+
+    Banner::orderBanners($countBanners,$location);
+
+    return redirect()->back()->with('status', 'Баннер обновлён!');
+
+  }
+
+
+  public static function storeBannerImage($path,$pathApp,$image,$name): void
+  {
+
+      $image->storeAs($path, $name);
+
+      if (!is_dir(storage_path($pathApp . '/1152x300'))) {
+        Storage::makeDirectory($path . '/1152x300');
+      }
+
+      Image::make($image)->fit(1152, 300, function ($constraint) {
+        $constraint->upsize();
+      })->save(storage_path($pathApp . '/1152x300/' . $name));
+    }
 
 }

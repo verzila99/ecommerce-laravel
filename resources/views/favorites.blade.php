@@ -5,181 +5,340 @@
 @section('title','Ecommerce shop')
 @section('content')
     <div class="container is-max-widescreen">
-@if (isset($productList))
+@if ($totalItems>0)
         <div class="category-filter__total is-flex
                 is-align-items-center is-size-4
-                has-text-grey-light
+                has-text-grey-light px-4
                 " >Найдено товаров: {{$totalItems}}</div >
+        <div
+          class="parent-category-list__sorting is-flex is-justify-content-flex-start is-align-items-center mt-3 px-4"
+        >
+          <p >Сортировать:</p >
+          @php
+            if(preg_match('/\?$/',url($requestUri))){
+                    $query = url($requestUri);
+            }
+            elseIf(preg_match('/&$/',url($requestUri))){
+                $query = url($requestUri);
+            }elseif(!preg_match('/[\?&]/',url($requestUri))){
+                $query = url($requestUri) . '?';
+            }else{
+                    $query = url($requestUri).'&';
+            }
+          @endphp
+          <a class=" button is-inverted sorting-button-touch is-hidden-desktop ml-3" >{{$sortingType}}</a >
+          <div class="category-list__sorting " >
+            <a href="{{ $query  . "sort_by=" .
+                    "popularity"}}"
+               class="button sort-button is-inverted @if($sortingType==='По популярности') is-primary @endif "
+               data-sort="popularity" >
+              По популярности
+            </a >
+
+            <a href="{{ $query  . "sort_by=" . "price"}}"
+               class="button sort-button is-inverted    is-flex is-align-content-center
+                @if($sortingType==='Сначала дешевле') is-primary @endif"
+               data-sort="price" > По цене
+              <span class="arrow arrow-up ml-3" >
+                       <svg id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                            x="0px" y="0px"
+                            viewBox="0 0 49.656 49.656"
+
+                            xml:space="preserve" >
+<g >
+	<polygon style="fill:#00AD97;"
+           points="48.242,35.122 45.414,37.95 24.828,17.364 4.242,37.95 1.414,35.122 24.828,11.707 	" />
+	<path style="fill:#00AD97;" d="M45.414,39.363L24.828,18.778L4.242,39.363L0,35.121l24.828-24.828l24.828,24.828L45.414,39.363z
+		 M24.828,15.95l20.586,20.585l1.414-1.414l-22-22l-22,22l1.414,1.414L24.828,15.95z" />
+</g >
+<g >
+</g >
+<g >
+</g >
+<g >
+</g >
+<g >
+</g >
+<g >
+</g >
+<g >
+</g >
+<g >
+</g >
+<g >
+</g >
+<g >
+</g >
+<g >
+</g >
+<g >
+</g >
+<g >
+</g >
+<g >
+</g >
+<g >
+</g >
+<g >
+</g >
+</svg >
+
+
+                    </span >
+            </a >
+
+            <a href="{{$query . "sort_by=" . "-price"}}"
+               class="button sort-button is-inverted   is-flex is-align-content-center
+                      @if($sortingType==='Сначала дороже') is-primary @endif"
+               data-sort="-price" >По цене
+              <span class="arrow arrow-down ml-3" >
+                        <svg id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                             x="0px" y="0px"
+                             viewBox="0 0 49.656 49.656"
+
+                             xml:space="preserve" >
+<g >
+	<polygon style="fill:#00AD97;"
+           points="48.242,35.122 45.414,37.95 24.828,17.364 4.242,37.95 1.414,35.122 24.828,11.707 	" />
+	<path style="fill:#00AD97;" d="M45.414,39.363L24.828,18.778L4.242,39.363L0,35.121l24.828-24.828l24.828,24.828L45.414,39.363z
+		 M24.828,15.95l20.586,20.585l1.414-1.414l-22-22l-22,22l1.414,1.414L24.828,15.95z" />
+</g >
+<g >
+</g >
+<g >
+</g >
+<g >
+</g >
+<g >
+</g >
+<g >
+</g >
+<g >
+</g >
+<g >
+</g >
+<g >
+</g >
+<g >
+</g >
+<g >
+</g >
+<g >
+</g >
+<g >
+</g >
+<g >
+</g >
+<g >
+</g >
+<g >
+</g >
+</svg >
+
+
+                    </span >
+            </a >
+
+            <a href="{{ $query  . "sort_by=" . "rating"}}"
+               class="button sort-button is-inverted @if($sortingType==='По рейтингу') is-primary @endif"
+               data-sort="rating" >По рейтингу</a >
+
+            <a href="{{ $query  . "sort_by=" . "newness"}}"
+               class="button sort-button is-inverted @if($sortingType==='По новизне') is-primary @endif"
+               data-sort="newness" >По новизне</a >
+          </div >
+        </div >
         @foreach( $productList as $product)
-            <div class="category-list__item box is-flex mt-3" >
-                <a href="/{{ $product->category . "/" .
+          <div class="category-list__item box is-flex is-align-items-center is-flex-wrap-wrap mt-3 columns" >
+            <a href="/{{$product->category . "/" .
                         $product->id
                          }}"
-                   class="category-list__item-image is-flex" >
+               class="category-list__item-image is-flex column is-one-third-desktop is-half-tablet" >
 
-                    <img
-                        src="{{ asset('storage/uploads/images/'.$product->id.'/225x225/' . explode(',',$product->images)
+              <img
+                src="{{ asset('storage/uploads/images/'.$product->id.'/225x225/' . explode(',',$product->images)
                 [0]) }}"
-                        alt=""
-                        srcset=""
-                    />
-                </a >
-                <div
-                    class="category-list__item-props is-flex
+                alt=""
+                srcset=""
+              />
+            </a >
+            <div
+              class="category-list__item-props column is-one-third-desktop is-half-tablet is-flex
                             is-flex-direction-column is-align-content-flex-end  is-justify-content-flex-start"
+            >
+              <h2 class="is-size-5 mt-5 has-text-weight-bold" >
+                {{ $product->title}}
+              </h2 >
+              <div class="is-flex is-align-items-center mt-2" >
+                <div
+                  class="stars-container is-flex is-justify-content-space-between is-align-items-center"
                 >
-                    <h2 class="is-size-6 mt-5" >
-                        {{ $product->title}}
-                    </h2 >
-                    <div class="is-flex is-align-items-center mt-2" >
-                        <div
-                            class="category-list__item-props-review is-flex is-justify-content-space-between is-align-items-center"
-                        >
-                            <i class="fas fa-star" ></i >
-                            <i class="fas fa-star" ></i >
-                            <i class="fas fa-star" ></i >
-                            <i class="far fa-star" ></i >
-                            <i class="far fa-star" ></i >
-                        </div >
-                        <div
-                            class="category-list__item-props-review rating ml-2"
-                        >
-                            {{  $product->product_views ?? 0 }}
-                        </div >
-                        <div
-                            class="category-list__item-props-review reviewers-number has-text-grey-light ml-2"
-                        >
-                            (7)
-                        </div >
-                        <div
-                            class="category-list__item-props-review has-text-grey-light ml-2"
-                        >
-                            Артикул {{ $product->vendorcode }}
-                        </div >
-                    </div >
-                    <div
-                        class="item-main-specs is-flex
+                  <div class="stars-inactive" >
+                    <i class="far fa-star" aria-hidden="true" ></i >
+                    <i class="far fa-star" aria-hidden="true" ></i >
+                    <i class="far fa-star" aria-hidden="true" ></i >
+                    <i class="far fa-star" aria-hidden="true" ></i >
+                    <i class="far fa-star" aria-hidden="true" ></i >
+
+                  </div >
+                  <div class="stars-active" style="width:50%" >
+                    <i class="fas fa-star" aria-hidden="true" ></i >
+                    <i class="fas fa-star" aria-hidden="true" ></i >
+                    <i class="fas fa-star" aria-hidden="true" ></i >
+                    <i class="fas fa-star" aria-hidden="true" ></i >
+                    <i class="fas fa-star" aria-hidden="true" ></i >
+
+                  </div >
+
+                </div >
+                <div
+                  class="category-list__item-props-review rating ml-2"
+                >
+                  {{  $product->views ?? 0 }}
+                </div >
+                <div
+                  class="category-list__item-props-review reviewers-number has-text-grey-light ml-2"
+                >
+                  (7)
+                </div >
+                <div
+                  class="category-list__item-props-review has-text-grey-light ml-2"
+                >
+                  Артикул {{ $product->vendorcode }}
+                </div >
+              </div >
+              <div
+                class="item-main-specs is-flex
                                 is-flex-direction-column
                                 is-justify-content-space-between
-                                is-align-items-flex-start mt-2"
-                    >
-                        <ul >
-                            @if($product->vendorcode)
-                                <li >
+                                is-align-items-flex-start "
+              >
+                <ul >
+                  @if($product->vendorcode)
+                    <li >
                             <span class="has-text-grey-light is-size-7"
                             >Артикул: </span
                             ><span >{{$product->vendorcode}}</span >
-                                </li >
-                            @endif
+                    </li >
+                  @endif
 
-                            @if($product->manufacturer)
-                                <li >
+                  @if($product->manufacturer)
+                    <li >
                             <span class="has-text-grey-light is-size-7"
                             >Производитель: </span
                             ><span
-                                        class="is-size-8" >{{$product->manufacturer}}</span >
-                                </li >
-                            @endif
-                              @foreach($product->properties  as $param)
+                        class="is-size-8" >{{$product->manufacturer}}</span >
+                    </li >
+                  @endif
+                  @foreach($product->properties  as $param)
 
-                                @if($param->name)
-                                  <li >
+                    @if($param->name)
+                      <li >
                             <span class="has-text-grey-light is-size-7 is-capitalized"
                             >{{ $param->name_ru}}: </span
                             ><span class="is-size-8" >{{$param->pivot->value}}</span >
-                                  </li >
-                                @endif
+                      </li >
+                    @endif
 
-                              @endforeach
-                        </ul >
+                  @endforeach
+                </ul >
+              </div >
+            </div >
+            <div class="category-list__item-price my-5 column is-one-third-desktop is-full-tablet is-flex-touch" >
+              <div
+                class="item-main-addtocart  field
+                                "
+              >
+                <div
+                  class="oldprice has-text-grey is-size-5 is-flex is-justify-content-space-between is-hidden-touch
+                 " >
 
-                    </div >
-                </div >
-                <div class="category-list__item-price my-5 " >
-                    <div
-                        class="item-main-addtocart ml-6 is-flex
-                                is-flex-direction-column
-                                is-justify-content-flex-start
-                                is-align-items-flex-start"
-                    >
-                        <div
-                            class="oldprice has-text-grey is-size-5 is-flex is-justify-content-space-between" >
+                  @php
+                    $oldPrice=(round((int)
+                            $product->price + round(
+                            (random_int
+                            (5,15) *  ((int)
+                            $product->price /
+                            100)))))
+                  @endphp
 
-                            @php
-                                $oldPrice=(round((int)
-                                        $product->price + round(
-                                        (random_int
-                                        (5,15) *  ((int)
-                                        $product->price /
-                                        100)))))
-                            @endphp
-
-                            <span class="oldprice-item" >{{
+                  <span class="oldprice-item " >{{
                                     number_format($oldPrice, 0,  ',', ' ')}}
                                         р.</span >
-                            <span class="tag is-success discount"
-                            >-{{ number_format(((int)$oldPrice - (int)
+                  <span class="tag is-success discount "
+                  >-{{ number_format(((int)$oldPrice - (int)
                                 $product->price), 0, ',', ' ')}} р.</span >
-                        </div >
+                </div >
 
-                        <div
-                            class="price has-text-weight-bold
-                                    is-size-3 mt-3" >
-                            {{ number_format(round((int)
-                                   $product->price), 0, ',', ' ')}}
-                            р.
-                        </div >
-                        <button class="button is-primary mt-5
+                <div
+                  class="price has-text-weight-bold
+                                    is-size-3" >
+                  {{ number_format(round((int)
+                         $product->price), 0, ',', ' ')}}
+                  р.
+                </div >
+
+                <a class="button is-primary mt-5
                                 add-to-cart"
-                                data-id="{{$product->id}}" >
-                            Добавить в корзину
-                        </button >
-                        @auth
-                            @if( !str_contains($favoritesStatusList,$product->id))
-                                <a class="favorites favorites-list light-link is-flex
+                   data-price="{{  $product->price }}"
+                   data-category="{{ $product->category }}"
+                   data-id="{{ $product->id}}" >
+                  Добавить в корзину
+                </a >
+                @can('updateProduct',App\Models\Product::class)
+                  <a
+                    href="{{'/product/'. $product->category .'/'.$product->id .'/edit'}}"
+                    class="button is-primary mt-5
+                                " >
+                    Редактировать
+                  </a >
+                @endcan
+                @auth
+                  @if(!in_array($product->id,explode(',',$favoritesStatusList)))
+                    <a class="favorites favorites-list light-link is-flex
                     is-align-items-center " data-category="{{
-                    $product->category }}"
-                                   data-productId="{{$product->id}}"
-                                   data-status="0" >
+                    $product->category_name }}"
+                       data-productId="{{$product->id}}"
+                       data-status="0" >
                         <span class="icon is-size-4 has-text-grey-lighter" >
                     <i class="far fa-heart" ></i >
                         </span >
-                                    <p class=" has-text-grey-lighter is-size-7
+                      <p class=" has-text-grey-lighter is-size-8
                         has-text-weight-bold ml-3"
-                                    >В избранное</p >
-                                </a >
-                            @else
-                                <a class="favorites favorites-list light-link is-flex
+                      >В избранное</p >
+                    </a >
+                  @else
+                    <a class="favorites favorites-list light-link is-flex
                     is-align-items-center " data-category="{{
-                    $product->category }}"
-                                   data-productId="{{$product->id}}"
-                                   data-status="1" >
+                    $product->category_name }}"
+                       data-productId="{{$product->id}}"
+                       data-status="1" >
                         <span class="icon is-size-4 has-text-grey-lighter" >
                     <i class="fas fa-heart" ></i >
 
                         </span >
-                                    <p class=" has-text-grey-lighter is-size-7
+                      <p class=" has-text-grey-lighter is-size-8
                         has-text-weight-bold ml-3"
-                                    >В избранном</p >
-                                </a >
+                      >В избранном</p >
+                    </a >
 
-                            @endif
-                        @endauth
-                        @guest
-                            <a id="favorite-guest" class="favorites favorites-list light-link is-flex
+                  @endif
+                @endauth
+                @guest
+                  <a id="favorite-guest" class="favorites favorites-list light-link is-flex
                     is-align-items-center" >
                         <span class="icon is-size-4 has-text-grey-lighter" >
                     <i class="far fa-heart" ></i >
                         </span >
-                                <p class=" has-text-grey-lighter is-size-7
+                    <p class=" has-text-grey-lighter is-size-8
                         has-text-weight-bold ml-3"
-                                >В
-                                 избранное</p >
-                            </a >
-                        @endguest
-                    </div >
-                </div >
+                    >В
+                     избранное</p >
+                  </a >
+                @endguest
+              </div >
             </div >
+          </div >
         @endforeach
 
         {{$paginator->appends(request()->query())->links('paginate.paginate')}}

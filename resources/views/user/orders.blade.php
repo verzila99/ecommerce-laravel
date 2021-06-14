@@ -7,7 +7,7 @@
 
   <div class="container is-max-widescreen" >
     <div class="table-container" >
-      @if (!is_empty($ordersList))
+      @if (!empty($ordersList))
         <table class="admin-table mt-5" >
           <thead >
           <tr >

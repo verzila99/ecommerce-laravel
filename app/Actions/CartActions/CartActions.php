@@ -13,7 +13,7 @@ class CartActions
 
   public static function getCartItemsFromCookies(): array
   {
-    if (Request::class->cookie('cart')) {
+    if (Cookie::get('cart')) {
 
       $items = is_array(explode(',', Cookie::get('cart'))) ? explode(',', Cookie::get('cart')) : [Cookie::get('cart')];
 

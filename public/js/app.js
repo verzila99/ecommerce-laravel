@@ -3,7 +3,7 @@ axios.defaults.withCredentials = true;
 renderCartButton();
 
 //login modal
-let profileButton = document.querySelector(".login"),
+let profileButton = document.querySelectorAll(".login"),
   closeModalArea = document.querySelector(".modal-background"),
   closeModalButton = document.querySelector(".delete"),
   loginTab = document.querySelector(".login-tab"),
@@ -13,7 +13,7 @@ let profileButton = document.querySelector(".login"),
   modal = document.querySelector(".modal"),
   htmlElement = document.querySelector("html");
 
-if (profileButton) {
+if (loginTab) {
   loginTab.addEventListener("click", () => {
     registerTab.classList.remove("is-active");
     registerModal.style.display = "none";
@@ -28,10 +28,12 @@ if (profileButton) {
   });
 }
 if (profileButton) {
-  profileButton.addEventListener("click", () => {
+  profileButton.forEach((el)=>{
+  el.addEventListener("click", () => {
     modal.classList.add("is-active");
     htmlElement.classList.add("is-clipped");
   });
+});
 }
 if (closeModalButton) {
   closeModalButton.addEventListener("click", () => {
@@ -94,7 +96,6 @@ if (loginButton) {
         remember_token: rememberToken,
       }).then(response => {
         if (response.status === 200) {
-          console.log(response);
           window.location.reload(true);
         }
       })
@@ -154,7 +155,7 @@ favorites.forEach((elem) => {
                             let favoritesStatus = +elem.getAttribute('data-status');
                             if (favoritesStatus === 1) {
 
-                              axios.delete('/removefromfavorites/' , {data: {productId: productId}}).then(response => {
+                              axios.delete('/removefromfavorites/', {data: {productId: productId}}).then(response => {
                                 if (response.status === 200) {
                                   console.log(response);
                                   let heart = document.createElement('i');
@@ -254,20 +255,20 @@ function renderCartButton() {
   let cartNavbar = document.getElementById('cart-navbar'),
     cartNavbarText = cartNavbar.querySelector('.cart-text');
 
-    axios.get('/api/cart/sum-of-products')
-         .then(res => {
+  axios.get('/api/cart/sum-of-products')
+       .then(res => {
+         console.log(res.data);
+         if (res.status === 200 && res.data === 0) {
+           cartNavbarText.style.fontWeight = '400';
+           cartNavbarText.innerText = 'Корзина';
+         } else {
+           cartNavbarText.style.fontWeight = '700';
+           cartNavbarText.innerText = res.data + ' р.';
+         }
 
-           if (res.status === 200 && res.data === 0) {
-             cartNavbarText.style.fontWeight = '400';
-             cartNavbarText.innerText = 'Корзина';
-           } else {
-             cartNavbarText.style.fontWeight = '700';
-             cartNavbarText.innerText = res.data + ' р.';
-           }
-
-         }).catch(error => {
-      console.log(error);
-    });
+       }).catch(error => {
+    console.log(error);
+  });
 
 }
 
@@ -289,19 +290,19 @@ searchInput.addEventListener('keyup', (elem) => {
   }
 
   if (searchString) {
-    timeout = setTimeout(getSearchResult, 1000);
-  }else{
-    closeSearchResults();
+    timeout = setTimeout(getSearchResult, 800);
+  } else {
+    closeModals();
   }
 
   function getSearchResult() {
 
-    axios.get('/api/search?search_string=' + searchString)
+    axios.get('/api/search?search_string=' + encodeURIComponent(searchString))
          .then(response => {
 
            if (response.status === 200) {
 
-             if(response.data.length === 0) {
+             if (response.data.length === 0) {
 
                while (searchParent.lastChild) {
                  searchParent.lastChild.remove();
@@ -315,14 +316,17 @@ searchInput.addEventListener('keyup', (elem) => {
 
              } else {
 
-               while(searchParent.lastChild){
+               while (searchParent.lastChild) {
                  searchParent.lastChild.remove();
                }
 
                response.data.forEach((el) => {
                  let div = document.createElement('a');
+
                  div.classList.add('search-item');
-                 div.innerHTML = el.title;
+
+                 div.innerHTML = `<p>${el.title}</p> <b>${el.price} р.</b>`;
+
                  div.setAttribute('href', `/${el.category}/${el.id}`);
                  searchParent.appendChild(div);
 
@@ -337,7 +341,7 @@ searchInput.addEventListener('keyup', (elem) => {
   }
 });
 closeModal.addEventListener('click', () => {
-  closeSearchResults();
+  closeModals();
 });
 
 function openSearchResults() {
@@ -346,33 +350,73 @@ function openSearchResults() {
   closeModal.style.display = 'block';
 }
 
-function closeSearchResults(){
+function closeModals() {
   html.classList.remove('is-clipped');
   closeModal.style.display = 'none';
   searchParent.style.display = 'none';
+  catalogTrigger.parentElement.classList.remove('is-active');
+  document.querySelector('.category-list__sorting')?.classList.remove('showing');
+  document.querySelector('.category-filter__sidebar')?.classList.remove('show-sidebar');
+  closeModal.classList.remove('filter-active');
 }
 
 //news subscription
 
-let emailNewsSubscription =document.querySelector('#email-news-subscription');
+let emailNewsSubscription = document.querySelector('#email-news-subscription');
 let submitNewsSubscription = document.querySelector('#submit-news-subscription');
 
 if (submitNewsSubscription) {
-  submitNewsSubscription.addEventListener('click',(e)=>{
-      e.preventDefault();
+  submitNewsSubscription.addEventListener('click', (e) => {
+    e.preventDefault();
     console.log(emailNewsSubscription.value);
-      axios.post('/subscribe',{email:emailNewsSubscription.value}).then((res)=>{
+    axios.post('/subscribe', {email: emailNewsSubscription.value}).then((res) => {
 
-        if(res.status===200){
+      if (res.status === 200) {
 
         submitNewsSubscription.parentNode.parentNode.parentElement.remove();
 
-        document.querySelector('.subscription').innerHTML=`<h3 class="is-size-3 has-text-success">Подписка оформлена!</h3>`;
-        }
-      }).catch(err=> {
+        document.querySelector('.subscription').innerHTML = `<h3 class="is-size-3 has-text-success">Подписка оформлена!</h3>`;
+      }
+    }).catch(err => {
 
-        submitNewsSubscription.parentNode.innerHTML=`<p class="has-text-warning">${err.response.data}</p>`;
-        console.log(err.response);
-      });
+      submitNewsSubscription.parentNode.innerHTML = `<p class="has-text-warning">${err.response.data}</p>`;
+      console.log(err.response);
+    });
   });
+}
+// catalog trigger
+let catalogTrigger = document.querySelector('.catalog-trigger');
+if (catalogTrigger) {
+catalogTrigger.addEventListener('click',()=>{
+  if(catalogTrigger.classList.contains('is-active')){
+    catalogTrigger.parentElement.classList.remove('is-active');
+    closeModal.style.display = 'none';
+  }else{
+  catalogTrigger.parentElement.classList.add('is-active');
+  closeModal.style.display = 'block';
+  }
+});
+}
+
+//sorting trigger
+let sortingTouchButton =document.querySelector('.sorting-button-touch');
+if(sortingTouchButton){
+sortingTouchButton.addEventListener('click',()=>{
+  document.querySelector('.category-list__sorting').classList.add('showing');
+  html.classList.add('is-clipped');
+  closeModal.style.display = 'block';
+});
+
+}
+
+//filter trigger
+let filterShowButton =document.querySelector('#category-filter__show');
+if(filterShowButton){
+
+filterShowButton.addEventListener('click',()=>{
+  document.querySelector('.category-filter__sidebar').classList.add('show-sidebar');
+  html.classList.add('is-clipped');
+  closeModal.style.display = 'block';
+  closeModal.classList.add('filter-active');
+});
 }

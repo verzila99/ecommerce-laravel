@@ -1,11 +1,8 @@
 @component('mail::message')
 # Introduction
 
-Подравляем!Вы подписались на рассылку новостей об акциях и скидках.
+You just subscribed to newsletter!
 
-@component('mail::button', ['url' => ''])
-Button Text
-@endcomponent
 
 Thanks,<br>
 {{ config('app.name') }}

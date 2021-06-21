@@ -38,6 +38,9 @@ abbr[title] {
     border: solid 1px #d9dadc;
     min-height: 450px;
 }
+.cart-summary:last-child{
+  border-left: none!important;
+}
 .cart-continue {
     width: 100%;
 }

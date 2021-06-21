@@ -14,7 +14,7 @@
       @method('put')
       <input type="hidden" name="id" value="{{$product->id}}" >
       <div class="field" >
-        <label class="label" >Выберите категорию</label >
+        <label class="label" >{{__('Choose a category')}}</label >
         <div class="control" >
           <div class="select is-fullwidth" >
 
@@ -25,7 +25,7 @@
                     @if( $category->category_name === $product->category)
                     selected
                     @endif
-                >{{$category->category_name_ru}}</option >
+                >{{$category->category_name}}</option >
               @endforeach
             </select >
 
@@ -34,26 +34,26 @@
       </div >
 
       <div class="field" >
-        <label class="label" >Наименование</label >
+        <label class="label" >{{__('Title')}}</label >
         <div class="control" >
           <input class="input" type="text" placeholder="Наименование" name="title" value="{{ $product->title}}" >
         </div >
       </div >
       <div class="field" >
-        <label class="label" >Производитель</label >
+        <label class="label" >{{__('Manufacturer')}}</label >
         <div class="control" >
           <input class="input" type="text" placeholder="Производитель" name="manufacturer"
                  value="{{ $product->manufacturer }}" >
         </div >
       </div >
       <div class=" field" >
-        <label class="label" >Цена</label >
+        <label class="label" >{{__('Price')}}</label >
         <div class="control" >
           <input class="input" type="text" placeholder="Цена" name="price" value="{{ $product->price}}" >
         </div >
       </div >
       <div class=" field" >
-        <label class="label" >Артикул</label >
+        <label class="label" >{{__('Vendorcode')}}</label >
         <div class="control" >
           <input class="input" type="text" placeholder="Артикул" name="vendorcode" value="{{$product->vendorcode}}" >
         </div >
@@ -62,7 +62,7 @@
       <div class="category-props" >
         @foreach($product->properties as $param)
           <div class="field" >
-            <label class="label" >{{$param->name_ru}}</label >
+            <label class="label" >{{$param->name}}</label >
             <div class="control" >
               <input class="input" type="text" placeholder="{{$param->name}}"
                      name="{{$param->name}}" value="{{$param->pivot->value}}" >
@@ -101,7 +101,7 @@
                   <i class="fas fa-upload" ></i >
                 </span >
                 <span class="file-label" >
-                  Выберите файл
+                  {{__('Choose a file')}}
                 </span >
               </span >
               <span class="file-name" >
@@ -113,14 +113,14 @@
               </span >
 
             <a id="add-file-input" class="button is-dark field" >
-              Добавить
+              {{__('Add')}}
             </a >
           </div >
       </div >
 
       <div class="field is-grouped" >
         <div class="control" >
-          <button type="submit" class="button is-success" >Отправить</button >
+          <button type="submit" class="button is-success" >{{__('Save')}}</button >
         </div >
       </div >
 
@@ -129,7 +129,7 @@
         @csrf
         @method('delete')
         <input type="hidden" name="id" value="{{$product->id}}" >
-        <button type="submit" class="button is-danger">Удалить товар</button>
+        <button type="submit" class="button is-danger">{{__('Delete')}}</button>
       </form >
   </div >
 @endsection

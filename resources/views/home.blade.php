@@ -1,6 +1,6 @@
 
    @extends('layouts.default')
-   @section('scripts', )
+   @section('scripts')
         <script defer src="{{ asset('js/app.js')}}"></script>
         <script defer src="{{ asset('js/sliderTop.js')}}"></script>
 
@@ -40,7 +40,7 @@
     </div>
 </div>
 <section class="smartphones-section container is-max-widescreen mt-5 px-3">
-    <h2 class="has-text-left has-text-weight-bold is-size-3">Смартфоны</h2>
+    <h2 class="has-text-left has-text-weight-bold is-size-3">{{__('Smartphones')}}</h2>
     <div class="columns is-mobile is-multiline is-centered my-4">
         @foreach ($smartphones as $smartphone)
 
@@ -74,7 +74,7 @@
     </div>
 </section>
 <section class="earphones-section container is-max-widescreen px-3">
-    <h2 class="has-text-left has-text-weight-bold is-size-3">Умные часы</h2>
+    <h2 class="has-text-left has-text-weight-bold is-size-3">{{__('Smartwatches')}}</h2>
     <div class="columns is-mobile is-multiline is-centered my-4">
         @foreach ($smartwatches as $smartwatch)
         <div class="column is-one-fifth-desktop is-one-quarter-tablet is-half-mobile">
@@ -168,7 +168,7 @@
         >
             <i class="fas fa-coins"></i>
             <h4 class="has-text-grey-light has-text-weight-bold">
-                Бонусные рубли за покупки
+{{__('Shopping bonuses')}}
             </h4>
         </div>
         <div
@@ -176,7 +176,7 @@
         >
             <i class="fas fa-tags"></i>
             <h4 class="has-text-grey-light has-text-weight-bold">
-                Самые выгодные цены
+{{__('Best prices')}}
             </h4>
         </div>
         <div
@@ -184,7 +184,7 @@
         >
             <i class="fas fa-truck"></i>
             <h4 class="has-text-grey-light has-text-weight-bold">
-                Товары разных продавцов одной доставкой
+                {{__('Products of various sellers of one delivery')}}
             </h4>
         </div>
         <div
@@ -192,42 +192,40 @@
         >
             <i class="fas fa-check-circle"></i>
             <h4 class="has-text-grey-light has-text-weight-bold">
-                2000 проверенных продавцов на одной площадке
+{{__('2000 proven sellers on the same site')}}
             </h4>
         </div>
     </div>
 </section>
 <section class="subscription  is-flex is-justify-content-center is-align-items-center px-6">
     <div class="container columns is-max-widescreen is-flex">
-        <div class="column subscription-block is-flex is-6-desktop is-hidden-tablet is-hidden-mobile">
+        <div class="column subscription-block is-flex is-half-desktop is-hidden-touch">
             <div
                 class="subscription-block__text text is-flex is-flex-direction-column is-justify-content-center
                 is-align-items-flex-start"
             >
                 <h3 class="has-text-weight-bold is-size-4">
-                    Подпишись и узнавай
+                  {{__('Subscribe and find out')}}
                 </h3>
-                <h5 class="is-size-6">о выгодных акциях и суперпредложениях</h5>
+                <h5 class="is-size-6">{{__('about best deals and promotions')}}</h5>
             </div>
             <img src="{{ asset('storage/uploads/svg/mails.svg') }}" alt="" srcset="" />
         </div>
         <div
             class="column subscription-form is-flex is-flex-direction-column is-justify-content-center
             is-align-items-end
-               is-6-desktop  is-12-tablet"
+               is-half-desktop  is-full-tablet"
         >
             <form action="" method="post" class="is-flex field">
               @csrf
-              <label for="email-news-subscription" style="display:none">Введите свой Email</label >
+              <label for="email-news-subscription" style="display:none">{{__('Enter yuor email')}}</label >
               <input class="input" id="email-news-subscription" type="email" name="email" placeholder="Введите Email" />
-              <a id="submit-news-subscription" class="button is-warning ml-3"> Подписаться </a>
+              <a id="submit-news-subscription" class="button is-warning ml-3"> {{__('Subscribe')}} </a>
             </form>
 
             <div class="subscription-form__text mt-1">
                 <p>
-                    Нажимая кнопку «Подписаться» вы соглашаетесь с условиями
-                    использования сайта и политикой обработки персональных
-                    данных.
+                    {{__("Press the Subscribe button you agree to the conditions use of the site and personal processing policies data.")}}
                 </p>
             </div>
         </div>

@@ -1,10 +1,7 @@
-
 * {
   scrollbar-width: thin;
   scrollbar-color: $dark $white;
 }
-
-
 
 *::-webkit-scrollbar {
   height: 12px;
@@ -69,24 +66,21 @@ input:focus {
 }
 a{
     color: $grey;
-
-
 }
-
+.menu-list a.is-active {
+  background-color: $dark;
+  color: $white;
+}
 .button .is-primary {
   color: $primary !important;
 }
 .in-cart-button {
     background-color: $success!important;
     color: $black!important;
-
 }
 .is-size-8 {
     font-size: .8rem;
 }
-
-
-
 .card-content__title {
     color: #000;
     height: 50px;

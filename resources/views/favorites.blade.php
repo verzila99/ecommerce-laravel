@@ -9,36 +9,23 @@
         <div class="category-filter__total is-flex
                 is-align-items-center is-size-4
                 has-text-grey-light px-4
-                " >Найдено товаров: {{$totalItems}}</div >
+                " >{{__('Items found')}}: {{$totalItems}}</div >
         <div
           class="parent-category-list__sorting is-flex is-justify-content-flex-start is-align-items-center mt-3 px-4"
         >
-          <p >Сортировать:</p >
-          @php
-            if(preg_match('/\?$/',url($requestUri))){
-                    $query = url($requestUri);
-            }
-            elseIf(preg_match('/&$/',url($requestUri))){
-                $query = url($requestUri);
-            }elseif(!preg_match('/[\?&]/',url($requestUri))){
-                $query = url($requestUri) . '?';
-            }else{
-                    $query = url($requestUri).'&';
-            }
-          @endphp
+          <p >{{__('Order by')}}:</p >
           <a class=" button is-inverted sorting-button-touch is-hidden-desktop ml-3" >{{$sortingType}}</a >
           <div class="category-list__sorting " >
-            <a href="{{ $query  . "sort_by=" .
+            <a href="{{ $requestUri  . "sort_by=" .
                     "popularity"}}"
                class="button sort-button is-inverted @if($sortingType==='По популярности') is-primary @endif "
                data-sort="popularity" >
-              По популярности
+              {{__('Popularity')}}
             </a >
-
-            <a href="{{ $query  . "sort_by=" . "price"}}"
+            <a href="{{ $requestUri  . "sort_by=" . "price"}}"
                class="button sort-button is-inverted    is-flex is-align-content-center
                 @if($sortingType==='Сначала дешевле') is-primary @endif"
-               data-sort="price" > По цене
+               data-sort="price" > {{__('messages.Price')}}
               <span class="arrow arrow-up ml-3" >
                        <svg id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                             x="0px" y="0px"
@@ -87,10 +74,10 @@
                     </span >
             </a >
 
-            <a href="{{$query . "sort_by=" . "-price"}}"
+            <a href="{{$requestUri . "sort_by=" . "-price"}}"
                class="button sort-button is-inverted   is-flex is-align-content-center
                       @if($sortingType==='Сначала дороже') is-primary @endif"
-               data-sort="-price" >По цене
+               data-sort="-price" >{{__('messages.Price')}}
               <span class="arrow arrow-down ml-3" >
                         <svg id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                              x="0px" y="0px"
@@ -139,13 +126,13 @@
                     </span >
             </a >
 
-            <a href="{{ $query  . "sort_by=" . "rating"}}"
+            <a href="{{ $requestUri  . "sort_by=" . "rating"}}"
                class="button sort-button is-inverted @if($sortingType==='По рейтингу') is-primary @endif"
-               data-sort="rating" >По рейтингу</a >
+               data-sort="rating" >{{__('Rating')}}</a >
 
-            <a href="{{ $query  . "sort_by=" . "newness"}}"
+            <a href="{{ $requestUri  . "sort_by=" . "newness"}}"
                class="button sort-button is-inverted @if($sortingType==='По новизне') is-primary @endif"
-               data-sort="newness" >По новизне</a >
+               data-sort="newness" >{{__('Newness')}}</a >
           </div >
         </div >
         @foreach( $productList as $product)
@@ -201,11 +188,7 @@
                 >
                   (7)
                 </div >
-                <div
-                  class="category-list__item-props-review has-text-grey-light ml-2"
-                >
-                  Артикул {{ $product->vendorcode }}
-                </div >
+
               </div >
               <div
                 class="item-main-specs is-flex
@@ -217,15 +200,15 @@
                   @if($product->vendorcode)
                     <li >
                             <span class="has-text-grey-light is-size-7"
-                            >Артикул: </span
-                            ><span >{{$product->vendorcode}}</span >
+                            >{{__('Vendorcode')}}: </span
+                            ><span class="is-size-8">{{$product->vendorcode}}</span >
                     </li >
                   @endif
 
                   @if($product->manufacturer)
                     <li >
                             <span class="has-text-grey-light is-size-7"
-                            >Производитель: </span
+                            >{{__('Manufacturer')}}: </span
                             ><span
                         class="is-size-8" >{{$product->manufacturer}}</span >
                     </li >
@@ -235,7 +218,7 @@
                     @if($param->name)
                       <li >
                             <span class="has-text-grey-light is-size-7 is-capitalized"
-                            >{{ $param->name_ru}}: </span
+                            >{{ $param->name}}: </span
                             ><span class="is-size-8" >{{$param->pivot->value}}</span >
                       </li >
                     @endif
@@ -283,14 +266,14 @@
                    data-price="{{  $product->price }}"
                    data-category="{{ $product->category }}"
                    data-id="{{ $product->id}}" >
-                  Добавить в корзину
+                  {{__('Add to cart')}}
                 </a >
                 @can('updateProduct',App\Models\Product::class)
                   <a
                     href="{{'/product/'. $product->category .'/'.$product->id .'/edit'}}"
                     class="button is-primary mt-5
                                 " >
-                    Редактировать
+                    {{__('Edit')}}
                   </a >
                 @endcan
                 @auth
@@ -305,7 +288,7 @@
                         </span >
                       <p class=" has-text-grey-lighter is-size-8
                         has-text-weight-bold ml-3"
-                      >В избранное</p >
+                      >{{__('Add to favorite')}}</p >
                     </a >
                   @else
                     <a class="favorites favorites-list light-link is-flex
@@ -319,7 +302,7 @@
                         </span >
                       <p class=" has-text-grey-lighter is-size-8
                         has-text-weight-bold ml-3"
-                      >В избранном</p >
+                      >{{__('In favorite')}}</p >
                     </a >
 
                   @endif
@@ -332,8 +315,7 @@
                         </span >
                     <p class=" has-text-grey-lighter is-size-8
                         has-text-weight-bold ml-3"
-                    >В
-                     избранное</p >
+                    >{{__('Add to favorite')}}</p >
                   </a >
                 @endguest
               </div >
@@ -346,11 +328,11 @@
             <section
                 class="is-flex is-flex-direction-column is-justify-content-center is-align-items-center order-success"
             >
-                <h1 class="noitems-title" >Здесь пока пусто...</h1 >
+                <h1 class="noitems-title" >{{__('No items found')}}.</h1 >
                 <h2 class="has-text-grey has-text-weight-bold is-size-5 mt-6" >
-                    Добавьте товары в избранное.
+                  {{__('Add items to favorite')}}
                 </h2 >
-                <a href="/" class="button is-warning mt-6" >На главную</a >
+                <a href="/" class="button is-warning mt-6" >{{__('Home')}}</a >
             </section >
     </div>
 

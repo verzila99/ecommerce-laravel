@@ -19,7 +19,7 @@ class SearchFilter
         return $query->where('price', '<', $priceTo);
       })->when($sortBy, function ($query, $sortBy) {
         if ($sortBy === 'popularity') {
-          return $query->orderBy('product_views', 'desc');
+          return $query->orderBy('views', 'desc');
         }
         if ($sortBy === 'price') {
           return $query->orderBy('price', 'asc');
@@ -27,14 +27,14 @@ class SearchFilter
         if ($sortBy === '-price') {
           return $query->orderBy('price', 'desc');
         }
-        if ($sortBy === 'created_at') {
+        if ($sortBy === 'newness') {
           return $query->orderBy('created_at', 'desc');
         }
 
         return null;
 
       }, function ($query) {
-        return $query->orderBy('product_views', 'desc');
+        return $query->orderBy('views', 'desc');
       });
 
   }

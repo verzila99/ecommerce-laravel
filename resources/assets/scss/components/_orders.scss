@@ -1,0 +1,39 @@
+.product-title{
+  flex-grow: 1;
+}
+.product-quantity{
+  width: 40px;
+}
+.product-price{
+  width: 80px;
+}
+.product-sum{
+  width: 80px;
+}
+.order-title{
+  height: 60px;
+  border-radius: 3px;
+  border:1px solid $success  ;
+  cursor: pointer;
+}
+.order-info{
+  border-bottom: 1px solid $grey-light;
+
+}
+.products{
+  border-bottom: 1px solid $grey-light;
+
+}
+.orders{
+  min-height: 60vh;
+}
+.order{
+  background-color: $white;
+  overflow-y: hidden;
+  transition: height .4s ease-in-out;
+  height: 60px;
+
+}
+.order-container{
+  border:1px solid $grey-light;
+}

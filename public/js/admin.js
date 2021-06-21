@@ -15,9 +15,9 @@ if (categorySelect) {
            response.data.forEach((el => {
              let div = document.createElement('div');
              div.classList.add('field');
-             div.innerHTML = ` <label class="label" >${el.name_ru}</label >
+             div.innerHTML = ` <label class="label" >${el.name}</label >
       <div class="control" >
-        <input class="input" type="text" placeholder="${el.name_ru}"  name="${el.name}">
+        <input class="input" type="text" placeholder="${el.name}"  name="${el.name}">
       </div >`;
              categoryProps.appendChild(div);
            }));
@@ -39,7 +39,7 @@ function cloneFileInput() {
   document.querySelector('.file-inputs').lastElementChild.lastElementChild.addEventListener('click', (e) => {
     let newDiv = e.target.parentNode.cloneNode(true);
      let child = e.target.parentNode.parentNode.appendChild(newDiv);
-    child.querySelector('span[class=file-label]').textContent = 'Выберите файл';
+    child.querySelector('span[class=file-label]').textContent = 'Choose a file';
     child.querySelector('span[class=file-name]').textContent = '';
     child.querySelector('.file-image').src ='';
 
@@ -67,3 +67,20 @@ function deleteImage() {
     });
   });
 }
+
+//  active tab
+
+const adminTabs = document.querySelectorAll('.admin-menu__item');
+let urlObject = new URL(document.location.href);
+console.log(urlObject);
+let path = urlObject.pathname;
+
+adminTabs.forEach(elem => {
+  if (elem.getAttribute('data-path') === path) {
+    elem.classList.add('is-active');
+
+  } else if (elem.classList.contains('is-active')) {
+
+    elem.classList.remove('is-active');
+  }
+});

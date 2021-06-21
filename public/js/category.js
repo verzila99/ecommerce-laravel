@@ -79,25 +79,11 @@ showMoreButtons.forEach((elem) => {
 
 });
 
-// Sorting active tab
-
-const sortButtons = document.querySelectorAll('.sort-button');
-let urlObject = new URL(document.location.href);
-
-let urlParams = urlObject.searchParams;
-let sort = urlParams.get("sort_by");
-sortButtons.forEach(elem => {
-    if (elem.getAttribute('data-sort') === sort) {
-        elem.classList.add('is-primary');
-
-    } else if (elem.classList.contains('is-primary')) {
-
-        elem.classList.remove('is-primary');
-    }
-});
 
 
 // Filtering
+let urlObject = new URL(document.location.href);
+let urlParams = urlObject.searchParams;
 let queryString = decodeURI(urlParams.toString());
 let priceFrom = document.querySelector('#price_from');
 let priceTo = document.querySelector('#price_to');

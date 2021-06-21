@@ -30,37 +30,56 @@
   <title >Admin panel </title >
 </head >
 <body >
-<div class="admin">
-  <div class="admin-sidebar">
+<div class="admin" >
+  <div class="admin-sidebar" >
     <aside class="menu" >
-      <a href="{{ route('home') }}" class="button is-success my-4" >На главную</a >
+      <a href="{{ route('home') }}" class="button is-success my-4" >{{__('Home')}}</a >
       <p class="menu-label" >
-        General
+        {{__('Orders')}}
       </p >
       <ul class="menu-list" >
-        <li ><a href="{{ route('orders')}}" class="admin-menu__item" >Заказы</a ></li >
-        <li ><a href="{{ route('createProduct')}}" class="admin-menu__item"  >Добавить товар</a ></li >
+        <li >
+          <a href="{{ route('orders')}}" data-path="/orders" class="admin-menu__item" >{{__('Orders list')}}</a >
+        </li >
+        <li >
+          <a href="{{ route('createProduct')}}" data-path="/product/create" class="admin-menu__item" >{{__('Add a
+          product')}}</a >
+        </li >
       </ul >
       <p class="menu-label" >
-        Категории
+        {{__('Categories')}}
       </p >
       <ul class="menu-list" >
-@foreach($categories as $category)
-        <li ><a href="{{'/'.$category->category_name}}" class="admin-menu__item is-capitalized">{{$category->category_name_ru}}</a ></li >
-   @endforeach
+        @foreach($categories as $category)
+          <li ><a href="{{'/'.$category->category_name}}" data-path="{{'/'.$category->category_name}}"
+                  class="admin-menu__item
+        is-capitalized" >{{$category->category_name}}</a ></li >
+        @endforeach
       </ul >
       <p class="menu-label" >
-       Баннеры>
+        {{__('Banners')}}
       </p >
       <ul class="menu-list" >
-        <li ><a href="{{ route('indexBanner') }}" class="admin-menu__item">Список баннеров</a ></li >
-        <li ><a href="{{ route('createBanner') }}" class="admin-menu__item">Добавить баннер</a ></li >
+        <li ><a href="{{ route('indexBanner') }}" data-path="/banner" class="admin-menu__item" >{{__('Banners list')
+        }}</a
+          ></li >
+        <li ><a href="{{ route('createBanner') }}" data-path="/banner/create" class="admin-menu__item" >{{__('Add a
+        banner')}}</a >
+        </li >
+      </ul >
+      <p class="menu-label" >
+        {{__('Users')}}
+      </p >
+      <ul class="menu-list" >
+        <li ><a href="{{ route('indexUser') }}" data-path="/user" class="admin-menu__item" >{{__('Users list')}}</a
+          ></li >
+
       </ul >
     </aside >
-  </div>
-  <div class="admin-modal__group">
+  </div >
+  <div class="admin-modal__group" >
     @yield('content')
-  </div>
-</div>
+  </div >
+</div >
 </body >
 </html >

@@ -6,7 +6,7 @@
 @section('content')
 
     <div class="container is-max-widescreen" >
-        <h1 class="is-size-3 has-text-weight-bold my-4" >Профиль</h1 >
+        <h1 class="is-size-3 has-text-weight-bold my-4" >{{__('Profile')}}</h1 >
         <div class="columns profile-column" >
             <div class="column is-one-third block is-flex is-flex-direction-column is-justify-content-space-between
             is-align-items-flex-start mb-4" >
@@ -18,7 +18,7 @@
                     @csrf
                     <input type="hidden" name="_method" value="PUT" >
                     <div class="field" >
-                        <label for="name" class="label has-text-grey" >Имя</label >
+                        <label for="name" class="label has-text-grey" >{{__('Name')}}</label >
                         <p class="control has-icons-left" >
                             <input id="name" class="input @error('name') is-danger @enderror" name="name"
                                    type="text"
@@ -49,7 +49,7 @@
                         @enderror
                     </div >
                     <div class="field" >
-                        <label for="password" class="label has-text-grey" >Пароль</label >
+                        <label for="password" class="label has-text-grey" >{{__('Password')}}</label >
                         <p class="control has-icons-left" >
                             <input
                                 id="password"
@@ -68,7 +68,7 @@
                     </div >
                     <div class="field" >
                         <label for="confirmation" class="label has-text-grey" >
-                            Подтвердите пароль</label >
+                          {{__('Password again')}}</label >
                         <p class="control has-icons-left" >
                             <input
                                 id="confirmation"
@@ -88,7 +88,7 @@
                     <div class="field" >
                         <p class="control" >
                             <button type="submit" class="button is-success profile-edit__button"
-                            >Сохранить
+                            >{{__('Save')}}
                             </button >
                         </p >
                     </div >

@@ -23,12 +23,13 @@
         <div
           class="banner-actions is-flex is-flex-direction-column is-justify-content-space-between
           is-align-items-center block" >
-          <a href=" {{ route('editBanner',['id'=>$banner->id]) }}" class=" button is-dark mb-4" >Редактировать</a >
+          <a href=" {{ route('editBanner',['id'=>$banner->id]) }}" class="field button is-dark mb-4" >{{__('Edit')
+          }}</a >
           <form action="{{ route('deleteBanner')}}" method="post" class="field">
             @csrf
             @method('delete')
             <input type="hidden" name="id"  value="{{$banner->id}}">
-            <button type="submit" class="button is-primary field" >Удалить</button >
+            <button type="submit" class="button is-primary field" >{{__('Delete')}}</button >
           </form >
         </div >
       </div >

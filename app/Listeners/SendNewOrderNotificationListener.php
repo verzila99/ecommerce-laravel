@@ -30,6 +30,6 @@ class SendNewOrderNotificationListener
     public function handle(OrderCreatedEvent $event)
     {
       Mail::to($event->admin_email)->send(new newOrderNotificationMail($event->order_id,$event->order_username,
-        $event->order_phone_number, $event->order_message, $event->order_email,$event->created_at));
+        $event->order_phone_number, $event->order_email, $event->order_message,$event->created_at));
     }
 }

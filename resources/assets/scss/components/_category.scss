@@ -60,6 +60,7 @@
 }
 .category-filter {
     flex-basis: 20%;
+  flex-shrink: 0;
 }
 .category-list {
     flex-basis: 75%;
@@ -223,7 +224,9 @@
 .item-main-specs {
   margin-top: .5rem;
 }
+
 @media (max-width: 1024px) {
+
   .item-main-addtocart{
     flex-direction: row;
     justify-content: space-around;

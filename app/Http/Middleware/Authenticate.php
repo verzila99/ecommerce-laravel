@@ -11,8 +11,8 @@ class Authenticate
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param Request $request
+     * @param Closure $next
      * @return mixed
      */
     public function handle(Request $request, Closure $next): mixed
@@ -23,6 +23,6 @@ class Authenticate
         if($request->route()->named('profile')){
             return redirect('/');
         }
-       return redirect()->back();
+       return redirect('/');
     }
 }

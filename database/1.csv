@@ -1,0 +1,6 @@
+1,1,display,экран,diagonal,"диагональ экрана, в дюймах",smartphones
+2,1,memory,память,memory,"встроенная память, в Гб",smartphones
+3,1,camera,камера,camera,"фотокамера, Мп",smartphones
+4,2,display,экран,diagonal,"диагональ экрана, в дюймах",smartwatches
+5,2,main,основные,compatibility,совместимость,smartwatches
+6,2,functions,функции,sensors,датчики,smartwatches

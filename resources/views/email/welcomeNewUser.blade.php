@@ -1,11 +1,7 @@
 @component('mail::message',['name'=>$name])
 # Introduction
 
-Добро пожаловать, {{ $name }}!
-
-@component('mail::button', ['url' => ''])
-Button Text
-@endcomponent
+Welcome, {{ $name }}!
 
 Thanks,<br>
 {{ config('app.name') }}

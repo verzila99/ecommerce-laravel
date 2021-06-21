@@ -1,10 +1,10 @@
 @component('mail::message',)
   # Introduction
 
-  {{ $created_at }}        {{ $username }} оформил заказ номер {{$id}}
-  Телефон: {{$phone_number}}
-  Сообщение: {{$message}}
+  At {{ $created_at }}   Customer {{ $username }} has confirm order {{$id}}
+  Phone number: {{$phone_number}}
   Email: {{$email}}
+  Message: {{$message}}
 
   @component('mail::button', ['url' => ''])
     Button Text

@@ -73,10 +73,11 @@ class Product extends Model
           $propertyValue[] = str_replace('   ', ' + ', $p);
 
         }
+        $property_id = $property->id;
 
-        $query = $query->whereHas('properties', function ($q) use ($propertyValue) {
+        $query = $query->whereHas('properties', function ($q) use ($propertyValue, $property_id) {
 
-          $q->whereIn("value",  $propertyValue);
+          $q->whereIn("value",  $propertyValue)->where('property_id', $property_id);
 
         });
       }

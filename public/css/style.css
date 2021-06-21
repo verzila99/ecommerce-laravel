@@ -16,6 +16,14 @@ html {
   height: 100%;
 }
 
+body {
+  position: relative;
+}
+
+.vh {
+  min-height: 60vh;
+}
+
 .top-promotions {
   height: 300px;
 }
@@ -367,6 +375,71 @@ html {
      object-fit: contain;
 }
 
+.normBar {
+  -webkit-animation: normBar 0.3s 1 ease-in-out;
+          animation: normBar 0.3s 1 ease-in-out;
+}
+
+@-webkit-keyframes normBar {
+  from {
+    transform: translateY(0%);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(10%);
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes normBar {
+  from {
+    transform: translateY(0%);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(10%);
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.sticky {
+  position: sticky !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
+  -webkit-animation: fixNavbar 0.3s 1 ease-in-out;
+          animation: fixNavbar 0.3s 1 ease-in-out;
+}
+
+@-webkit-keyframes fixNavbar {
+  from {
+    transform: translateY(10%);
+  }
+  50% {
+    transform: translateY(20%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fixNavbar {
+  from {
+    transform: translateY(10%);
+  }
+  50% {
+    transform: translateY(20%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
 .login-modal {
   display: flex;
 }
@@ -413,7 +486,7 @@ html {
   right: 0;
   top: 0;
   z-index: 15;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(216, 214, 214, 0.1);
 }
 
 .filter-active {
@@ -726,6 +799,10 @@ abbr[title] {
   min-height: 450px;
 }
 
+.cart-summary:last-child {
+  border-left: none !important;
+}
+
 .cart-continue {
   width: 100%;
 }
@@ -844,6 +921,7 @@ abbr[title] {
 
 .category-filter {
   flex-basis: 20%;
+  flex-shrink: 0;
 }
 
 .category-list {
@@ -1207,6 +1285,72 @@ abbr[title] {
 
 .banner-properties {
   flex-grow: 1;
+}
+
+.user {
+  border-bottom: 1px solid #b5b5b5;
+}
+
+.user-role {
+  width: 150px !important;
+}
+
+.user-email {
+  min-width: 250px;
+}
+
+.user-name {
+  min-width: 200px;
+}
+
+.user-id {
+  min-width: 50px;
+}
+
+.product-title {
+  flex-grow: 1;
+}
+
+.product-quantity {
+  width: 40px;
+}
+
+.product-price {
+  width: 80px;
+}
+
+.product-sum {
+  width: 80px;
+}
+
+.order-title {
+  height: 60px;
+  border-radius: 3px;
+  border: 1px solid #FFD447;
+  cursor: pointer;
+}
+
+.order-info {
+  border-bottom: 1px solid #b5b5b5;
+}
+
+.products {
+  border-bottom: 1px solid #b5b5b5;
+}
+
+.orders {
+  min-height: 60vh;
+}
+
+.order {
+  background-color: #FFFFFF;
+  overflow-y: hidden;
+  transition: height 0.4s ease-in-out;
+  height: 60px;
+}
+
+.order-container {
+  border: 1px solid #b5b5b5;
 }
 
 /*! bulma.io v0.9.2 | MIT License | github.com/jgthms/bulma */
@@ -11510,6 +11654,11 @@ input:focus {
 
 a {
   color: #7a7a7a;
+}
+
+.menu-list a.is-active {
+  background-color: #363636;
+  color: #FFFFFF;
 }
 
 .button .is-primary {

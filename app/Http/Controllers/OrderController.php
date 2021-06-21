@@ -133,6 +133,6 @@ class OrderController extends Controller
 
      Order::where('id', (int)$data['id'])->update(['status'=> 1]);
 
-     return redirect()->route('admin');
+     return redirect()->back()->with('status','Статус изменён' );
   }
 }

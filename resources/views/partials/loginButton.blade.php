@@ -1,6 +1,6 @@
 
 <a id="cart-navbar" href="/cart" class="navbar-item button  is-success ml-3" >
-  <span class="cart-text" >Корзина</span >
+  <span class="cart-text" >{{__('Cart')}}</span >
   <span class="icon" >
                     <i class="fas fa-shopping-cart" ></i >
                 </span >
@@ -14,7 +14,7 @@
   @endif
   id="favorites-link"
   class="button is-success  ml-3 is-block-desktop is-hidden-tablet" >
-  <span >Избранное</span >
+  <span >{{__('Favorite')}}</span >
   <span class="icon" >
                     <i class="far fa-heart" ></i >
                 </span >

@@ -1,12 +1,8 @@
 <?php
 
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ProductListController;
 use App\Http\Controllers\PropertyController;
-use App\Models\Category;
-use App\Models\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,4 +24,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/cart/sum-of-products', [CartController::class, "getSumOfProducts"]);
 Route::get('/search', [ProductController::class, "searchApi"]);
 Route::get('/getPropsOfCategory/{category}', [PropertyController::class, "index"])->name('getPropsOfCategory');
-Route::get('/{category}', [ProductListController::class, "indexApi"]);
+Route::get('/{category}', [ProductController::class, "indexApi"]);

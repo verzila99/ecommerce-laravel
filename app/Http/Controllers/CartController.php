@@ -29,15 +29,15 @@ class CartController extends Controller
 //  {
 //
 //
-//    $f = DB::table('product_property')->where('property_id',3)->get();
+//    $f = DB::table('products')->get();
 //
 //    foreach ($f as $product) {
 //
-//      $r = preg_match('/^\d+/',$product->value,$matches);
+//      $r = preg_replace('/\( \)/u','',$product->title);
 //
-//if (isset($matches[0])){
-//      DB::table('product_property')->where('product_id', $product->product_id)->where('property_id', 3)->update(['value'=>$matches[0]]);
-//    }}
+//
+//      DB::table('products')->where('id', $product->id)->update(['title'=>$r]);
+//    }
 //
 //
 //  }

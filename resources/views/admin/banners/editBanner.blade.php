@@ -14,13 +14,12 @@
       @method('put')
       <input type="hidden" name="id" value="{{ $banner->id }}">
       <div class="field" >
-        <label for="location" class="label" >Выберите локацию</label >
+        <label for="location" class="label" >{{__('Choose location of banner')}}</label >
         <div class="control" >
           <div class="select is-fullwidth" >
             <select id="location" name="location" >
-              <option value="top_slider" @if($banner->location==='top_slider') selected @endif>Верхний слайдер</option >
-              <option value="bottom_slider" @if($banner->location==='bottom_slider') selected @endif >Нижний
-                                                                                                 слайдер</option >
+              <option value="top_slider" @if($banner->location==='top_slider') selected @endif>{{__('Top slider')}}</option >
+              <option value="bottom_slider" @if($banner->location==='bottom_slider') selected @endif >{{__('Bottom slider')}}</option >
             </select >
           </div >
         </div >
@@ -41,7 +40,7 @@
       </div >
       <div class="position" >
         <div class="field" >
-          <label for="position" class="label" >Position</label >
+          <label for="position" class="label" >{{__('Position')}}</label >
           <div class="control" >
             <input id="position" class="input" type="text" placeholder="Position" name="position"
                    value="{{$banner->position}}">
@@ -65,7 +64,7 @@
           <i class="fas fa-upload" ></i >
         </span >
         <span class="file-label" >
-          Выберите файл
+          {{__('Choose a file')}}
         </span >
         </span >
             <span class="file-name" >
@@ -77,7 +76,7 @@
               </span >
 
           <a id="add-file-input" class="button is-dark field is-hidden" >
-            Добавить
+            {{__('Add')}}
           </a >
 
         </div >
@@ -88,7 +87,7 @@
 
       <div class="field is-grouped" >
         <div class="control" >
-          <button type="submit" class="button is-success" >Отправить</button >
+          <button type="submit" class="button is-success" >{{__('Save')}}</button >
         </div >
       </div >
     </form >
@@ -97,7 +96,7 @@
         @csrf
         @method('delete')
         <input type="hidden" name="id" value="{{$banner->id}}" >
-        <button type="submit" class="button is-primary" >Удалить</button >
+        <button type="submit" class="button is-primary" >{{__('Delete')}}</button >
       </form >
   </div >
 @endsection

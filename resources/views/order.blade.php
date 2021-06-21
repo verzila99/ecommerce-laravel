@@ -14,10 +14,10 @@
         <table class="table is-fullwidth mt-5" >
           <thead >
           <tr >
-            <th ><abbr id="table-title" title="Товар" >Товар</abbr ></th >
-            <th class="is-hidden-touch"><abbr title="Цена" >Цена</abbr ></th >
-            <th ><abbr title="Количество" >Количество</abbr ></th >
-            <th ><abbr title="Сумма" >Сумма</abbr ></th >
+            <th ><abbr id="table-title" title="Товар" >{{__('Product')}}</abbr ></th >
+            <th class="is-hidden-touch"><abbr title="Цена" >{{__('Price')}}</abbr ></th >
+            <th ><abbr title="Количество" >{{__('Quantity')}}</abbr ></th >
+            <th ><abbr title="Сумма" >{{__('Sum')}}</abbr ></th >
 
           </tr >
           </thead >
@@ -66,11 +66,11 @@
         is-justify-content-space-around
             is-align-items-center  px-2' >
           <div class="field" >
-            <label for="name" class="label" >Имя</label >
+            <label for="name" class="label" >{{__('Name')}}</label >
             <p class="control has-icons-left" >
               <input id="name" class="input @error('name') is-danger @enderror" name="name"
                      type="text"
-                     placeholder="Имя"
+                     placeholder="{{__('Name')}}"
                      value="{{ old('name') }}" />
 
               <span class="icon is-small is-left" >
@@ -82,12 +82,12 @@
             @enderror
           </div >
           <div class="field" >
-            <label for="phone_number" class="label" >Номер телефона</label >
+            <label for="phone_number" class="label" >{{__('Phone number')}}</label >
             <p class="control has-icons-left" >
               <input id="phone_number" class="input @error('phone_number') is-danger @enderror"
                      name="phone_number"
                      type="text"
-                     placeholder="Номер телефона"
+                     placeholder="{{__('Phone number')}}"
                      value="{{ old('phone_number') }}" />
               <span class="icon is-small is-left" >
                                 <i class="fas fa-phone" ></i >
@@ -113,9 +113,9 @@
             @enderror
           </div >
           <div class="field" >
-            <label class="label" >Сообщение</label >
+            <label class="label" >{{__('Message')}}</label >
             <div class="control" >
-              <textarea class="textarea" name="message" placeholder="Сообщение" ></textarea >
+              <textarea class="textarea" name="message" placeholder="{{__('Message')}}" ></textarea >
             </div >
           </div >
         </div >
@@ -124,13 +124,13 @@
                     is-align-items-center px-2"
         >
           <h2 class="cart-summary__title has-text-weight-bold is-size-4" >
-            Итого
+            {{__('Total')}}
           </h2 >
           <div class="cart-summary__divider" ></div >
           <div
             class="cart-summary__sum is-flex is-justify-content-space-between is-align-items-center"
           >
-            <span class="cart-summary__sum--text" >Товаров на</span >
+            <span class="cart-summary__sum--text" >{{__('Sum')}}</span >
             <div >
                         <span
                           class="cart-summary__sum--number has-text-weight-bold"
@@ -141,7 +141,7 @@
           <div
             class="cart-summary__sum is-flex is-justify-content-space-between is-align-items-center"
           >
-                    <span class="cart-summary__sum--text" >Доставка</span
+                    <span class="cart-summary__sum--text" >{{__('Delivery')}}</span
                     ><span class="cart-delivery-price has-text-weight-bold"
             >944 <span >р.</span ></span
             >
@@ -149,7 +149,7 @@
           <div
             class="cart-summary__sum is-flex is-justify-content-space-between is-align-items-center"
           >
-                    <span class="cart-summary__sum--text" >Всего к оплате</span
+                    <span class="cart-summary__sum--text" >{{__('Total')}}</span
                     ><span
               class="cart-summary__sum--number-final has-text-weight-bold"
             >{{ number_format($sum,0,',',' ') }}
@@ -157,7 +157,7 @@
             >
           </div >
           <button type="submit" class="button is-success is-fullwidth mt-6" >
-            Оформить
+            {{__('Checkout')}}
           </button >
         </div >
       </form >
@@ -168,20 +168,20 @@
     <section
       class="is-flex is-flex-direction-column is-justify-content-center is-align-items-center my-6 px-4"
     >
-      <h1 class="noitems-title my-6" >Нет товаров в корзине...</h1 >
+      <h1 class="noitems-title my-6" >{{__('No items in the cart')}}</h1 >
       <h2 class="has-text-grey has-text-weight-bold is-size-5 my-6" >
-        Найдите товары в нашем каталоге или воспользуйтесь поиском
+        {{__('Find goods in our catalog or use the search')}}
       </h2 >
-      <a href="/" class="button is-warning my-6" >На главную</a >
+      <a href="/" class="button is-warning my-6" >{{__('Home')}}</a >
     </section >
   @endif
   <section
     class="noitems is-flex-direction-column is-justify-content-center is-align-items-center"
   >
-    <h1 class="noitems-title" >Нет товаров в корзине...</h1 >
+    <h1 class="noitems-title" >{{__('No items in the cart')}}</h1 >
     <h2 class="has-text-grey has-text-weight-bold is-size-5 mt-6" >
-      Найдите товары в нашем каталоге или воспользуйтесь поиском
+      {{__('Find goods in our catalog or use the search')}}
     </h2 >
-    <a href="/" class="button is-warning mt-6" >На главную</a >
+    <a href="/" class="button is-warning mt-6" >{{__('Home')}}</a >
   </section >
 @endsection

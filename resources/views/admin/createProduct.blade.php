@@ -13,14 +13,14 @@
       @csrf
 
       <div class="field" >
-        <label class="label" >Выберите категорию</label >
+        <label class="label" >{{__('Choose a category')}}</label >
         <div class="control" >
           <div class="select is-fullwidth" >
 
             <select id="category" name="category" >
               @foreach($categories as $category)
                 <option data-category="{{$category->category_name}}" value="{{ $category->category_name
-              }}" >{{$category->category_name_ru}}</option >
+              }}" >{{$category->category_name}}</option >
               @endforeach
             </select >
 
@@ -29,36 +29,36 @@
       </div >
 
       <div class="field" >
-        <label class="label" >Наименование</label >
+        <label class="label" >{{__('Title')}}</label >
         <div class="control" >
-          <input class="input" type="text" placeholder="Наименование" name="title" >
+          <input class="input" type="text" placeholder="{{__('Title')}}" name="title" >
         </div >
       </div >
       <div class="field" >
-        <label class="label" >Производитель</label >
+        <label class="label" >{{__('Manufacturer')}}</label >
         <div class="control" >
-          <input class="input" type="text" placeholder="Производитель" name="manufacturer" >
+          <input class="input" type="text" placeholder="{{__('Manufacturer')}}" name="manufacturer" >
         </div >
       </div >
       <div class="field" >
-        <label class="label" >Цена</label >
+        <label class="label" >{{__('Price')}}</label >
         <div class="control" >
-          <input class="input" type="text" placeholder="Цена" name="price" >
+          <input class="input" type="text" placeholder="{{__('Price')}}" name="price" >
         </div >
       </div >
       <div class="field" >
-        <label class="label" >Артикул</label >
+        <label class="label" >{{__('Vendorcode')}}</label >
         <div class="control" >
-          <input class="input" type="text" placeholder="Артикул" name="vendorcode" >
+          <input class="input" type="text" placeholder="{{__('Vendorcode')}}" name="vendorcode" >
         </div >
       </div >
 
       <div class="category-props" >
         @foreach($propsOfCategory as $prop)
           <div class="field" >
-            <label class="label" >{{$prop->name_ru}}</label >
+            <label class="label" >{{$prop->name}}</label >
             <div class="control" >
-              <input class="input" type="text" placeholder="{{$prop->name_ru}}" name="{{$prop->name}}" >
+              <input class="input" type="text" placeholder="{{$prop->name}}" name="{{$prop->name}}" >
             </div >
           </div >
 
@@ -76,7 +76,7 @@
           <i class="fas fa-upload" ></i >
         </span >
         <span class="file-label" >
-          Выберите файл
+          {{__('Choose a file')}}
         </span >
         </span >
             <span class="file-name" >
@@ -88,7 +88,7 @@
               </span >
 
           <a id="add-file-input" class="button is-dark field" >
-            Добавить
+            {{__('Add')}}
           </a >
 
         </div >
@@ -96,7 +96,7 @@
 
       <div class="field is-grouped" >
         <div class="control" >
-          <button type="submit" class="button is-success" >Отправить</button >
+          <button type="submit" class="button is-success" >{{__('Save')}}</button >
         </div >
       </div >
 

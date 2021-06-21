@@ -1,5 +1,3 @@
-
-
 <div
   class="category-filter__price accordion-group mt-3 is-flex is-flex-direction-column
                     is-align-items-end is-justify-content-space-between"
@@ -7,11 +5,12 @@
   <div
     class="category-filter__title is-flex is-justify-content-space-between is-align-items-flex-end"
   >
-    <h4 >Цена</h4 >
-    <div class="category-filter__arrow" ></div >
+    <h4 >{{__('Price')}}</h4 >
+    <div class="category-filter__arrow"></div >
   </div >
   <div class="accordion-price  is-flex
-                        is-justify-content-space-between is-align-items-center" >
+                        is-justify-content-space-between is-align-items-center"
+  >
     <form
       class="accordion-price category-filter__price-input
                         is-flex
@@ -24,7 +23,7 @@
         class="price-input__from is-flex
                             is-align-items-center is-justify-content-space-between pl-2"
       >
-        <label for="price_from" >от</label >
+        <label for="price_from">{{__('from')}}</label >
         <input
           class="ml-4"
           type="text"
@@ -37,7 +36,7 @@
       <div
         class="price-input__to is-flex is-align-items-center is-justify-content-space-between pl-2"
       >
-        <label for="price_to" >до</label >
+        <label for="price_to">{{__('to')}}</label >
         <input
           class="ml-4"
           type="text"
@@ -50,9 +49,7 @@
 
     </form >
   </div >
-
 </div >
-{{--        @dd($filterInputs)--}}
 
 @foreach($filterInputs as $filter=>$variants)
   @php
@@ -65,19 +62,17 @@
     <div
       class="category-filter__title is-flex is-justify-content-space-between is-align-items-flex-end my-4"
     >
-      <h4 class="is-capitalized" >{{  explode('|',$filter)[1]}}</h4 >
-      <div class="category-filter__arrow" ></div >
+      <h4 class="is-capitalized">{{  explode('|',$filter)[1]}}</h4 >
+      <div class="category-filter__arrow"></div >
     </div >
-
-    <div class="accordion" >
-      <div class="accordion-item" >
-        <div class="measuring" >
-          {{--@dd($variants)--}}
+    <div class="accordion">
+      <div class="accordion-item">
+        <div class="measuring">
           @if($filterItem==='manufacturer')
             @foreach($variants as
             $variant)
               @if($variant->$filterItem)
-                <label class="checkbox" >
+                <label class="checkbox">
                   <input type="checkbox"
                          class="manufacturer checkbox-filter"
                          data-parameter='{{$filterItem}}'
@@ -94,8 +89,8 @@
                   {{$variant->$filterItem}}
                   <span
                     class="input_count has-text-grey-light
-                                 ml-3
-                                        " >{{$variant->count}}</span >
+                                 ml-3"
+                  >{{$variant->count}}</span >
                 </label >
               @endif
             @endforeach
@@ -103,7 +98,7 @@
             @foreach($variants as
             $variant)
               @if($variant->value)
-                <label class="checkbox" >
+                <label class="checkbox">
                   <input type="checkbox"
                          class="manufacturer checkbox-filter"
                          data-parameter='{{$filterItem}}'
@@ -120,16 +115,15 @@
                   {{$variant->value}}
                   <span
                     class="input_count has-text-grey-light
-                                 ml-3
-                                        " >{{$variant->count}}</span >
+                                 ml-3"
+                  >{{$variant->count}}</span >
                 </label >
               @endif
             @endforeach
           @endif
         </div >
       </div >
-      <p class="show-more mt-3" >Показать ещё</p >
+      <p class="show-more mt-3">{{__('Show more')}}</p >
     </div >
-
   </div >
 @endforeach

@@ -53,11 +53,12 @@
                             </span >
             </p >
           </div >
-          <div class="field" >
+          <div class="field is-flex is-align-items-center " >
             <label class="checkbox label" >
               <input type="checkbox" id="login-remember" name="remember_token" value="true" >
               Remember me
             </label >
+            <a href="{{route('password.request')}}" class="ml-6">Забыли пароль?</a >
           </div >
 
           <div class="field" >

@@ -62,11 +62,13 @@ if (registerButton) {
         password: password,
         password_confirmation: passwordConfirmation
       }).then(response => {
+        console.log(response);
         if (response.status === 200) {
-          window.location.reload(true);
+          window.location.href= '/email/verify';
         }
       })
            .catch(error => {
+             console.log(error);
              if (error.response) {
                Object.values(error.response.data.errors).forEach(value => {
                  value.forEach(e => {
@@ -185,7 +187,7 @@ favorites.forEach((elem) => {
                                   let oldChild = elem.querySelector('i');
                                   oldChild.replaceWith(heart);
 
-                                  elem.querySelector('p').innerHTML = 'В избранном';
+                                  elem.querySelector('p').innerHTML = 'In favorite';
                                   elem.dataset.status = '1';
 
                                 }
@@ -235,7 +237,7 @@ addToCartButtons.forEach(elem => {
 });
 
 function changeAddToCartButton(elem) {
-  elem.innerHTML = 'Перейти в корзину';
+  elem.innerHTML = 'Go to cart';
   elem.classList.add('in-cart-button');
   setTimeout(() => elem.setAttribute('href', '/cart'), 100);
 }
@@ -257,7 +259,6 @@ function renderCartButton() {
 
   axios.get('/api/cart/sum-of-products')
        .then(res => {
-         console.log(res.data);
          if (res.status === 200 && res.data === 0) {
            cartNavbarText.style.fontWeight = '400';
            cartNavbarText.innerText = 'Корзина';
@@ -310,7 +311,7 @@ searchInput.addEventListener('keyup', (elem) => {
 
                let div = document.createElement('div');
                div.classList.add('search-item');
-               div.innerHTML = 'Ничего не найдено';
+               div.innerHTML = 'No items found';
                searchParent.appendChild(div);
 
 
@@ -375,7 +376,7 @@ if (submitNewsSubscription) {
 
         submitNewsSubscription.parentNode.parentNode.parentElement.remove();
 
-        document.querySelector('.subscription').innerHTML = `<h3 class="is-size-3 has-text-success">Подписка оформлена!</h3>`;
+        document.querySelector('.subscription').innerHTML = `<h3 class="is-size-3 has-text-success">Subscribed!</h3>`;
       }
     }).catch(err => {
 
@@ -419,4 +420,37 @@ filterShowButton.addEventListener('click',()=>{
   closeModal.style.display = 'block';
   closeModal.classList.add('filter-active');
 });
+}
+// Sticky Navbar
+let navbar = document.querySelector('.navbar');
+
+window.addEventListener('scroll', function () {
+  if(pageYOffset > 100) {
+    navbar.classList.remove('normBar');
+       navbar.classList.add('sticky');
+  }else{
+    navbar.classList.remove('sticky');
+     navbar.classList.add('normBar');
+  }
+});
+
+//Orders accordion
+let accordionButtons = document.querySelectorAll('.order-title');
+if(accordionButtons.length > 0){
+  accordionButtons.forEach((el)=>{
+    let orderHeight = el.parentElement.clientHeight;
+    el.addEventListener('click',(e)=>{
+      console.log(orderHeight);
+      if(el.classList.contains('active-order-tab')) {
+        el.classList.remove('active-order-tab');
+        el.parentElement.parentElement.style.height = orderHeight + 60 + 'px';
+        el.querySelector('.category-filter__arrow').classList.add('reverse');
+      }else{
+        el.classList.add('active-order-tab');
+        el.parentElement.parentElement.style.height = 60 + 'px';
+
+        el.querySelector('.category-filter__arrow').classList.remove('reverse');
+      }
+    });
+  });
 }

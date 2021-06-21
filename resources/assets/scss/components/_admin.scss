@@ -71,3 +71,18 @@
 .banner-properties{
   flex-grow: 1;
 }
+.user{
+  border-bottom: 1px solid $grey-light ;
+}
+.user-role{
+  width: 150px!important;
+}
+.user-email{
+  min-width: 250px;
+}
+.user-name{
+  min-width: 200px;
+}
+.user-id{
+  min-width: 50px;
+}

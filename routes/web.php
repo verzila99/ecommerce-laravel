@@ -1,16 +1,17 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminController;
+use App\Events\UserRegisteredEvent;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\FavoritesController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ProductListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,23 +50,63 @@ Route::post('/subscribe', [UserController::class, "subscribeForNews"])->name('su
 
 
 //Profile
-Route::middleware(['auth'])->prefix('profile')->group(function () {
+Route::middleware(['verified'])->prefix('profile')->group(function () {
     Route::get('/', [UserController::class, "show"])->name('profile');
     Route::get('/edit', [UserController::class, "edit"])->name('edit');
     Route::put('/edit', [UserController::class, "update"])->name('update');
-    Route::get('/orders', [UserController::class, "userOrders"])->name('userOrders');
+    Route::get('/order', [UserController::class, "userOrders"])->name('userOrders');
 });
 
+//Users
+Route::middleware(['admin'])->prefix('user')->group(
+  function () {
+    Route::get('/', [UserController::class, 'index'])->name('indexUser');
+    Route::put('/updaterole', [UserController::class, 'updateRole'])->name('updateRole');
+    Route::delete('/destroy', [UserController::class, 'destroy'])->name('userDelete');
+  });
 
 //Favorites
-Route::get('/favorites', [FavoritesController::class, "favorites"])->middleware('auth')->name('favorites');
-Route::patch('/addtofavorites', [FavoritesController::class, "addToFavorites"])
-     ->middleware('authajax');
-Route::delete('/removefromfavorites/', [FavoritesController::class,
-    "removeFromFavorites"])->middleware('authajax');
-
+Route::middleware(['verified'])->group(
+  function () {
+Route::get('/favorites', [FavoritesController::class, "favorites"])->name('favorites');
+Route::patch('/addtofavorites', [FavoritesController::class, "addToFavorites"]);
+Route::delete('/removefromfavorites/', [FavoritesController::class, "removeFromFavorites"]);
+  }
+);
 
 //Auth
+
+Route::get('/email/verify', function () {
+  return view('auth.verify-email');
+}
+)->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}',[UserController::class,'verifyEmail'])
+  ->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification',function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('status', 'Verification link sent!');
+  }
+  )->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+Route::get('/forgot-password', function () {
+    return view('auth.forgot-password');
+  }
+  )->middleware('guest')->name('password.request');
+
+Route::post('/forgot-password',[UserController::class,'resetPassword'])
+  ->middleware('guest')->name('password.email');
+
+Route::get('/reset-password/{token}',function ($token) {
+    return view('auth.reset-password', ['token' => $token]);
+  }
+)->middleware('guest')->name('password.reset');
+
+Route::post(
+  '/reset-password',[UserController::class,'updatePasswordAfterReset'])
+     ->middleware('guest')->name('password.update');
+
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/register', [UserController::class, 'register']);
 Route::get('/logout', [UserController::class, 'logout']);
@@ -90,5 +131,5 @@ Route::middleware(['admin'])->prefix('product')->group(function () {
   Route::get('/{category}/{id}/edit', [ProductController::class, "edit"])->name('editProduct');
 });
 
-Route::get('/{category}', [ProductListController::class,"index"]);
+Route::get('/{category}', [ProductController::class,"index"]);
 Route::get('/{cat}/{productId}', [ProductController::class,"show"]);

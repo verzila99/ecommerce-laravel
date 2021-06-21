@@ -15,3 +15,9 @@ html {
 .container {
     height: 100%;
 }
+body{
+  position: relative;
+}
+.vh{
+  min-height: 60vh;
+}

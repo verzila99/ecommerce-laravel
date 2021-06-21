@@ -25,10 +25,10 @@
                  <table class="table is-fullwidth mt-5" >
                      <thead >
                      <tr >
-                         <th ><abbr id="table-title" title="Товар" >Товар</abbr ></th >
-                         <th ><abbr title="Цена" >Цена</abbr ></th >
-                         <th ><abbr title="Количество" >Количество</abbr ></th >
-                         <th ><abbr title="Сумма" >Сумма</abbr ></th >
+                         <th ><abbr id="table-title" title="Товар" >{{__('Product')}}</abbr ></th >
+                         <th ><abbr title="Цена" >{{__('Price')}}</abbr ></th >
+                         <th ><abbr title="Количество" >{{__('Quantity')}}</abbr ></th >
+                         <th ><abbr title="Сумма" >{{__('Sum')}}</abbr ></th >
                          <th ></th >
                      </tr >
                      </thead >
@@ -84,13 +84,13 @@
 "
                  >
                      <h2 class="cart-summary__title has-text-weight-bold is-size-4" >
-                         Итого
+                         {{__('Total')}}
                      </h2 >
                      <div class="cart-summary__divider" ></div >
                      <div
                          class="cart-summary__sum is-flex is-justify-content-space-between is-align-items-center"
                      >
-                         <span class="cart-summary__sum--text" >Товаров на</span >
+                         <span class="cart-summary__sum--text" >{{__('Sum')}}</span >
                          <div >
                         <span
                             class="cart-summary__sum--number has-text-weight-bold"
@@ -101,7 +101,7 @@
                      <div
                          class="cart-summary__sum is-flex is-justify-content-space-between is-align-items-center"
                      >
-                    <span class="cart-summary__sum--text" >Доставка</span
+                    <span class="cart-summary__sum--text" >{{__('Delivery')}}</span
                     ><span class="cart-delivery-price has-text-weight-bold"
                          >944<span class="has-text-weight-bold"> р.</span ></span
                          >
@@ -109,7 +109,7 @@
                      <div
                          class="cart-summary__sum is-flex is-justify-content-space-between is-align-items-center"
                      >
-                    <span class="cart-summary__sum--text" >Всего к оплате</span
+                    <span class="cart-summary__sum--text" >{{__('Total')}}</span
                     ><div >
                          <span
                              class="cart-summary__sum--number-final has-text-weight-bold"
@@ -119,7 +119,7 @@
                          </div >
                      </div >
                      <button type="submit" id="confirm-btn" class="button is-success is-fullwidth mt-6" >
-                         Продолжить оформление
+                         {{__('Continue to registration')}}
                      </button >
 
                  </div >
@@ -131,10 +131,10 @@
 <section
     class="noitems is-flex-direction-column is-justify-content-center is-align-items-center"
 >
-    <h1 class="noitems-title">Нет товаров в корзине...</h1>
+    <h1 class="noitems-title">{{__('No items in the cart')}}</h1>
     <h2 class="has-text-grey has-text-weight-bold is-size-5 mt-6">
-        Найдите товары в нашем каталоге или воспользуйтесь поиском
+      {{__('Find goods in our catalog or use the search')}}
     </h2>
-    <a href="/" class="button is-warning mt-6">На главную</a>
+    <a href="/" class="button is-warning mt-6">{{__('Home')}}</a>
 </section>
 @endsection

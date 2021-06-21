@@ -1,3 +1,4 @@
+
 .navbar-item {
     border-radius: 8px;
 }
@@ -6,6 +7,48 @@
 
     width: 120px;
     object-fit: contain;
+}
+
+.normBar{
+  animation: normBar .3s 1 ease-in-out;
+}
+
+@keyframes normBar {
+  from {
+    transform: translateY(0%);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(10%);
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.sticky{
+  position: sticky!important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
+  //min-height: 76px!important;
+  //transition: all .3s ease-in-out;
+  animation: fixNavbar .3s 1 ease-in-out;
+}
+
+@keyframes fixNavbar{
+  from {
+    transform: translateY(10%);
+
+  }
+  50% {
+    transform: translateY(20%);
+  }
+  to {
+    transform: translateY(0);
+
+  }
 }
 .login-modal {
     display: flex;
@@ -53,7 +96,7 @@
   top: 0;
 
   z-index: 15;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgb(216, 214, 214,0.1);
 }
 .filter-active{
   z-index: 31!important;

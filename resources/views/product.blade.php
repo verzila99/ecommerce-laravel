@@ -9,11 +9,11 @@
     <div class="container is-max-widescreen" >
         <nav class="breadcrumb mt-3 px-3" aria-label="breadcrumbs" >
             <ul >
-                <li ><a href="/" >Главная</a ></li >
+                <li ><a href="/" >{{__('Home')}}</a ></li >
 
                 <li >
                     <a class="is-capitalized" href="{{'/' . $product->categories->category_name}}"
-                       aria-current="page" >{{ $product->categories->category_name_ru }}</a >
+                       aria-current="page" >{{ $product->categories->category_name }}</a >
                 </li >
             </ul >
         </nav >
@@ -23,10 +23,10 @@
             </h1 >
             <div class="item-art is-flex is-align-items-center mt-5" >
                 <div class="vendorcode has-text-grey-light" >
-                    Артикул {{ $product->vendorcode }}
+                  {{__('Vendorcode')}} {{ $product->vendorcode }}
                 </div >
                 <div
-                    class="stars-container is-flex is-justify-content-space-between is-align-items-center"
+                    class="stars-container is-flex is-justify-content-space-between is-align-items-center ml-3"
                 >
                   <div class="stars-inactive" >
                     <i class="far fa-star" aria-hidden="true" ></i >
@@ -92,7 +92,7 @@
                             <div class="dot-product-container" >
                                 @foreach ( explode(',',$product->images) as $key=>$image)
                                     <div class="dot-product" data-index="{{$key}}" >
-                                        <img src="{{ asset('storage/uploads/images/'.$product->id.'/45x45/' .
+                                        <img src="{{ asset('storage/uploads/images/'.$product->id.'/700x700/' .
                                          $image )}}" alt="" >
                                     </div >
                                 @endforeach
@@ -110,7 +110,7 @@
                         @if($product->vendorcode)
                             <li >
                                 <span class="has-text-grey-light is-size-7"
-                                >Артикул: </span
+                                >{{__('Vendorcode')}}: </span
                                 ><span
                                     class="is-size-8" >{{$product->vendorcode}}</span >
                             </li >
@@ -119,7 +119,7 @@
                         @if($product->manufacturer)
                             <li >
                                 <span class="has-text-grey-light is-size-7"
-                                >Производитель: </span
+                                >{{__('Manufacturer')}}: </span
                                 ><span
                                     class="is-size-8" >{{$product->manufacturer}}</span >
                             </li >
@@ -131,7 +131,7 @@
                             @if($param->name)
                                 <li >
                             <span class="has-text-grey-light is-size-7 is-capitalized"
-                            >{{ $param->name_ru}}: </span
+                            >{{ $param->name}}: </span
                             ><span class="is-size-8" >{{$param->pivot->value}}</span >
                                 </li >
                             @endif
@@ -140,7 +140,7 @@
 
                         <li >
                             <a class="is-size-7 mt-6 dark-link " href="/"
-                            >Все характеристики ></a
+                            >{{__('All characteristics')}} ></a
                             >
                         </li >
                     </ul >
@@ -156,7 +156,7 @@
                         </span >
                                 <p class=" has-text-grey-lighter is-size-6
                         has-text-weight-bold ml-3"
-                                >В избранное</p >
+                                >{{__('Add to favorite')}}</p >
                             </a >
                         @else
                             <a class="favorites favorites-item is-flex
@@ -170,7 +170,7 @@
                         </span >
                                 <p class=" has-text-grey-lighter is-size-6
                         has-text-weight-bold ml-3"
-                                >В избранном</p >
+                                >{{__('In favorite')}}</p >
                             </a >
 
                         @endif
@@ -183,8 +183,7 @@
                         </span >
                             <p class=" has-text-grey-lighter is-size-6
                         has-text-weight-bold ml-3"
-                            >В
-                             избранное</p >
+                            >{{__('Add to favorite')}}</p >
                         </a >
                     @endguest
 
@@ -215,7 +214,7 @@
                     </div >
 
                     <a class="add-to-cart button is-primary mt-5" data-id="{{$product->id}}" >
-                        Добавить в корзину
+                      {{__('Add to cart')}}
                     </a >
 
                 </div >
@@ -253,7 +252,7 @@
                     <div class="dot-product-container" >
                         @foreach ( explode(',',$product->images) as $key=>$image)
                             <div class="dot-product" data-index="{{$key}}" >
-                                <img src="{{ asset('storage/uploads/images/'.$product->id.'/45x45/' . $image
+                                <img src="{{ asset('storage/uploads/images/'.$product->id.'/700x700/' . $image
                                 )}}" alt="" >
                             </div >
                         @endforeach

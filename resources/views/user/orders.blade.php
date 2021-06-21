@@ -4,70 +4,108 @@
 @endsection
 @section('title','Ecommerce shop')
 @section('content')
-
-  <div class="container is-max-widescreen" >
-    <div class="table-container" >
+  <div class="container is-max-widescreen px-3" >
+    <h1 class="is-size-4 has-text-weight-bold my-3" >{{__('My orders')}}</h1 >
+    <div class="orders is-flex is-flex-direction-column is-justify-content-flex-start" >
       @if (!empty($ordersList))
-        <table class="admin-table mt-5" >
-          <thead >
-          <tr >
-            <th ><abbr title="Номер заказа" >Номер заказа</abbr ></th >
-            <th ><abbr title="Заказчик" >Заказчик</abbr ></th >
-            <th ><abbr title="Товары" >Товары</abbr ></th >
-            <th ><abbr title="Сумма" >Сумма</abbr ></th >
-            <th ><abbr title="Заказ создан" >Заказ создан</abbr ></th >
-            <th ><abbr title="Статус" >Статус</abbr ></th >
-          </tr >
-          </thead >
-          <tfoot ></tfoot >
-          <tbody >
-          @foreach($ordersList as $order)
-            <tr class="cart-row my-3" >
-              <td >
-                <p class="" >
-                  {{ $order->id }}
-                </p >
-              </td >
-              <td >
-                <p class="" >
-                  {{ $order->username }}
-                </p >
-              </td >
-              <td class="" >
-                <div class="is-flex is-flex-direction-column" >
-                  @foreach($order->products as $product)
+        @foreach($ordersList as $order)
+          <div
+            class="order is-flex is-flex-direction-column is-justify-content-space-between is-align-items-center my-3" >
+            <div class="measure field" >
+              <div class="order-title active-order-tab field is-flex  is-justify-content-space-between
+          is-align-items-center px-4" >
+                <span class="order-number my-3 " ><span class="has-text-weight-bold">{{__('Order number')}} :
+                  </span><span >{{ $order->id }}</span ></span >
+                <span class="order-date my-3 " ><span class="has-text-weight-bold">{{__('Order created')}} :
+                  </span><span >{{ $order->created_at  }}</span ></span >
+                <span
+                  class="order-status my-3 " ><span class="has-text-weight-bold">{{__('Status')}} : </span><span >{{
+                  $order->status ? __('Delivered') : __('In process')}}
+                  </span ></span >
+                <div class="category-filter__arrow" ></div >
 
-                    <div
-                      class="is-flex is-justify-content-space-between " >
-                      <span class="admin-product__title" >{{$product->title }}</span ><span
-                        class="ml-3" >{{$product->pivot->quantity
-                  }}</span >
-                    </div >
-                  @endforeach
+              </div >
+
+              <div
+                class="order-info columns field is-flex is-justify-content-space-between is-align-items-flex-start my-3" >
+                <div class="order-info__about column is-flex is-flex-direction-column is-justify-content-space-between
+              is-align-items-flex-start my-3" >
+                  <h2 class="is-size-4 has-text-weight-bold my-3" >{{__('Order info')}}</h2 >
+                  <span class="order-number my-3" >{{__('Order number')}} : <span >{{ $order->id }}</span ></span >
+                  <span class="order-date my-3" >{{__('Order created')}} : <span >{{ $order->created_at  }}</span ></span >
+                  <span
+                    class="order-status my-3" >{{__('Status')}} : <span >{{ $order->status ? 'Доставлено' : 'В процессе'
+                  }}</span ></span >
                 </div >
-              </td >
-              <td class="price" > {{ number_format($order->sum,0,',',' ')}} р.</td >
+                <div
+                  class="customer column is-flex is-flex-direction-column is-justify-content-space-between
+                is-align-items-flex-start my-3" >
+                  <h2 class="is-size-4 has-text-weight-bold my-3" >{{__('Customer')}}</h2 >
+                  <span class="customer-name my-3" >{{__('Customer')}} : <span >{{ $order->username }}</span ></span >
+                  <span class="customer-email my-3" >Email : <span >{{ $order->email }}</span ></span >
+                  <span class="customer-phone my-3" >{{__('Phone number')}} : <span >{{ $order->phone_number }}</span
+                    ></span >
+                </div >
+              </div >
+              <div class="products field  is-flex is-flex-direction-column is-justify-content-space-between
+            is-align-items-flex-start px-3" >
+                <h2 class="is-size-4 has-text-weight-bold my-3" >{{__('Order content')}}</h2 >
+                @foreach($order->products as $product)
+                  <div class="product field is-flex   is-align-items-center my-3" >
+                    <div class="cart-item__icon is-hidden-mobile" >
+                      <img
+                        src="{{ asset('storage/uploads/images/'.$product->id.'/45x45/' .
+                                         explode(',',$product->images)[0])}}"
 
-              <td ><span class
-                         ="finalPrice" >{{ $order->created_at  }}</span >
-              </td >
-              <td ><span class
-                         ="" >{{ $order->status ? 'Доставлено' : 'В процессе'  }}</span >
-              </td >
-
-            </tr >
-          @endforeach
-          </tbody >
-        </table >
+                        alt=""
+                        srcset=""
+                      />
+                    </div >
+                    <div class="product-title " >{{ $product->title }}</div >
+                    <div class="product-quantity px-3" >{{ $product->pivot->quantity}}</div >
+                    <div class="product-price  px-3" >{{ $product->price}}</div >
+                    <div class="product-sum  px-3" >{{ $product->pivot->quantity * $product->price}}</div >
+                  </div >
+                @endforeach
+              </div >
+              <div
+                class="order-summary field columns is-flex is-flex-direction-column is-justify-content-space-between
+              is-align-items-flex-end" >
+                <div class="order-container column is-one-third is-flex is-flex-direction-column is-justify-content-space-between
+              is-align-items-stretch my-3" >
+                  <h2 class="is-size-5 has-text-weight-bold my-3" >{{__('Total')}}</h2 >
+                  <div class="order-sum__without-delivery is-flex  is-justify-content-space-between my-3" ><span
+                      class="has-text-weight-bold">{{__('Sum')}}:
+                  </span > <span >{{ number_format($order->sum -
+                944,0,
+                ',',
+                ' ')}} р.</span ></div >
+                  <div class="delivery is-flex  is-justify-content-space-between my-3" ><span
+                      class="has-text-weight-bold">{{__('Delivery')}}
+                                                                                                        :</span >
+                    <span
+                    >944 р.</span ></div >
+                  <div class="order-sum is-flex  is-justify-content-space-between my-3" ><span
+                      class="has-text-weight-bold">{{__('Total')}}:
+                    </span > <span
+                    >{{
+                number_format($order->sum,0,',',' ')}} р.
+                  </span >
+                  </div >
+                </div >
+              </div >
+            </div >
+          </div >
+        @endforeach
       @else
         <section
           class="is-flex is-flex-direction-column is-justify-content-center is-align-items-center order-success"
         >
-          <h1 class="noitems-title" >Здесь пока пусто...</h1 >
+          <h1 class="noitems-title" >{{__('There is nothing here...')}}</h1 >
           <h2 class="has-text-grey has-text-weight-bold is-size-5 mt-6" >
-            Сделайте первый заказ.
+            {{__('Make your first purchase.')}}
           </h2 >
-          <a href="/" class="button is-warning mt-6" >На главную</a >
+          <a href="/" class="button is-warning mt-6" >{{__('Home')}}</a >
         </section >
       @endif
     </div >

@@ -1,16 +1,23 @@
 @extends('admin.layouts.default')
 @section('content')
 <div class="admin-modal " id="orders">
+  @if (session('status'))
+    <div class="message is-dark" >
+      <div class="message-body" >
+        {{ session('status') }}
+      </div >
+    </div >
+  @endif
     <table class="admin-table mt-5" >
       <thead >
       <tr >
-        <th ><abbr title="Номер заказа" >Номер заказа</abbr ></th >
-        <th ><abbr title="Заказчик" >Заказчик</abbr ></th >
-        <th ><abbr title="Товары"  >Товары</abbr ></th >
-        <th ><abbr title="Сумма" >Сумма</abbr ></th >
-        <th ><abbr title="Заказ создан" >Заказ создан</abbr ></th >
-        <th ><abbr title="Статус" >Статус</abbr ></th >
-        <th ><abbr title="Поменять статус" >Поменять статус</abbr ></th >
+        <th ><abbr title="Номер заказа" >{{__('Order number')}}</abbr ></th >
+        <th ><abbr title="Заказчик" >{{__('Customer')}}</abbr ></th >
+        <th ><abbr title="Товары"  >{{__('Products')}}</abbr ></th >
+        <th ><abbr title="Сумма" >{{__('Sum')}}</abbr ></th >
+        <th ><abbr title="Заказ создан" >{{__('Order created')}}</abbr ></th >
+        <th ><abbr title="Статус" >{{__('Status')}}</abbr ></th >
+        <th ><abbr title="Поменять статус" >{{__('Change status')}}</abbr ></th >
       </tr >
       </thead >
       <tfoot ></tfoot >
@@ -46,7 +53,7 @@
                      ="finalPrice" >{{ $order->created_at  }}</span >
           </td >
           <td ><span class
-                     ="" >{{ $order->status ? 'Доставлено' : 'В процессе'  }}</span >
+                     ="" >{{ $order->status ? __('Delivered') : __('In process') }}</span >
           </td >
           <td >
             @if(!$order->status)
@@ -55,7 +62,7 @@
               @method('put')
               <input type="hidden"  name="id" value="{{$order->id}}" >
             <button type="submit" class
-                     ="button is-success" >Доставлен</button >
+                     ="button is-success" >{{__('Delivered')}}</button >
             </form >
             @endif
           </td >

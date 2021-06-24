@@ -120,6 +120,7 @@ function sliderProduct(arg, width = null) {
   };
 
   function touchStart() {
+
     return function (event) {
       startPos = getPositionX(event);
       isDragging = true;

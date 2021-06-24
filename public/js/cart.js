@@ -7,8 +7,7 @@ noItem();
 function cart() {
     let products = document.querySelectorAll(".cart-row"),
         finalSumDiv = document.querySelector(".cart-summary__sum--number"),
-      cartNavbar = document.getElementById('cart-navbar'),
-        cartNavbarText = cartNavbar.querySelector('.cart-text'),
+        cartNavbarTexts = document.querySelectorAll('.cart-text'),
         finalPriceWithDeliveryDiv = document.querySelector('.cart-summary__sum--number-final');
 
 
@@ -104,16 +103,18 @@ function cart() {
 
         finalSumDiv.textContent = summaryPrice.toLocaleString(
             undefined);
-
+        cartNavbarTexts.forEach((elem) => {
         if (summaryPrice === 0) {
-            cartNavbarText.style.fontWeight = '400';
-            cartNavbarText.innerText = 'Корзина';
+            elem.style.fontWeight = '400';
+            elem.innerText = 'Корзина';
         } else {
-            cartNavbarText.style.fontWeight = '700';
-            cartNavbarText.
+            elem.style.fontWeight = '700';
+            elem.
             innerHTML = summaryPrice.toLocaleString(
                 undefined) + ' р.';
         }
+
+        });
         finalPriceWithDeliveryDiv.innerHTML = (+summaryPrice + 944).toLocaleString(
             undefined);
     }

@@ -254,8 +254,10 @@ function checkCookie(value) {
 }
 
 function renderCartButton() {
-  let cartNavbar = document.getElementById('cart-navbar'),
-    cartNavbarText = cartNavbar.querySelector('.cart-text');
+  let cartNavbar = document.querySelectorAll('.cart-navbar');
+  cartNavbar.forEach((elem)=>{
+
+  let cartNavbarText = elem.querySelector('.cart-text');
 
   axios.get('/api/cart/sum-of-products')
        .then(res => {
@@ -270,6 +272,7 @@ function renderCartButton() {
        }).catch(error => {
     console.log(error);
   });
+  });
 
 }
 
@@ -279,19 +282,19 @@ let searchInput = document.getElementById('main-search');
 let closeModal = document.getElementById('close-modal');
 let searchParent = document.querySelector('.search-results');
 let html = document.querySelector('html');
-let timeout;
+let searchTimeout;
 let searchString = '';
 searchInput.addEventListener('keyup', (elem) => {
 
   searchString = elem.target.value;
 
-  if (timeout) {
-    clearInterval(timeout);
+  if (searchTimeout) {
+    clearInterval(searchTimeout);
 
   }
 
   if (searchString) {
-    timeout = setTimeout(getSearchResult, 800);
+    searchTimeout = setTimeout(getSearchResult, 800);
   } else {
     closeModals();
   }
@@ -357,7 +360,7 @@ function closeModals() {
   searchParent.style.display = 'none';
   catalogTrigger.parentElement.classList.remove('is-active');
   document.querySelector('.category-list__sorting')?.classList.remove('showing');
-  document.querySelector('.category-filter__sidebar')?.classList.remove('show-sidebar');
+  document.querySelector('.category-filter')?.classList.remove('show-sidebar');
   closeModal.classList.remove('filter-active');
 }
 
@@ -411,11 +414,11 @@ sortingTouchButton.addEventListener('click',()=>{
 }
 
 //filter trigger
-let filterShowButton =document.querySelector('#category-filter__show');
+let filterShowButton =document.querySelector('.sidebar-trigger');
 if(filterShowButton){
 
 filterShowButton.addEventListener('click',()=>{
-  document.querySelector('.category-filter__sidebar').classList.add('show-sidebar');
+  document.querySelector('.category-filter').classList.add('show-sidebar');
   html.classList.add('is-clipped');
   closeModal.style.display = 'block';
   closeModal.classList.add('filter-active');

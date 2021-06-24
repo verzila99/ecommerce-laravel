@@ -52,7 +52,7 @@ class ProductPolicy
      */
     public function updateProduct(User $user): mixed
     {
-        return $user->role === '1';
+        return $user->role === 1;
     }
 
     /**

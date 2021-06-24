@@ -33,9 +33,7 @@ Route::get('/search', [ProductController::class, "search"])->name('search');
 
 
 //Cart
-Route::get('/cart', [CartController::class,"index"]);
-Route::post('/api/addtocart/{Id}', [CartController::class, "cart"]);
-
+Route::get('/cart', [CartController::class,"index"])->name('cart');
 
 //Order
 Route::post('/order/confirmation', [OrderController::class,"orderConfirmationRequest"])->name('confirmation');

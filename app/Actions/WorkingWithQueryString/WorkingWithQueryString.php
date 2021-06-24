@@ -12,12 +12,12 @@ class WorkingWithQueryString
     $sortingType = $request->query('sort_by');
 
     return match ($sortingType) {
-      'popularity' => 'По популярности',
-      'price' => 'Сначала дешевле',
-      '-price' => 'Сначала дороже',
-      'rating' => 'По рейтингу',
-      'newness' => 'По новизне',
-      default => 'По популярности',
+      'popularity' => 'Popularity',
+      'price' => 'Low to high',
+      '-price' => 'High to low',
+      'rating' => 'Rating',
+      'newness' => 'Newness',
+      default => 'Popularity',
     };
   }
 

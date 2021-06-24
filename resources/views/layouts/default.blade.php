@@ -61,7 +61,6 @@
     </div >
   </div >
 </div >
-{{--<div class="" style="height: 76px;">--}}
 <nav class="navbar field py-3 px-2"
      role="navigation"
      aria-label="main navigation" >
@@ -147,7 +146,7 @@
           action="{{ route('search')}}" >
       <div class="search-field is-flex" >
         <label for="main-search" ></label >
-        <input id="main-search" class="input" type="text" autocomplete="off" name="search_string"
+        <input id="main-search" class="input" type="search" autocomplete="off" name="search_string"
                placeholder="Поиск товаров..." />
         <button type="submit" class="button is-success search-submit" >{{__('Search')}}</button >
       </div >

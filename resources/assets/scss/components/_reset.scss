@@ -21,3 +21,11 @@ body{
 .vh{
   min-height: 60vh;
 }
+@media (max-width: 1022px){
+  .container {
+    padding: 0 .75rem;
+  }
+  .columns{
+    margin-left: 0!important;
+  }
+}

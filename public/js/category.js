@@ -1,86 +1,82 @@
+//accordion
+
 let accordionTitles = document.querySelectorAll(".accordion-group"),
-    showMoreButtons = document.querySelectorAll('.show-more'),
-    accordionPrice = document.querySelector('.accordion-price'),
-    checkboxInputs = document.querySelectorAll('.checkbox-filter'),
-    measuringDiv, measuringDivBottom;
-
-//Filter group accordion
-
+  showMoreButtons = document.querySelectorAll('.show-more'),
+  accordionPrice = document.querySelector('.accordion-price'),
+  checkboxInputs = document.querySelectorAll('.checkbox-filter'),
+  measuringDiv, measuringDivBottom;
 
 accordionTitles.forEach((elem) => {
 
-    elem.querySelector(".category-filter__title").addEventListener(
-        "click",
-        () => {
+  elem.querySelector(".category-filter__title").addEventListener(
+    "click",
+    () => {
 
 
-            if (elem.querySelector(".category-filter__title").nextElementSibling.classList.contains('accordion-price')) {
+      if (elem.querySelector(".category-filter__title").nextElementSibling.classList.contains('accordion-price')) {
 
-                if (!elem.querySelector('.category-filter__arrow').classList.contains('reverse')) {
+        if (!elem.querySelector('.category-filter__arrow').classList.contains('reverse')) {
 
-                    accordionPrice.style.height = '0px';
-                    elem.querySelector('.category-filter__arrow').classList.add('reverse');
-                } else {
+          accordionPrice.style.height = '0px';
+          elem.querySelector('.category-filter__arrow').classList.add('reverse');
+        } else {
 
-                    elem.querySelector('.category-filter__arrow').classList.remove('reverse');
-                    accordionPrice.style.height = '50px';
-
-                }
-            } else if (elem.querySelector('.category-filter__arrow').classList.contains('reverse') && elem.querySelector('.show-more').textContent === 'Показать ещё') {
-
-                elem.querySelector(".accordion-item").style.height = '212px';
-                elem.querySelector('.category-filter__arrow').classList.remove('reverse');
-                elem.querySelector(".show-more").style.height = '20px';
-
-            } else if (elem.querySelector('.category-filter__arrow').classList.contains('reverse') && elem.querySelector('.show-more').textContent === 'Скрыть') {
-                measuringDiv = elem.querySelector('.measuring').clientHeight;
-                elem.querySelector(".accordion-item").style.height = 10 + measuringDiv + 'px';
-                elem.querySelector('.category-filter__arrow').classList.remove('reverse');
-                elem.querySelector(".show-more").style.height = '20px';
-
-            } else if (elem.querySelector('.category-filter__arrow').classList.contains('reverse')) {
-                measuringDiv = elem.querySelector('.measuring').clientHeight;
-                elem.querySelector(".accordion-item").style.height = 10 + measuringDiv + 'px';
-                elem.querySelector('.category-filter__arrow').classList.remove('reverse');
-
-                if (elem.querySelector(".show-more").style.height) {
-
-                    elem.querySelector(".show-more").style.height = '20px';
-                }
-            } else {
-
-                elem.querySelector('.category-filter__arrow').classList.add('reverse');
-                elem.querySelector(".accordion-item").style.height = '0px';
-                elem.querySelector(".show-more").style.height = '0px';
-
-
-            }
-
+          elem.querySelector('.category-filter__arrow').classList.remove('reverse');
+          accordionPrice.style.height = '150px';
 
         }
-    );
+      } else if (elem.querySelector('.category-filter__arrow').classList.contains('reverse') && elem.querySelector('.show-more').textContent === 'Show more') {
+
+        elem.querySelector(".accordion-item").style.height = '212px';
+        elem.querySelector('.category-filter__arrow').classList.remove('reverse');
+        elem.querySelector(".show-more").style.height = '20px';
+
+      } else if (elem.querySelector('.category-filter__arrow').classList.contains('reverse') && elem.querySelector('.show-more').textContent === 'Hide') {
+        measuringDiv = elem.querySelector('.measuring').clientHeight;
+        elem.querySelector(".accordion-item").style.height = 10 + measuringDiv + 'px';
+        elem.querySelector('.category-filter__arrow').classList.remove('reverse');
+        elem.querySelector(".show-more").style.height = '20px';
+
+      } else if (elem.querySelector('.category-filter__arrow').classList.contains('reverse')) {
+        measuringDiv = elem.querySelector('.measuring').clientHeight;
+        elem.querySelector(".accordion-item").style.height = 10 + measuringDiv + 'px';
+        elem.querySelector('.category-filter__arrow').classList.remove('reverse');
+
+        if (elem.querySelector(".show-more")) {
+
+          elem.querySelector(".show-more").style.height = '20px';
+        }
+      } else {
+
+        elem.querySelector('.category-filter__arrow').classList.add('reverse');
+        elem.querySelector(".accordion-item").style.height = '0px';
+        elem.querySelector(".show-more").style.height = '0px';
+
+
+      }
+
+
+    }
+  );
 });
 
 showMoreButtons.forEach((elem) => {
 
-    elem.addEventListener("click", () => {
-        measuringDivBottom = elem.previousElementSibling.querySelector('.measuring').clientHeight;
+  elem.addEventListener("click", () => {
+    measuringDivBottom = elem.previousElementSibling.querySelector('.measuring').clientHeight;
 
-        if (elem.textContent === 'Показать ещё') {
-            elem.textContent = 'Скрыть';
-            elem.previousElementSibling.style.height = 10 + measuringDivBottom + 'px';
-        } else {
-            elem.textContent = 'Показать ещё';
-            elem.previousElementSibling.style.height = '13.4rem';
-        }
+    if (elem.textContent === 'Show more') {
+      elem.textContent = 'Hide';
+      elem.previousElementSibling.style.height = 10 + measuringDivBottom + 'px';
+    } else {
+      elem.textContent = 'Show more';
+      elem.previousElementSibling.style.height = '13.4rem';
+    }
 
-    });
+  });
 
 
 });
-
-
-
 // Filtering
 let urlObject = new URL(document.location.href);
 let urlParams = urlObject.searchParams;
@@ -94,96 +90,183 @@ newDiv.classList.add('absolute-button');
 
 
 checkboxInputs.forEach(elem => {
-    elem.addEventListener('change', () => {
+  elem.addEventListener('change', () => {
 
-        let parameter = elem.getAttribute('data-parameter') + '[]=' + elem.getAttribute('data-value');
-        if (elem.checked) {
-            queryString += queryString ? `&${parameter}` : parameter;
-          console.log(queryString);
-        } else if (!elem.checked) {
-            if (queryString.includes('&' + parameter)) {
-                queryString = queryString.replace('&' + parameter, '');
-            } else if (queryString.includes(parameter)) {
-                queryString = queryString.replace(parameter, '');
-            }
-        }
-        axios.get('/api' + urlObject.pathname + '?' + decodeURIComponent(queryString))
-            .then(function (response) {
-                return response.data;
-            })
-            .then((res) => {
+    let parameter = elem.getAttribute('data-parameter') + '[]=' + elem.getAttribute('data-value');
+    if (elem.checked) {
+      queryString += queryString ? `&${parameter}` : parameter;
+      console.log(queryString);
+    } else if (!elem.checked) {
+      if (queryString.includes('&' + parameter)) {
+        queryString = queryString.replace('&' + parameter, '');
+      } else if (queryString.includes(parameter)) {
+        queryString = queryString.replace(parameter, '');
+      }
+    }
+    axios.get('/api' + urlObject.pathname + '?' + decodeURIComponent(queryString))
+         .then(function (response) {
+           return response.data;
+         })
+         .then((res) => {
 
-                      if (res !== 0) {
-                          queryString = queryString.replace('?', '');
-                          newDiv.innerHTML = 'Найдено:' + res;
-                          newDiv.setAttribute('href', urlObject.pathname + '?' + queryString.replace(/\+\+\+/g, ' + ').replace(/\+/g, ' ').replace(/\s\s\s/g, ' + '));
-                          elem.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
-                      } else {
-                          newDiv.innerHTML = '0 найдено';
-                          elem.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
-                      }
+                 if (res !== 0) {
+                   queryString = queryString.replace('?', '');
+                   newDiv.innerHTML = 'Найдено:' + res;
+                   newDiv.setAttribute('href', urlObject.pathname + '?' + decodeURIComponent(queryString));
+                   elem.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
+                 } else {
+                   newDiv.innerHTML = '0 найдено';
+                   elem.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
+                 }
+               }
+         )
+         .catch(function (error) {
+           console.log(error);
+         });
+  });
+});
 
-                  }
-            )
-            .catch(function (error) {
+//range slider
+let startSlider = document.querySelector('#range-slider');
+let priceFromData = +document.querySelector('#price_from').dataset.value;
+let priceFromDataValue = +document.querySelector('#price_from').value;
+let priceToData = +document.querySelector('#price_to').dataset.value;
+let priceToDataValue = +document.querySelector('#price_to').value;
 
-                console.log(error);
-            });
+let inputPriceFrom = document.querySelector('#price_from');
+let inputPriceTo = document.querySelector('#price_to');
+let getProductsByPriceTimeout;
 
 
-    });
+noUiSlider.create(startSlider, {
+  start: [priceFromDataValue ? priceFromDataValue : priceFromData,
+          priceToDataValue ? priceToDataValue : priceToData],
+  connect: true,
+  step: 1,
+  format: {
+    to: function (val) {return Math.floor(val);},
+    from: function (value) {return Number(value.replace(',-', ''));}
+  },
+  range: {
+    'min': [priceFromData],
+    'max': [priceToData]
+  }
+});
+startSlider.noUiSlider.on("update", () => {
 
+  let data = startSlider.noUiSlider.get();
+  inputPriceFrom.value = data[0];
+  inputPriceTo.value = data[1];
+});
+
+startSlider.noUiSlider.on("end", () => {
+
+  let dataFrom = 'price=' + startSlider.noUiSlider.get()[0] + ':' + startSlider.noUiSlider.get()[1];
+  console.log(dataFrom);
+  if (getProductsByPriceTimeout) {
+    clearTimeout(getProductsByPriceTimeout);
+  }
+
+  getProductsByPriceTimeout = setTimeout(() => {
+
+    getProductsNumberByPrice(dataFrom);
+
+  }, 800);
+});
+
+
+//allow only digits in input
+let numberInputs = document.querySelectorAll('.input-number');
+numberInputs.forEach((elem) => {
+  elem.addEventListener('input', () => {
+    elem.value = elem.value.replace(/\D+/g, '');
+
+  });
 });
 
 priceFrom.addEventListener('keyup', () => {
-    let priceFromValue = 'price_from=' + priceFrom.value;
 
-    fetch('/api' + urlObject.pathname + '?' + queryString.replace(/price_from=\d+/g, '').replace('&&', '&').replace('?&', '?') + '&' + priceFromValue)
-        .then(function (response) {
+  let priceFromValue = 'price=' + priceFrom.value + ':' + priceTo.value;
 
-            return response.json();
-        })
-        .then((res) => {
+  if (getProductsByPriceTimeout) {
+    clearTimeout(getProductsByPriceTimeout);
+  }
+  getProductsByPriceTimeout = setTimeout(() => {
 
-                  if (res !== 0) {
-                      queryString = queryString.replace('?', '');
-                      newDiv.style.right = '-65%';
-                      newDiv.innerHTML = 'Найдено:' + res;
-                      newDiv.setAttribute('href', urlObject.pathname + '?' + queryString.replace(/price_from=\d+/g, '').replace('&&', '&').replace('?&', '?') + '&' + priceFromValue);
-                      priceFrom.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
-                  } else {
-                      newDiv.innerHTML = '0 найдено';
-                      priceFrom.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
-                  }
-              }
-        )
-        .catch(function (error) {
-            console.log(error);
-        });
+    getProductsNumberByPrice(priceFromValue);
+
+    startSlider.noUiSlider.set([+priceFrom.value, null]);
+
+  }, 800);
+
+
 });
+
 priceTo.addEventListener('keyup', () => {
-    let priceToValue = 'price_to=' + priceTo.value;
 
-    fetch('/api' + urlObject.pathname + '?' + queryString.replace(/price_to=\d+/g, '').replace('&&', '&').replace('?&', '?') + '&' + priceToValue)
-        .then(function (response) {
+  let priceToValue = 'price=' + priceFrom.value + ':' + priceTo.value;
 
-            return response.json();
-        })
-        .then((res) => {
+  if (getProductsByPriceTimeout) {
+    clearTimeout(getProductsByPriceTimeout);
+  }
+  getProductsByPriceTimeout = setTimeout(() => {
 
-                  if (res !== 0) {
-                      newDiv.style.right = '-40%';
-                      queryString = queryString.replace('?', '');
-                      newDiv.innerHTML = 'Найдено:' + res;
-                      newDiv.setAttribute('href', urlObject.pathname + '?' + queryString.replace(/price_to=\d+/g, '').replace('&&', '&').replace('?&', '?') + '&' + priceToValue);
-                      priceTo.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
-                  } else {
-                      newDiv.innerHTML = '0 найдено';
-                      priceTo.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
-                  }
-              }
-        )
-        .catch(function (error) {
-            console.log(error);
-        });
+    getProductsNumberByPrice(priceToValue);
+
+    startSlider.noUiSlider.set([null, +priceTo.value]);
+
+  }, 800);
+});
+
+function getProductsNumberByPrice(priceValue) {
+  queryString = decodeURIComponent(queryString);
+  queryString = queryString.replace(/price=\d+:\d+/g, '').replace(/^[&]|[&?]$/, '');
+  console.log(queryString);
+  queryString = queryString === '' ? queryString : queryString + '&';
+
+  axios.get('/api' + urlObject.pathname + '?' + decodeURIComponent(queryString + priceValue))
+       .then(function (response) {
+
+         return response.data;
+       })
+       .then((res) => {
+
+               if (res !== 0) {
+
+                 queryString = queryString.replace('?', '');
+                 newDiv.innerHTML = 'Найдено:' + res;
+
+                 newDiv.setAttribute('href', urlObject.pathname + '?' + decodeURIComponent(queryString + priceValue));
+
+                 priceTo.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
+               } else {
+                 newDiv.innerHTML = 'Найдено: 0';
+                 priceTo.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
+               }
+             }
+       )
+       .catch(function (error) {
+         console.log(error);
+       });
+}
+
+//deleting sidebar filters
+let filters = document.querySelectorAll('.applied-filter');
+
+filters.forEach((elem) => {
+  elem.addEventListener('click', () => {
+    let filterName = elem.querySelector('.filter-name').dataset.name;
+    let filterValue = elem.querySelector('.filter-value').dataset.value;
+
+    queryString = decodeURIComponent(queryString);
+
+    queryString = queryString
+      .replace(filterName + '=' + filterValue, '')
+      .replace(filterName + '[]=' + filterValue, '')
+      .replace(/^[&]|[&?]$/, '');
+    queryString = queryString === '' ? queryString : '?' + queryString;
+
+    window.location = urlObject.origin + urlObject.pathname + decodeURIComponent(queryString);
+
+  });
 });

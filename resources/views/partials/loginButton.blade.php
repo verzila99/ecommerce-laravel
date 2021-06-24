@@ -1,8 +1,7 @@
-
-<a id="cart-navbar" href="/cart" class="navbar-item button  is-success ml-3" >
-  <span class="cart-text" >{{__('Cart')}}</span >
-  <span class="icon" >
-                    <i class="fas fa-shopping-cart" ></i >
+<a href="{{ route('cart') }}" class="navbar-item cart-navbar button  is-success ml-3">
+  <span class="cart-text">{{__('Cart')}}</span >
+  <span class="icon">
+                    <i class="fas fa-shopping-cart"></i >
                 </span >
 </a >
 <a
@@ -13,9 +12,10 @@
   data-status="quest"
   @endif
   id="favorites-link"
-  class="button is-success  ml-3 is-block-desktop is-hidden-tablet" >
+  class="button is-success  ml-3 is-block-desktop is-hidden-tablet"
+>
   <span >{{__('Favorite')}}</span >
-  <span class="icon" >
-                    <i class="far fa-heart" ></i >
+  <span class="icon">
+                    <i class="far fa-heart"></i >
                 </span >
 </a >

@@ -4,7 +4,7 @@
 .accordion {
     position: relative;
     width: 100%;
-    overflow: hidden;
+    overflow-y: hidden;
     transition: height 0.5s ease-in-out;
 
 }
@@ -16,7 +16,9 @@
 }
 
 .accordion-price{
-    height: 50px;
+  margin: 0!important;
+  padding: 0!important;
+    height: 150px;
     overflow: hidden;
     transition: height 0.5s linear;
 }
@@ -36,7 +38,7 @@
 .absolute-button{
     display: block;
     position: absolute!important;
-    right:0%;
+    left:100%;
     top:50%;
     z-index: 3;
     color: white!important;
@@ -58,9 +60,54 @@
 .collapse {
     max-height: 0;
 }
+.price-input__from,.price-input__to{
+  height: 50px;
+}
+
+#range-slider{
+  width: 90%;
+  height: 35px;
+}
+
+.noUi-connect{
+  background-color: $success!important;
+}
+.noUi-target{
+  background-color: transparent!important;
+  border: none!important;
+  box-shadow: none!important;
+}
+
+.noUi-handle{
+  width: 30px!important;
+  height: 30px!important;
+  border-radius: 50% !important;
+  border: 2px $white solid!important;
+  top: -10px !important;
+}
+
+.noUi-handle:hover{
+  width: 35px!important;
+  height: 35px!important;
+  top: -12px !important;
+}
+.noUi-handle:before, .noUi-handle:after {
+  display: none!important;
+}
+
+.applied-filter{
+  display: block;
+  background-color: $light;
+  border: 1px $light solid;
+  border-radius: 4px;
+  cursor: pointer;
+}
 .category-filter {
+  position: relative;
     flex-basis: 20%;
-  flex-shrink: 0;
+    flex-shrink: 0;
+  background-color: $white;
+
 }
 .category-list {
     flex-basis: 75%;
@@ -134,7 +181,13 @@
 .price-input__from,
 .price-input__to {
     width: 45%;
-    border: 1px solid rgb(219, 219, 219);
+
+}
+
+.price-input__from input,
+.price-input__to  input{
+  border: 1px solid #000;
+  border-radius: 4px;
 }
 .category-filter__price-input input {
     border: none !important;
@@ -238,7 +291,7 @@
   .category-list__sorting {
     position: absolute;
     top: 0;
-    left: 127px;
+    left: 90px;
     display: none;
     flex-direction: column;
     z-index: 32;
@@ -262,9 +315,9 @@
     border-radius: 0!important;
     margin-left: 0!important;
   }
-  .category-filter__sidebar{
-    display: block;
-    position: absolute;
+  .category-filter{
+    display: flex!important;
+    position: fixed;
     overflow: scroll;
     padding: 1rem;
     flex-shrink: 0;
@@ -282,7 +335,10 @@
   .show-sidebar{
     transform: translateX(0);
   }
-
+  .absolute-button {
+    left: 0;
+    top: 0;
+  }
 }
 @media(max-width: 770px){
   .category-list__item-image{

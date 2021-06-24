@@ -20,7 +20,7 @@
         <div class="category-list__sorting ">
           <a href="{{ $requestUri  . "sort_by=" .
                     "popularity"}}"
-             class="button sort-button is-inverted @if($sortingType==='По популярности') is-primary @endif "
+             class="button sort-button is-inverted @if($sortingType==='Popularity') is-primary @endif "
              data-sort="popularity"
           >
             {{__('Popularity')}}
@@ -28,7 +28,7 @@
 
           <a href="{{ $requestUri  . "sort_by=" . "price"}}"
              class="button sort-button is-inverted    is-flex is-align-content-center
-                @if($sortingType==='Сначала дешевле') is-primary @endif"
+                @if($sortingType==='Low to high') is-primary @endif"
              data-sort="price"
           > {{__('messages.Price')}}
             <span class="arrow arrow-up ml-3">
@@ -84,7 +84,7 @@
 
           <a href="{{$requestUri . "sort_by=" . "-price"}}"
              class="button sort-button is-inverted   is-flex is-align-content-center
-                      @if($sortingType==='Сначала дороже') is-primary @endif"
+                      @if($sortingType==='High to low') is-primary @endif"
              data-sort="-price"
           >{{__('messages.Price')}}
             <span class="arrow arrow-down ml-3">
@@ -139,12 +139,12 @@
           </a >
 
           <a href="{{ $requestUri  . "sort_by=" . "rating"}}"
-             class="button sort-button is-inverted @if($sortingType==='По рейтингу') is-primary @endif"
+             class="button sort-button is-inverted @if($sortingType==='Rating') is-primary @endif"
              data-sort="rating"
           >{{__('Rating')}}</a >
 
           <a href="{{ $requestUri  . "sort_by=" . "newness"}}"
-             class="button sort-button is-inverted @if($sortingType==='По новизне') is-primary @endif"
+             class="button sort-button is-inverted @if($sortingType==='Newness') is-primary @endif"
              data-sort="newness"
           >{{__('Newness')}}</a >
         </div >

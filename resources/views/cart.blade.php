@@ -77,9 +77,11 @@
                      </tbody >
                  </table >
              </div >
-             <div class="cart-continue mt-5 is-flex is-justify-content-flex-end px-3" >
+             <div class="cart-continue columns mt-5 is-flex is-justify-content-flex-end px-3" >
                  <div
-                     class="cart-summary is-flex is-flex-direction-column is-justify-content-space-around is-align-items-center
+                     class="cart-continue-summary column is-one-third is-half-tablet is-flex is-flex-direction-column
+                     is-justify-content-space-around
+                     is-align-items-center
                             is-one-third-desktop is-half-tablet is-full-mobile
 "
                  >
@@ -119,7 +121,7 @@
                          </div >
                      </div >
                      <button type="submit" id="confirm-btn" class="button is-success is-fullwidth mt-6" >
-                         {{__('Continue to registration')}}
+                         {{__('Continue to checkout')}}
                      </button >
 
                  </div >

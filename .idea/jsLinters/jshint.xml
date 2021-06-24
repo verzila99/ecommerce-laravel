@@ -58,7 +58,7 @@
     <option passfail="false" />
     <option phantom="false" />
     <option plusplus="false" />
-    <option predef="console,axios,ResizeObserver,pageYOffset" />
+    <option predef="console,axios,ResizeObserver,pageYOffset,noUiSlider" />
     <option proto="false" />
     <option prototypejs="false" />
     <option qunit="false" />

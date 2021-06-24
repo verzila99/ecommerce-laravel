@@ -9,14 +9,12 @@ class SearchFilter
 
   public static function applyFilters($request, $query)
   {
-    [$manufacturer, $priceFrom, $priceTo, $sortBy] = self::handleRequest($request);
+    [$manufacturer, $price, $sortBy] = self::handleRequest($request);
 
     return $query->when($manufacturer, function ($query, $manufacturer) {
         return $query->whereIn('manufacturer', $manufacturer);
-      })->when($priceFrom, function ($query, $priceFrom) {
-        return $query->where('price', '>', $priceFrom);
-      })->when($priceTo, function ($query, $priceTo) {
-        return $query->where('price', '<', $priceTo);
+      })->when($price, function ($query, $price) {
+        return $query->whereBetween('price', [$price[0],$price[1]]);
       })->when($sortBy, function ($query, $sortBy) {
         if ($sortBy === 'popularity') {
           return $query->orderBy('views', 'desc');
@@ -51,10 +49,45 @@ class SearchFilter
     } else {
       $manufacturer = null;
     }
-    $priceFrom = $request->price_from;
-    $priceTo = $request->price_to;
+
+    $price = $request->price ? explode(':',$request->price) : null;
+
     $sortBy = $request->sort_by;
 
-    return [$manufacturer, $priceFrom, $priceTo, $sortBy];
+    return [$manufacturer, $price, $sortBy];
+  }
+
+
+  public static function getAppliedFilters($request,$properties)
+  {
+    $appliedFilters = [];
+
+    foreach ($properties as $property) {
+
+      $name = $property->name;
+
+      if ($request->has($name)) {
+
+        foreach ($request->$name as $p) {
+
+          $appliedFilters[] = [$name , str_replace('   ', ' + ', $p)];
+        }
+      }
+    }
+    if ($request->manufacturer) {
+
+      foreach ($request->manufacturer as $man) {
+
+        $appliedFilters[] =['manufacturer', $man];
+      }
+    }
+    if ($request->price) {
+
+      $price =explode(':', $request->price);
+
+      $appliedFilters[] = ['price',$price[0] . ':' . $price[1]];
+    }
+
+    return $appliedFilters;
   }
 }

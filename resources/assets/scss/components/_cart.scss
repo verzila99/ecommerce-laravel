@@ -33,8 +33,13 @@ abbr[title] {
     height: 40px;
     text-align: center;
 }
+.cart-continue-summary {
+    padding: 1rem 2rem!important;
+    border: solid 1px #d9dadc;
+    min-height: 450px;
+}
 .cart-summary {
-    padding: 1rem 2rem;
+    padding: 1rem 2rem!important;
     border: solid 1px #d9dadc;
     min-height: 450px;
 }

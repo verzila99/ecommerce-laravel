@@ -38,20 +38,21 @@ class ProductController extends Controller
 
     $requestUri = WorkingWithQueryString::getQueryStringWithoutSorting($request);
 
-    $page = $request->page;
-
-    if ($productList->lastPage() < (int)$page) {
+    if ($productList->lastPage() < (int)$request->page) {
       return redirect($request->fullUrlWithQuery(['page' => 1]));
     }
 
 //sidebar inputs
+    $appliedFilters = SearchFilter::getAppliedFilters($request, $properties);
+
     $filterInputs = Category::getInputFieldsForSidebar($category, $properties);
 
     $properties = $properties->toArray();
 
     $favoritesStatusList = FavoritesList::getFavoritesList();
 
-
+    $minMaxPrice = [Product::select('price')->where('category',$category )->min('price'),
+                    Product::select('price')->where('category', $category)->max('price')];
 
     $explodedQueryString = explode('&', str_replace('   ', ' + ', urldecode($request->getQueryString())));
 
@@ -66,7 +67,9 @@ class ProductController extends Controller
           'explodedQueryString',
           'favoritesStatusList',
           'properties',
-          'sortingType'
+          'sortingType',
+          'minMaxPrice',
+          'appliedFilters'
         ]
       )
     );

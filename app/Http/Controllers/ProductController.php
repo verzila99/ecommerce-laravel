@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Actions\FavoritesList\FavoritesList;
-use App\Actions\Paginator\CustomPaginator;
+use App\Actions\CustomPaginator\CustomPaginator;
 use App\Actions\RecentlyViewed\RecentlyViewed;
 use App\Actions\SearchFilter\SearchFilter;
 use App\Actions\WorkingWithImage\WorkingWithImage;
@@ -215,6 +215,6 @@ class ProductController extends Controller
 
     $data = Product::where('title', 'LIKE', '%' . $request->validate(['search_string' => 'required|string'])['search_string'] . '%')->get();
 
-    return $data ? $data->toJson() : 'Не найдено товаров';
+    return $data ? $data->toJson() : 'No items found';
   }
 }

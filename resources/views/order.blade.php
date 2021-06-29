@@ -43,14 +43,15 @@
                   >
                     {{ $product['title']}}</a >
                 </td >
-                <td class="price is-hidden-touch" > {{ number_format($product['price'],0,',',' ')}}</td >
+                <td class="price is-hidden-touch" > {{ number_format($product['price']/100,2,'.',',')}}</td >
                 <td >
                   <div class="quantity" >
                     {{ $product['quantity']}}
                   </div >
                 </td >
                 <td ><span class
-                           ="finalPrice" >{{number_format($product['price'] * $product['quantity'],0,',',' ')  }}</span >
+                           ="finalPrice" >{{number_format($product['price'] * $product['quantity']/100,2,'.',',')
+                           }}</span >
                 </td >
 
               </tr >
@@ -131,11 +132,11 @@
             class="cart-summary__sum is-flex is-justify-content-space-between is-align-items-center"
           >
             <span class="cart-summary__sum--text" >{{__('Sum')}}</span >
-            <div >
+            <div ><span class="has-text-weight-bold" >$ </span >
                         <span
                           class="cart-summary__sum--number has-text-weight-bold"
-                        >{{number_format($sum - 944,0,',',' ')}}</span >
-              <span class="has-text-weight-bold" > р.</span >
+                        >{{number_format($sum/100 - 9.44,2,'.',',')}}</span >
+
             </div >
           </div >
           <div
@@ -143,7 +144,7 @@
           >
                     <span class="cart-summary__sum--text" >{{__('Delivery')}}</span
                     ><span class="cart-delivery-price has-text-weight-bold"
-            >944 <span >р.</span ></span
+            ><span class="has-text-weight-bold" >$ </span >9.44 </span
             >
           </div >
           <div
@@ -152,8 +153,8 @@
                     <span class="cart-summary__sum--text" >{{__('Total')}}</span
                     ><span
               class="cart-summary__sum--number-final has-text-weight-bold"
-            >{{ number_format($sum,0,',',' ') }}
-                        <span >р.</span ></span
+            ><span class="has-text-weight-bold" >$ </span >{{ number_format($sum/100,2,'.',',') }}
+                        </span
             >
           </div >
           <button type="submit" class="button is-success is-fullwidth mt-6" >

@@ -6,7 +6,7 @@
         @if( $paginator->currentPage()!==1)
             <a href="{{$paginator->previousPageUrl() }}"
                class="pagination-previous">{{__("Previous")}}</a>
-        @endifПредыдущая
+        @endif
         @if( $paginator->currentPage()!== $paginator->lastPage())
             <a href="{{$paginator->nextPageUrl()}}" class="pagination-next">{{__("Next")}}</a>
         @endif

@@ -252,27 +252,27 @@
 
                 @php
                   $oldPrice=(round((int)
-                          $product->price + round(
+                          $product->price/100 + round(
                           (random_int
                           (5,15) *  ((int)
-                          $product->price /
+                          $product->price/100 /
                           100)))))
                 @endphp
 
-                <span class="oldprice-item " >{{
-                                    number_format($oldPrice, 0,  ',', ' ')}}
-                                        р.</span >
+                <span class="oldprice-item " >$ {{
+                                    number_format($oldPrice,2, '.', ',')}}
+                                        </span >
                 <span class="tag is-success discount "
-                >-{{ number_format(((int)$oldPrice - (int)
-                                $product->price), 0, ',', ' ')}} р.</span >
+                >-$ {{ number_format(((int)$oldPrice - (int)
+                                $product->price/100), 2, '.', ',')}}</span >
               </div >
 
               <div
                 class="price has-text-weight-bold
                                     is-size-3" >
-                {{ number_format(round((int)
-                       $product->price), 0, ',', ' ')}}
-                р.
+                $ {{ number_format(round((int)
+                       $product->price/100), 2, '.', ',')}}
+
               </div >
 
               <a class="button is-primary mt-5

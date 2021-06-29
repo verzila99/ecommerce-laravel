@@ -28,11 +28,11 @@ function cart() {
         function renderPrice() {
             if (typeof quantityOfProducts === "number") {
                 if (quantityOfProducts >= 0) {
-                    let finalPriceValue = +priceOfProduct * quantityOfProducts;
+                    let finalPriceValue = +priceOfProduct * quantityOfProducts/100;
 
                     finalPriceDiv.innerHTML = finalPriceValue.
                     toLocaleString(
-                        undefined);
+                        'en-Us',{ minimumFractionDigits: 2 });
                     finalPriceDiv.dataset.finalPrice = finalPriceValue;
                 } else {
                     quantityOfProducts = 0;
@@ -102,7 +102,7 @@ function cart() {
         });
 
         finalSumDiv.textContent = summaryPrice.toLocaleString(
-            undefined);
+            'en-Us',{ minimumFractionDigits: 2 });
         cartNavbarTexts.forEach((elem) => {
         if (summaryPrice === 0) {
             elem.style.fontWeight = '400';
@@ -110,13 +110,13 @@ function cart() {
         } else {
             elem.style.fontWeight = '700';
             elem.
-            innerHTML = summaryPrice.toLocaleString(
-                undefined) + ' р.';
+            innerHTML ='$ ' + summaryPrice.toLocaleString(
+                'en-Us',{ minimumFractionDigits: 2 });
         }
 
         });
-        finalPriceWithDeliveryDiv.innerHTML = (+summaryPrice + 944).toLocaleString(
-            undefined);
+        finalPriceWithDeliveryDiv.innerHTML = (+summaryPrice + 9.44).toLocaleString(
+            'en-Us',{ minimumFractionDigits: 2 });
     }
 
 }

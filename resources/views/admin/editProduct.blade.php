@@ -47,7 +47,7 @@
         </div >
       </div >
       <div class=" field" >
-        <label class="label" >{{__('Price')}}</label >
+        <label class="label" >{{__('Price in cents')}}</label >
         <div class="control" >
           <input class="input" type="text" placeholder="Цена" name="price" value="{{ $product->price}}" >
         </div >

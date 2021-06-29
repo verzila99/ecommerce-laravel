@@ -1042,6 +1042,10 @@ abbr[title] {
   width: 100%;
 }
 
+.category-filter__brands {
+  width: 100%;
+}
+
 .category-filter__title {
   width: 100%;
   cursor: pointer;
@@ -1060,7 +1064,7 @@ abbr[title] {
   /* Положение треугольника */
   border: 7px solid transparent;
   /* Прозрачные границы */
-  border-top: 7px solid #f26419;
+  border-top: 7px solid #FFD447;
   /* Добавляем треугольник */
   border-radius: 2px;
   transition: transform 0.5s ease-in-out;
@@ -11670,11 +11674,12 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 
 *::-webkit-scrollbar-track {
   background: #FFFFFF;
+  border-radius: 10px;
 }
 
 *::-webkit-scrollbar-thumb {
   background-color: #363636;
-  border-radius: 5px;
+  border-radius: 10px;
 }
 
 *::-webkit-scrollbar-thumb:hover {

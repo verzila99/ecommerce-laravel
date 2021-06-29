@@ -47,7 +47,7 @@
               @endforeach
             </div >
           </td >
-          <td class="price" > {{ number_format($order->sum,0,',',' ')}} р.</td >
+          <td class="price" >$ {{ number_format($order->sum/100,2,'.',',')}}</td >
 
           <td ><span class
                      ="finalPrice" >{{ $order->created_at  }}</span >

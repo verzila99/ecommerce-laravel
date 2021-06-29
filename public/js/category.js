@@ -115,7 +115,7 @@ checkboxInputs.forEach(elem => {
                    newDiv.setAttribute('href', urlObject.pathname + '?' + decodeURIComponent(queryString));
                    elem.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
                  } else {
-                   newDiv.innerHTML = '0 найдено';
+                   newDiv.innerHTML = '0 found';
                    elem.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
                  }
                }
@@ -129,9 +129,9 @@ checkboxInputs.forEach(elem => {
 //range slider
 let startSlider = document.querySelector('#range-slider');
 let priceFromData = +document.querySelector('#price_from').dataset.value;
-let priceFromDataValue = +document.querySelector('#price_from').value;
+let priceFromDataValue = +document.querySelector('#price_from').value/100;
 let priceToData = +document.querySelector('#price_to').dataset.value;
-let priceToDataValue = +document.querySelector('#price_to').value;
+let priceToDataValue = +document.querySelector('#price_to').value/100;
 
 let inputPriceFrom = document.querySelector('#price_from');
 let inputPriceTo = document.querySelector('#price_to');
@@ -152,6 +152,7 @@ noUiSlider.create(startSlider, {
     'max': [priceToData]
   }
 });
+
 startSlider.noUiSlider.on("update", () => {
 
   let data = startSlider.noUiSlider.get();
@@ -161,7 +162,7 @@ startSlider.noUiSlider.on("update", () => {
 
 startSlider.noUiSlider.on("end", () => {
 
-  let dataFrom = 'price=' + startSlider.noUiSlider.get()[0] + ':' + startSlider.noUiSlider.get()[1];
+  let dataFrom = 'price=' + startSlider.noUiSlider.get()[0]*100 + ':' + startSlider.noUiSlider.get()[1] * 100;
   console.log(dataFrom);
   if (getProductsByPriceTimeout) {
     clearTimeout(getProductsByPriceTimeout);
@@ -186,7 +187,7 @@ numberInputs.forEach((elem) => {
 
 priceFrom.addEventListener('keyup', () => {
 
-  let priceFromValue = 'price=' + priceFrom.value + ':' + priceTo.value;
+  let priceFromValue = 'price=' + priceFrom.value * 100 + ':' + priceTo.value * 100;
 
   if (getProductsByPriceTimeout) {
     clearTimeout(getProductsByPriceTimeout);
@@ -204,7 +205,7 @@ priceFrom.addEventListener('keyup', () => {
 
 priceTo.addEventListener('keyup', () => {
 
-  let priceToValue = 'price=' + priceFrom.value + ':' + priceTo.value;
+  let priceToValue = 'price=' + priceFrom.value * 100 + ':' + priceTo.value * 100;
 
   if (getProductsByPriceTimeout) {
     clearTimeout(getProductsByPriceTimeout);
@@ -234,13 +235,13 @@ function getProductsNumberByPrice(priceValue) {
                if (res !== 0) {
 
                  queryString = queryString.replace('?', '');
-                 newDiv.innerHTML = 'Найдено:' + res;
+                 newDiv.innerHTML = 'Found:' + res;
 
                  newDiv.setAttribute('href', urlObject.pathname + '?' + decodeURIComponent(queryString + priceValue));
 
                  priceTo.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
                } else {
-                 newDiv.innerHTML = 'Найдено: 0';
+                 newDiv.innerHTML = 'Found: 0';
                  priceTo.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
                }
              }

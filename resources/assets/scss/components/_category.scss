@@ -147,6 +147,10 @@
 .category-filter > div {
     width: 100%;
 }
+
+.category-filter__brands{
+  width: 100%;
+}
 .category-filter__title {
     width: 100%;
     cursor: pointer;
@@ -166,7 +170,7 @@
     height: 15px;
  /* Положение треугольника */
     border: 7px solid transparent; /* Прозрачные границы */
-    border-top: 7px solid #f26419; /* Добавляем треугольник */
+    border-top: 7px solid $success; /* Добавляем треугольник */
     border-radius: 2px;
     transition: transform .5s ease-in-out
 

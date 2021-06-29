@@ -115,7 +115,11 @@
   "City": "Город",
   "Search":"Найти",
   "Next":"Следующая",
-  "Previous":"Предыдущая"
-
+  "Previous":"Предыдущая",
+  "Sign up": "Регистрация",
+  "Forgot password?": "Забыли пароль?",
+  "Remember me": "Запомнить меня",
+  "Confirm password": "Подтвердите пароль",
+  "Price in cents": "Цена в центах"
 
 }

@@ -53,7 +53,7 @@
                                  >
                                      {{ $product->title}}</a >
                              </td >
-                             <td class="price" > {{ number_format($product->price,0,',',' ')}}</td >
+                             <td class="price" > {{ number_format($product->price/100,2,'.',',')}}</td >
                              <td >
                                  <div class="quantity" >
                                      <a class="button is-primary decrease-quantity" >
@@ -93,11 +93,11 @@
                          class="cart-summary__sum is-flex is-justify-content-space-between is-align-items-center"
                      >
                          <span class="cart-summary__sum--text" >{{__('Sum')}}</span >
-                         <div >
+                         <div ><span class="has-text-weight-bold" >$ </span >
                         <span
                             class="cart-summary__sum--number has-text-weight-bold"
                         ></span >
-                             <span class="has-text-weight-bold" > р.</span >
+
                          </div >
                      </div >
                      <div
@@ -105,19 +105,19 @@
                      >
                     <span class="cart-summary__sum--text" >{{__('Delivery')}}</span
                     ><span class="cart-delivery-price has-text-weight-bold"
-                         >944<span class="has-text-weight-bold"> р.</span ></span
+                         ><span class="has-text-weight-bold" >$ </span >9.44</span
                          >
                      </div >
                      <div
                          class="cart-summary__sum is-flex is-justify-content-space-between is-align-items-center"
                      >
                     <span class="cart-summary__sum--text" >{{__('Total')}}</span
-                    ><div >
+                    ><div ><span class="has-text-weight-bold" >$ </span >
                          <span
                              class="cart-summary__sum--number-final has-text-weight-bold"
                          >
                         </span
-                         ><span class="has-text-weight-bold"> р.</span >
+                         >
                          </div >
                      </div >
                      <button type="submit" id="confirm-btn" class="button is-success is-fullwidth mt-6" >

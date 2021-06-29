@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\FavoritesList\FavoritesList;
-use App\Actions\Paginator\CustomPaginator;
+use App\Actions\CustomPaginator\CustomPaginator;
 use App\Actions\WorkingWithQueryString\WorkingWithQueryString;
 use App\Models\Product;
 use App\Models\User;

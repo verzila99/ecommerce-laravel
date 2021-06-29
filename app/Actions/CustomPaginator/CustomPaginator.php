@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\Paginator;
+namespace App\Actions\CustomPaginator;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;

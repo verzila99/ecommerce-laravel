@@ -102,20 +102,11 @@ if (loginButton) {
         }
       })
            .catch(error => {
-             if (error.response.status === 422) {
-               Object.values(error.response.data.errors).forEach(value => {
-                 value.forEach(e => {
+
                    let i = document.createElement('p');
                    i.classList.add('has-text-danger');
-                   i.innerHTML = e;
+                   i.innerHTML = String(error.response.data);
                    document.getElementById('login-error').appendChild(i);
-                 });
-               });
-             } else {
-               console.log(error.response);
-               document.getElementById('login-error').innerHTML = 'Неправильный Email или пароль';
-             }
-
 
            });
     });
@@ -266,7 +257,7 @@ function renderCartButton() {
            cartNavbarText.innerText = 'Корзина';
          } else {
            cartNavbarText.style.fontWeight = '700';
-           cartNavbarText.innerText = res.data + ' р.';
+           cartNavbarText.innerText = '$ ' + res.data/100;
          }
 
        }).catch(error => {
@@ -329,7 +320,7 @@ searchInput.addEventListener('keyup', (elem) => {
 
                  div.classList.add('search-item');
 
-                 div.innerHTML = `<p>${el.title}</p> <b>${el.price} р.</b>`;
+                 div.innerHTML = `<p>${el.title}</p> <b>$ ${el.price}</b>`;
 
                  div.setAttribute('href', `/${el.category}/${el.id}`);
                  searchParent.appendChild(div);

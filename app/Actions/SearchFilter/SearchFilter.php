@@ -58,7 +58,7 @@ class SearchFilter
   }
 
 
-  public static function getAppliedFilters($request,$properties)
+  public static function getAppliedFilters($request,$properties): array
   {
     $appliedFilters = [];
 

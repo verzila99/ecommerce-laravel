@@ -196,21 +196,21 @@
                     <div class="oldprice has-text-grey is-size-5" >
                         @php
                             $oldPrice=(round((int)
-                                    $product->price + round((random_int
-                                    (5,15) *  ((int)$product->price /
+                                    $product->price/100 + round((random_int
+                                    (5,15) *  ((int)$product->price/100 /
                                     100)))))
                         @endphp
 
-                        <span class="oldprice-item" >{{
-                                    number_format($oldPrice, 0,',', ' ')}} р.</span >
+                        <span class="oldprice-item" >$ {{
+                                    number_format($oldPrice, 2, '.', ',')}}</span >
                         <span class="tag is-success discount"
-                        >-{{ number_format(((int)$oldPrice - (int)
-                                $product->price), 0, ',', ' ')}} р.</span >
+                        >-$ {{ number_format(((int)$oldPrice - (int)
+                                $product->price/100), 2, '.', ',')}}</span >
                     </div >
 
                     <div class="price has-text-weight-bold is-size-3 mt-3" >
-                        {{ number_format(round((int)
-                               $product->price), 0, ',', ' ')}} р.
+                        $ {{ number_format(round((int)
+                               $product->price/100), 2, '.', ',')}}
                     </div >
 
                     <a class="add-to-cart button is-primary mt-5" data-id="{{$product->id}}" >

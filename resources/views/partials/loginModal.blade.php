@@ -9,12 +9,12 @@
           <ul >
             <li class="is-active login-tab" >
               <a >
-                <span >Войти</span >
+                <span >{{__('Log in')}}</span >
               </a >
             </li >
             <li class="register-tab" >
               <a >
-                <span >Регистрация</span >
+                <span >{{__('Sign up')}}</span >
               </a >
             </li >
           </ul >
@@ -39,7 +39,7 @@
             </p >
           </div >
           <div class="field" >
-            <label for="login-password" class="label" >Пароль</label >
+            <label for="login-password" class="label" >{{__('Password')}}</label >
             <p class="control has-icons-left" >
               <input
                 id="login-password"
@@ -53,19 +53,21 @@
                             </span >
             </p >
           </div >
+          <div id="login-error"
+               class="field has-text-danger my-1" ></div >
           <div class="field is-flex is-align-items-center " >
+
             <label class="checkbox label" >
               <input type="checkbox" id="login-remember" name="remember_token" value="true" >
-              Remember me
+                {{__('Remember me')}}
             </label >
-            <a href="{{route('password.request')}}" class="ml-6">Забыли пароль?</a >
+            <a href="{{route('password.request')}}" class="ml-6">{{__("Forgot password?")}}</a >
           </div >
 
           <div class="field" >
-            <div id
-                 ="login-error" class=" has-text-danger mb-3" ></div >
+
             <p class="control" >
-              <a id="login-button" class="button is-success send-form" >Войти</a >
+              <a id="login-button" class="button is-success send-form" >{{__('Log in')}}</a >
             </p >
           </div >
         </div >
@@ -75,7 +77,7 @@
         >
 
           <div class="field" >
-            <label for="register-name" class="label" >Имя</label >
+            <label for="register-name" class="label" >{{__('Name')}}</label >
             <p class="control has-icons-left" >
               <input id="register-name" class="input" name="name"
                      type="text"
@@ -98,7 +100,7 @@
             </p >
           </div >
           <div class="field" >
-            <label for="register-password" class="label" >Пароль</label >
+            <label for="register-password" class="label" >{{__('Password')}}</label >
             <p class="control has-icons-left" >
               <input
                 id="register-password"
@@ -114,7 +116,7 @@
           </div >
           <div class="field" >
             <label for="register-confirmation" class="label" >
-              Подтвердите пароль</label >
+              {{__('Confirm password')}}</label >
             <p class="control has-icons-left" >
               <input
                 id="register-confirmation"
@@ -133,7 +135,7 @@
                  ="register-error" class="mb-3" ></div >
             <p class="control" >
 
-              <a id="register" class="button is-success send-form" >Регистрация</a >
+              <a id="register" class="button is-success send-form" >{{__('Sign up')}}</a >
             </p >
           </div >
         </div >

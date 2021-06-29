@@ -48,11 +48,11 @@ class ProductPolicy
      * Determine whether the user can update the model.
      *
      * @param User $user
-     * @return mixed
+     * @return bool
      */
-    public function updateProduct(User $user): mixed
+    public function updateProduct(User $user): bool
     {
-        return $user->role === 1;
+        return ($user->role === 1 || $user->role === 2) ;
     }
 
     /**

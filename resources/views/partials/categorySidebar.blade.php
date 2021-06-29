@@ -16,8 +16,8 @@
                type="text"
                ondrop="return false;"
                id='price_from'
-               placeholder="{{$minMaxPrice[0]}}"
-               data-value="{{$minMaxPrice[0]}}"
+               placeholder="{{$minMaxPrice[0]/100}}"
+               data-value="{{$minMaxPrice[0]/100}}"
                autocomplete="off"
                @foreach($appliedFilters as $filter)
                @if($filter[0]==='price')value="{{explode(':',$filter[1])[0]}}"
@@ -32,8 +32,8 @@
                type="text"
                ondrop="return false;"
                id="price_to"
-               placeholder="{{$minMaxPrice[1]}}"
-               data-value="{{$minMaxPrice[1]}}"
+               placeholder="{{$minMaxPrice[1]/100}}"
+               data-value="{{$minMaxPrice[1]/100}}"
                autocomplete="off"
                @foreach($appliedFilters as $filter)
                @if($filter[0]==='price')value="{{explode(':',$filter[1])[1]}}"

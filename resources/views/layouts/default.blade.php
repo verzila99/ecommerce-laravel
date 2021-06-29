@@ -164,11 +164,11 @@
             </button >
           </div >
           <div class="dropdown-menu" id="dropdown-menu" role="menu" >
-            <div class="dropdown-content" >
+            <div class="dropdown-content">
               <a href="{{ route('profile') }}" class="dropdown-item" >
                 {{__('Profile')}}
               </a >
-              @can ( 'updateRole',App\Models\User::class)
+              @can('updateProduct',App\Models\Product::class)
                 <a href="{{ route('orders') }}" class="dropdown-item " >
                   {{__('Admin panel')}}
                 </a >
@@ -233,7 +233,7 @@
                   <p
                     class="price has-text-weight-bold has-text-centered is-4 my-3"
                   >
-                    {{ number_format($viewedItem->price, 0, ',', ' ')}} ₽
+                   $ {{ number_format($viewedItem->price/100, 2, '.', ',')}}
                   </p >
                 </div >
               </a >

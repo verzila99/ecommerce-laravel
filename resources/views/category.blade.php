@@ -40,8 +40,8 @@
                 <div class="applied-filter is-flex is-align-items-center mt-3 px-2 py-1 is-size-8">
                 <span class="is-capitalized filter-name"
                       data-name="{{$filter[0]}}" >{{$filter[0]}} </span >: &nbsp; <span
-                  class="filter-value" data-value="{{$filter[1]}}" >from: {{explode(':',$filter[1])[0]}} to:
-                    {{explode(':',$filter[1])[1]}}</span >
+                  class="filter-value" data-value="{{$filter[1]}}" >from: {{explode(':',$filter[1])[0]/100}} to:
+                    {{explode(':',$filter[1])[1]/100}}</span >
                 <i class="fas fa-window-close ml-3 is-size-6" ></i >
             @else
               <div class="applied-filter is-flex is-align-items-center mt-3 px-2 py-1 is-size-8">
@@ -257,25 +257,25 @@
 
                     @php
                       $oldPrice=(round((int)
-                              $product->price + round(
+                              $product->price/100 + round(
                               (random_int
                               (5,15) *  ((int)
-                              $product->price /
+                              $product->price/100 /
                               100)))))
                     @endphp
 
-                    <span class="oldprice-item " >{{
-                                    number_format($oldPrice, 0,  ',', ' ')}}
-                                        р.</span >
-                    <span class="tag is-success discount " >-{{ number_format(((int)$oldPrice - (int)
-                                $product->price), 0, ',', ' ')}} р.</span >
+                    <span class="oldprice-item " >$ {{
+                                    number_format($oldPrice,2, '.', ',')}}
+                                        </span >
+                    <span class="tag is-success discount " >-$ {{ number_format(((int)$oldPrice - (int)
+                                $product->price/100), 2, '.', ',')}}</span >
                   </div >
 
                   <div class="price has-text-weight-bold
-                                    is-size-3" >
+                                    is-size-3" >$
                     {{ number_format(round((int)
-                           $product->price), 0, ',', ' ')}}
-                    р.
+                           $product->price/100), 2, '.', ',')}}
+
                   </div >
 
                   <a class="button is-primary mt-5

@@ -33,7 +33,7 @@ class CartController extends Controller
 //
 //    foreach ($f as $product) {
 //
-//      $r = preg_replace('/\( \)/u','',$product->title);
+//      $r = preg_replace('/спортивный ремешок/u','sport strap',$product->title);
 //
 //
 //      DB::table('products')->where('id', $product->id)->update(['title'=>$r]);

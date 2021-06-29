@@ -52,8 +52,8 @@ class UserPolicy
     public function updateRole(User $user): bool
     {
 
-        return $user->role===1;
-//      return true;
+        return $user->role===2;
+
     }
 
     /**

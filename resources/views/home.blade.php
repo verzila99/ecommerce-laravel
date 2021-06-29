@@ -64,7 +64,7 @@
                         <p
                             class="price has-text-weight-bold has-text-centered is-4 my-3"
                         >
-                        {{ number_format($smartphone->price, 0, ',', ' ')}} ₽
+                       $ {{ number_format($smartphone->price, 2, '.', ',')}}
                         </p>
                     </div>
                 </a>
@@ -93,7 +93,7 @@
                         <p
                             class="price has-text-weight-bold has-text-centered is-4 my-3"
                         >
-                        {{ number_format($smartwatch->price, 0, ',', ' ')}} ₽
+                       $ {{ number_format($smartwatch->price, 2, '.', ',')}}
                         </p>
                     </div>
                 </a>

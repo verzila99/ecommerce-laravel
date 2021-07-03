@@ -137,7 +137,7 @@ class WorkingWithImage
 
       } else {
 
-        return redirect()->back()->with('status', 'Файл с таким именем уже существует.');
+        return redirect()->back()->with('status', 'File with this name already exists');
       }
     } catch (Exception $e) {
 
@@ -151,7 +151,7 @@ class WorkingWithImage
 
     $banner->save();
 
-    return redirect()->back()->with('status', 'Баннер добавлен!');
+    return redirect()->back()->with('status', 'Banner added!');
 
   }
 
@@ -167,11 +167,11 @@ class WorkingWithImage
         File::delete(storage_path($pathApp . $banner->image));
       } else {
 
-        return redirect()->back()->with('status', 'Файла с таким именем нет.');
+        return redirect()->back()->with('status', 'There is no file with this name.');
       }
     } catch (Exception $e) {
 
-      return redirect()->back()->with('status', 'Что-то пошло не так, попробуйте еще раз.');
+      return redirect()->back()->with('status', 'Something goes wrong, try again.');
 
     }
 
@@ -183,7 +183,7 @@ class WorkingWithImage
 
     Banner::orderBanners($countBanners,$location);
 
-    return redirect()->back()->with('status', 'Баннер удалён!');
+    return redirect()->back()->with('status', 'Banner deleted!');
   }
 
 
@@ -213,7 +213,7 @@ class WorkingWithImage
 
       } catch (Exception $e) {
 
-        return redirect()->back()->with('status', 'Что-то пошло не так, попробуйте еще раз.');
+        return redirect()->back()->with('status', 'Something goes wrong, try again.');
 
       }
 
@@ -231,7 +231,7 @@ class WorkingWithImage
 
         } else {
 
-          return redirect()->back()->with('status', 'Файл с таким именем уже существует.');
+          return redirect()->back()->with('status', 'File with this name already exists.');
         }
       } catch (Exception $e) {
 
@@ -250,7 +250,7 @@ class WorkingWithImage
 
     Banner::orderBanners($countBanners,$location);
 
-    return redirect()->back()->with('status', 'Баннер обновлён!');
+    return redirect()->back()->with('status', 'Banner updated!');
 
   }
 

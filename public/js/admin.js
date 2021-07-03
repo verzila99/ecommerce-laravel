@@ -8,7 +8,7 @@ if (categorySelect) {
 
     axios.get('/api/getPropsOfCategory/' + e.target.value)
          .then(response => {
-           console.log(response.data);
+
            while (categoryProps.lastChild) {
              categoryProps.lastChild.remove();
            }
@@ -25,7 +25,6 @@ if (categorySelect) {
          .catch(err => {console.log(err);});
   });
 }
-
 
 
 //clone file input
@@ -72,7 +71,7 @@ function deleteImage() {
 
 const adminTabs = document.querySelectorAll('.admin-menu__item');
 let urlObject = new URL(document.location.href);
-console.log(urlObject);
+
 let path = urlObject.pathname;
 
 adminTabs.forEach(elem => {

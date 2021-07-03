@@ -98,6 +98,29 @@
             <p class="help is-danger" >{{ $message }}</p >
             @enderror
           </div >
+          @auth
+            <div class="field" >
+              <label for="email"
+                     class="label" >Email</label >
+              <p class="control has-icons-left " >
+                <input id="email"
+                       class="input @error('email') is-danger @enderror"
+                       name="email"
+                       type="email"
+                       placeholder="Email"
+                       value="{{ auth()->user()->email }}"
+                       readonly />
+                <span class="icon is-small is-left" >
+                                <i class="fas fa-envelope" ></i >
+                            </span >
+              </p >
+              @error('email')
+              <p class="help is-danger" >{{ $message }}</p >
+              @enderror
+            </div>
+          @endauth
+          @guest
+
           <div class="field" >
             <label for="email" class="label" >Email</label >
             <p class="control has-icons-left " >
@@ -113,6 +136,7 @@
             <p class="help is-danger" >{{ $message }}</p >
             @enderror
           </div >
+          @endguest
           <div class="field" >
             <label class="label" >{{__('Message')}}</label >
             <div class="control" >

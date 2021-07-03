@@ -29,6 +29,10 @@
                         <h4 class=" block has-text-grey" >Email:</h4 >
                         <p >{{ $user->email }}</p >
                     </div >
+                    <div class="profile-row block is-flex is-justify-content-space-between" >
+                        <h4 class=" block has-text-grey" >Date of registration:</h4 >
+                        <p >{{ $user->created_at }}</p >
+                    </div >
                 </div >
                 <a href="{{ route('edit') }}" class="button is-success  profile-edit__button"
                 >{{__('Edit')}}</a >

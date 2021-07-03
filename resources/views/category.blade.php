@@ -2,8 +2,8 @@
 @section('scripts')
   <link rel="stylesheet" href="{{asset('noUiSlider/nouislider.css')}}" >
   <script defer src="{{ asset('/noUiSlider/nouislider.js')}}" ></script >
-  <script defer src="{{ asset('/js/app.js')}}" ></script >
   <script defer src="{{ asset('/js/category.js')}}" ></script >
+  <script defer src="{{ asset('/js/app.js')}}" ></script >
 @endsection
 @section('title','Ecommerce shop')
 @section('content')
@@ -236,9 +236,9 @@
                             <span class="has-text-grey-light is-size-7" >{{__('Manufacturer')}}: </span ><span class="is-size-8" >{{$product->manufacturer}}</span >
                       </li >
                     @endif
-                    @foreach($product->properties  as $param)
 
-                      @if($param->name)
+                    @foreach($product->properties  as $param)
+                      @if($param->name && $param->show_in_card === 1 )
                         <li >
                             <span class="has-text-grey-light is-size-7 is-capitalized" >{{ $param->name}}: </span ><span
                             class="is-size-8" >{{$param->pivot->value}}</span >

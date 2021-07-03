@@ -55,6 +55,11 @@ if (registerButton) {
     let email = document.getElementById('register-email').value;
     let password = document.getElementById('register-password').value;
     let passwordConfirmation = document.getElementById('register-confirmation').value;
+
+    if (document.querySelector('.register-error-message')) {
+      document.querySelector('.register-error-message').remove();
+    }
+
     axios.get('/sanctum/csrf-cookie').then(() => {
       axios.post('/register', {
         name: name,
@@ -62,7 +67,7 @@ if (registerButton) {
         password: password,
         password_confirmation: passwordConfirmation
       }).then(response => {
-        console.log(response);
+
         if (response.status === 200) {
           window.location.href= '/email/verify';
         }
@@ -74,6 +79,7 @@ if (registerButton) {
                  value.forEach(e => {
                    let i = document.createElement('p');
                    i.classList.add('has-text-danger');
+                   i.classList.add('register-error-message');
                    i.innerHTML = e;
                    document.getElementById('register-error').appendChild(i);
                  });
@@ -91,6 +97,10 @@ if (loginButton) {
     let password = document.getElementById('login-password').value;
     let rememberToken = document.getElementById('login-remember').value;
 
+    if (document.querySelector('.login-error-message')) {
+      document.querySelector('.login-error-message').remove();
+    }
+
     axios.get('/sanctum/csrf-cookie').then(() => {
       axios.post('/login', {
         email: email,
@@ -105,6 +115,7 @@ if (loginButton) {
 
                    let i = document.createElement('p');
                    i.classList.add('has-text-danger');
+                   i.classList.add('login-error-message');
                    i.innerHTML = String(error.response.data);
                    document.getElementById('login-error').appendChild(i);
 
@@ -150,7 +161,6 @@ favorites.forEach((elem) => {
 
                               axios.delete('/removefromfavorites/', {data: {productId: productId}}).then(response => {
                                 if (response.status === 200) {
-                                  console.log(response);
                                   let heart = document.createElement('i');
                                   heart.classList.add('far');
                                   heart.classList.add('fa-heart');
@@ -254,7 +264,7 @@ function renderCartButton() {
        .then(res => {
          if (res.status === 200 && res.data === 0) {
            cartNavbarText.style.fontWeight = '400';
-           cartNavbarText.innerText = 'Корзина';
+           cartNavbarText.innerText = 'Cart';
          } else {
            cartNavbarText.style.fontWeight = '700';
            cartNavbarText.innerText = '$ ' + res.data/100;
@@ -363,19 +373,21 @@ let submitNewsSubscription = document.querySelector('#submit-news-subscription')
 if (submitNewsSubscription) {
   submitNewsSubscription.addEventListener('click', (e) => {
     e.preventDefault();
-    console.log(emailNewsSubscription.value);
-    axios.post('/subscribe', {email: emailNewsSubscription.value}).then((res) => {
 
-      if (res.status === 200) {
+    axios.get('/sanctum/csrf-cookie').then(() => {
+      axios.post('/subscribe', {email: emailNewsSubscription.value}).then((res) => {
 
-        submitNewsSubscription.parentNode.parentNode.parentElement.remove();
+        if (res.status === 200) {
 
-        document.querySelector('.subscription').innerHTML = `<h3 class="is-size-3 has-text-success">Subscribed!</h3>`;
-      }
-    }).catch(err => {
+          submitNewsSubscription.parentNode.parentNode.parentElement.remove();
 
-      submitNewsSubscription.parentNode.innerHTML = `<p class="has-text-warning">${err.response.data}</p>`;
-      console.log(err.response);
+          document.querySelector('.subscription').innerHTML = `<h3 class="is-size-3 has-text-success">Subscribed!</h3>`;
+        }
+      }).catch(err => {
+
+        submitNewsSubscription.parentNode.innerHTML = `<p class="has-text-danger is-size-4">${err.response.data}</p>`;
+        console.log(err.response);
+      });
     });
   });
 }
@@ -434,7 +446,6 @@ if(accordionButtons.length > 0){
   accordionButtons.forEach((el)=>{
     let orderHeight = el.parentElement.clientHeight;
     el.addEventListener('click',(e)=>{
-      console.log(orderHeight);
       if(el.classList.contains('active-order-tab')) {
         el.classList.remove('active-order-tab');
         el.parentElement.parentElement.style.height = orderHeight + 60 + 'px';
@@ -442,7 +453,6 @@ if(accordionButtons.length > 0){
       }else{
         el.classList.add('active-order-tab');
         el.parentElement.parentElement.style.height = 60 + 'px';
-
         el.querySelector('.category-filter__arrow').classList.remove('reverse');
       }
     });

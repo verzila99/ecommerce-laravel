@@ -106,7 +106,7 @@ function cart() {
         cartNavbarTexts.forEach((elem) => {
         if (summaryPrice === 0) {
             elem.style.fontWeight = '400';
-            elem.innerText = 'Корзина';
+            elem.innerText = 'Cart';
         } else {
             elem.style.fontWeight = '700';
             elem.

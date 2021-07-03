@@ -3,13 +3,10 @@
 
 <head >
   <meta charset="UTF-8" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap"
-    rel="stylesheet"
-  />
   <link rel="stylesheet" href="{{ asset('css/style.css')}}" />
-
+  <link rel=”icon”
+        href=”{{ asset('favicon.ico')}}”
+        type=”image/x-icon” >
   <!-- Useful meta tags -->
   <meta http-equiv="x-ua-compatible" content="ie=edge" />
   <meta
@@ -29,7 +26,7 @@
   ></script >
   <script defer src="{{ asset('js/axios.min.js')}}" ></script >
   @yield("scripts")
-  <title >App Name - @yield('title')</title >
+  <title >Ecommerce laravel</title >
 </head >
 
 <body >
@@ -211,7 +208,7 @@
 @yield('content')
 
 @if (count($viewed) >= 1)
-  <div class="container is-max-widescreen px-3" >
+  <div class="container is-max-widescreen py-6 px-3" >
     <h2 class="has-text-left has-text-weight-bold is-size-4 mt-4" >{{__('You have recently watched')}}</h2 >
     <div class="columns is-centered is-mobile is-multiline my-4" >
       @foreach ($viewed as $viewedItem)

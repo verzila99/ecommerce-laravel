@@ -39,7 +39,8 @@ Route::get('/cart', [CartController::class,"index"])->name('cart');
 Route::post('/order/confirmation', [OrderController::class,"orderConfirmationRequest"])->name('confirmation');
 Route::post('/order/confirmed', [OrderController::class, "store"])->name('order-confirmed');
 Route::get('/order/confirm', [OrderController::class, "create"])->name('getConfirmationPage');
-Route::put('/order/updateStatus/', [OrderController::class, "updateStatus"])->middleware('admin')->name('orderUpdateStatus');
+Route::put('/order/updateStatus', [OrderController::class, "updateStatus"])->middleware('admin')->name('orderUpdateStatus');
+Route::delete('/order/delete', [OrderController::class, "destroy"])->middleware('admin')->name('orderDelete');
 Route::get('/orders', [OrderController::class, "index"])->middleware('admin')->name('orders');
 
 
@@ -56,7 +57,7 @@ Route::middleware(['verified'])->prefix('profile')->group(function () {
 });
 
 //Users
-Route::middleware(['admin'])->prefix('user')->group(
+Route::middleware(['superAdmin'])->prefix('user')->group(
   function () {
     Route::get('/', [UserController::class, 'index'])->name('indexUser');
     Route::put('/updaterole', [UserController::class, 'updateRole'])->name('updateRole');
@@ -73,9 +74,11 @@ Route::delete('/removefromfavorites/', [FavoritesController::class, "removeFromF
 );
 
 //Auth
-
+//verify email
 Route::get('/email/verify', function () {
+
   return view('auth.verify-email');
+
 }
 )->middleware('auth')->name('verification.notice');
 
@@ -87,7 +90,7 @@ Route::post('/email/verification-notification',function (Request $request) {
     return back()->with('status', 'Verification link sent!');
   }
   )->middleware(['auth', 'throttle:6,1'])->name('verification.send');
-
+//forgot password
 Route::get('/forgot-password', function () {
     return view('auth.forgot-password');
   }
@@ -104,6 +107,7 @@ Route::get('/reset-password/{token}',function ($token) {
 Route::post(
   '/reset-password',[UserController::class,'updatePasswordAfterReset'])
      ->middleware('guest')->name('password.update');
+
 
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/register', [UserController::class, 'register']);

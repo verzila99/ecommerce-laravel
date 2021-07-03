@@ -31,7 +31,8 @@
                   <h2 class="is-size-4 has-text-weight-bold my-3" >{{__('Order info')}}</h2 >
                   <span class="order-number my-3" >{{__('Order number')}} : <span >{{ $order->id }}</span ></span >
                   <span class="order-date my-3" >{{__('Order created')}} : <span >{{ $order->created_at  }}</span ></span >
-                  <span class="order-status my-3" >{{__('Status')}} : <span >{{ $order->status ? 'Доставлено' : 'В процессе'
+                  <span class="order-status my-3" >{{__('Status')}} : <span >{{ $order->status ? 'Delivered' : 'In
+                  process'
                   }}</span ></span >
                 </div >
                 <div class="customer column is-flex is-flex-direction-column is-justify-content-space-between

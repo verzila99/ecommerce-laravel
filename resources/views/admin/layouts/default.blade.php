@@ -67,14 +67,15 @@
         banner')}}</a >
         </li >
       </ul >
+      @can('updateRole',App\Models\User::class)
       <p class="menu-label" >
         {{__('Users')}}
       </p >
       <ul class="menu-list" >
         <li ><a href="{{ route('indexUser') }}" data-path="/user" class="admin-menu__item" >{{__('Users list')}}</a
           ></li >
-
       </ul >
+      @endcan
     </aside >
   </div >
   <div class="admin-modal__group" >

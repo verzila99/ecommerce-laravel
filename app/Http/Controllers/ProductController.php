@@ -127,7 +127,7 @@ class ProductController extends Controller
 
     Product::where('id', $product->id)->update(['images' => implode(',', $names)]);
 
-    return redirect()->back()->with('status', 'Товар добавлен!');
+    return redirect()->back()->with('status', 'Item added!');
   }
 
 
@@ -161,7 +161,7 @@ class ProductController extends Controller
 
     Product::where('id', $product->id)->update($validated + ['images' => implode(',', $names)]);
 
-    return redirect()->back()->with('status', 'Товар обновлён!');
+    return redirect()->back()->with('status', 'Item updated!');
   }
 
 
@@ -179,7 +179,7 @@ class ProductController extends Controller
 
     Storage::deleteDirectory('public/uploads/images/' . $validated['id']);
 
-    return redirect()->route('createProduct')->with('status', 'Товар удалён!');
+    return redirect()->route('createProduct')->with('status', 'Item deleted!');
   }
 
 

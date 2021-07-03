@@ -1,82 +1,75 @@
 //accordion
 
 let accordionTitles = document.querySelectorAll(".accordion-group"),
-  showMoreButtons = document.querySelectorAll('.show-more'),
-  accordionPrice = document.querySelector('.accordion-price'),
-  checkboxInputs = document.querySelectorAll('.checkbox-filter'),
-  measuringDiv, measuringDivBottom;
+    showMoreButtons = document.querySelectorAll('.show-more'),
+    accordionPrice = document.querySelector('.accordion-price'),
+    checkboxInputs = document.querySelectorAll('.checkbox-filter'),
+    measuringDiv, measuringDivBottom;
 
 accordionTitles.forEach((elem) => {
 
-  elem.querySelector(".category-filter__title").addEventListener(
-    "click",
-    () => {
+    elem.querySelector(".category-filter__title").addEventListener(
+        "click",
+        () => {
 
+            if (elem.querySelector(".category-filter__title").nextElementSibling.classList.contains('accordion-price')) {
 
-      if (elem.querySelector(".category-filter__title").nextElementSibling.classList.contains('accordion-price')) {
+                if (!elem.querySelector('.category-filter__arrow').classList.contains('reverse')) {
 
-        if (!elem.querySelector('.category-filter__arrow').classList.contains('reverse')) {
+                    accordionPrice.style.height = '0px';
+                    elem.querySelector('.category-filter__arrow').classList.add('reverse');
 
-          accordionPrice.style.height = '0px';
-          elem.querySelector('.category-filter__arrow').classList.add('reverse');
-        } else {
+                } else {
 
-          elem.querySelector('.category-filter__arrow').classList.remove('reverse');
-          accordionPrice.style.height = '150px';
+                    elem.querySelector('.category-filter__arrow').classList.remove('reverse');
+                    accordionPrice.style.height = '150px';
 
+                }
+            } else if (elem.querySelector('.category-filter__arrow').classList.contains('reverse') &&
+                elem.querySelector(".show-more")) {
+
+                if (!elem.querySelector(".show-more").classList.contains('active-show-more')) {
+                    elem.querySelector('.category-filter__arrow').classList.remove('reverse');
+                    elem.querySelector(".accordion-item").style.height = '212px';
+                    elem.querySelector(".show-more").style.height = '20px';
+                } else {
+                    elem.querySelector('.category-filter__arrow').classList.remove('reverse');
+                    elem.querySelector(".accordion-item").style.height = 20 +
+                    elem.querySelector(".measuring").clientHeight + 'px';
+                    elem.querySelector(".show-more").style.height = '20px';
+                }
+            } else if (elem.querySelector('.category-filter__arrow').classList.contains('reverse') &&
+                !elem.querySelector(".show-more")) {
+                elem.querySelector('.category-filter__arrow').classList.remove('reverse');
+                elem.querySelector(".accordion-item").style.height = 20 +
+                    elem.querySelector(".measuring").clientHeight + 'px';
+            } else {
+                if (elem.querySelector(".show-more")) {
+                    elem.querySelector(".show-more").style.height = '0';
+                }
+                elem.querySelector('.category-filter__arrow').classList.add('reverse');
+                elem.querySelector(".accordion-item").style.height = '0';
+            }
         }
-      } else if (elem.querySelector('.category-filter__arrow').classList.contains('reverse') && elem.querySelector('.show-more').textContent === 'Show more') {
+    );
 
-        elem.querySelector(".accordion-item").style.height = '212px';
-        elem.querySelector('.category-filter__arrow').classList.remove('reverse');
-        elem.querySelector(".show-more").style.height = '20px';
+    if (elem.querySelector(".show-more")) {
+        elem.querySelector(".show-more").addEventListener(
+            'click', () => {
+                if (elem.querySelector(".show-more").classList.contains('active-show-more')) {
+                    elem.querySelector(".show-more").classList.remove('active-show-more');
+                    elem.querySelector(".accordion-item").style.height = "212px";
+                    elem.querySelector(".show-more").textContent = 'Show more';
+                } else {
 
-      } else if (elem.querySelector('.category-filter__arrow').classList.contains('reverse') && elem.querySelector('.show-more').textContent === 'Hide') {
-        measuringDiv = elem.querySelector('.measuring').clientHeight;
-        elem.querySelector(".accordion-item").style.height = 10 + measuringDiv + 'px';
-        elem.querySelector('.category-filter__arrow').classList.remove('reverse');
-        elem.querySelector(".show-more").style.height = '20px';
-
-      } else if (elem.querySelector('.category-filter__arrow').classList.contains('reverse')) {
-        measuringDiv = elem.querySelector('.measuring').clientHeight;
-        elem.querySelector(".accordion-item").style.height = 10 + measuringDiv + 'px';
-        elem.querySelector('.category-filter__arrow').classList.remove('reverse');
-
-        if (elem.querySelector(".show-more")) {
-
-          elem.querySelector(".show-more").style.height = '20px';
-        }
-      } else {
-
-        elem.querySelector('.category-filter__arrow').classList.add('reverse');
-        elem.querySelector(".accordion-item").style.height = '0px';
-        elem.querySelector(".show-more").style.height = '0px';
-
-
-      }
-
-
+                    elem.querySelector(".show-more").classList.add('active-show-more');
+                    elem.querySelector(".accordion-item").style.height = 20 + elem.querySelector(".measuring").clientHeight + 'px';
+                    elem.querySelector(".show-more").textContent = 'Hide';
+                }
+            });
     }
-  );
 });
 
-showMoreButtons.forEach((elem) => {
-
-  elem.addEventListener("click", () => {
-    measuringDivBottom = elem.previousElementSibling.querySelector('.measuring').clientHeight;
-
-    if (elem.textContent === 'Show more') {
-      elem.textContent = 'Hide';
-      elem.previousElementSibling.style.height = 10 + measuringDivBottom + 'px';
-    } else {
-      elem.textContent = 'Show more';
-      elem.previousElementSibling.style.height = '13.4rem';
-    }
-
-  });
-
-
-});
 // Filtering
 let urlObject = new URL(document.location.href);
 let urlParams = urlObject.searchParams;
@@ -90,48 +83,47 @@ newDiv.classList.add('absolute-button');
 
 
 checkboxInputs.forEach(elem => {
-  elem.addEventListener('change', () => {
+    elem.addEventListener('change', () => {
 
-    let parameter = elem.getAttribute('data-parameter') + '[]=' + elem.getAttribute('data-value');
-    if (elem.checked) {
-      queryString += queryString ? `&${parameter}` : parameter;
-      console.log(queryString);
-    } else if (!elem.checked) {
-      if (queryString.includes('&' + parameter)) {
-        queryString = queryString.replace('&' + parameter, '');
-      } else if (queryString.includes(parameter)) {
-        queryString = queryString.replace(parameter, '');
-      }
-    }
-    axios.get('/api' + urlObject.pathname + '?' + decodeURIComponent(queryString))
-         .then(function (response) {
-           return response.data;
-         })
-         .then((res) => {
+        let parameter = elem.getAttribute('data-parameter') + '[]=' + elem.getAttribute('data-value');
+        if (elem.checked) {
+            queryString += queryString ? `&${parameter}` : parameter;
+        } else if (!elem.checked) {
+            if (queryString.includes('&' + parameter)) {
+                queryString = queryString.replace('&' + parameter, '');
+            } else if (queryString.includes(parameter)) {
+                queryString = queryString.replace(parameter, '');
+            }
+        }
+        axios.get('/api' + urlObject.pathname + '?' + decodeURIComponent(queryString))
+             .then(function (response) {
+                 return response.data;
+             })
+             .then((res) => {
 
-                 if (res !== 0) {
-                   queryString = queryString.replace('?', '');
-                   newDiv.innerHTML = 'Найдено:' + res;
-                   newDiv.setAttribute('href', urlObject.pathname + '?' + decodeURIComponent(queryString));
-                   elem.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
-                 } else {
-                   newDiv.innerHTML = '0 found';
-                   elem.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
-                 }
-               }
-         )
-         .catch(function (error) {
-           console.log(error);
-         });
-  });
+                       if (res !== 0) {
+                           queryString = queryString.replace('?', '');
+                           newDiv.innerHTML = 'Found:' + res;
+                           newDiv.setAttribute('href', urlObject.pathname + '?' + decodeURIComponent(queryString));
+                           elem.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
+                       } else {
+                           newDiv.innerHTML = '0 found';
+                           elem.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
+                       }
+                   }
+             )
+             .catch(function (error) {
+                 console.log(error);
+             });
+    });
 });
 
 //range slider
 let startSlider = document.querySelector('#range-slider');
 let priceFromData = +document.querySelector('#price_from').dataset.value;
-let priceFromDataValue = +document.querySelector('#price_from').value/100;
+let priceFromDataValue = +document.querySelector('#price_from').value / 100;
 let priceToData = +document.querySelector('#price_to').dataset.value;
-let priceToDataValue = +document.querySelector('#price_to').value/100;
+let priceToDataValue = +document.querySelector('#price_to').value / 100;
 
 let inputPriceFrom = document.querySelector('#price_from');
 let inputPriceTo = document.querySelector('#price_to');
@@ -139,135 +131,134 @@ let getProductsByPriceTimeout;
 
 
 noUiSlider.create(startSlider, {
-  start: [priceFromDataValue ? priceFromDataValue : priceFromData,
-          priceToDataValue ? priceToDataValue : priceToData],
-  connect: true,
-  step: 1,
-  format: {
-    to: function (val) {return Math.floor(val);},
-    from: function (value) {return Number(value.replace(',-', ''));}
-  },
-  range: {
-    'min': [priceFromData],
-    'max': [priceToData]
-  }
+    start: [priceFromDataValue ? priceFromDataValue : priceFromData,
+            priceToDataValue ? priceToDataValue : priceToData],
+    connect: true,
+    step: 1,
+    format: {
+        to: function (val) {return Math.floor(val);},
+        from: function (value) {return Number(value.replace(',-', ''));}
+    },
+    range: {
+        'min': [priceFromData],
+        'max': [priceToData]
+    }
 });
 
 startSlider.noUiSlider.on("update", () => {
 
-  let data = startSlider.noUiSlider.get();
-  inputPriceFrom.value = data[0];
-  inputPriceTo.value = data[1];
+    let data = startSlider.noUiSlider.get();
+    inputPriceFrom.value = data[0];
+    inputPriceTo.value = data[1];
 });
 
 startSlider.noUiSlider.on("end", () => {
 
-  let dataFrom = 'price=' + startSlider.noUiSlider.get()[0]*100 + ':' + startSlider.noUiSlider.get()[1] * 100;
-  console.log(dataFrom);
-  if (getProductsByPriceTimeout) {
-    clearTimeout(getProductsByPriceTimeout);
-  }
+    let dataFrom = 'price=' + startSlider.noUiSlider.get()[0] * 100 + ':' + startSlider.noUiSlider.get()[1] * 100;
+    if (getProductsByPriceTimeout) {
+        clearTimeout(getProductsByPriceTimeout);
+    }
 
-  getProductsByPriceTimeout = setTimeout(() => {
+    getProductsByPriceTimeout = setTimeout(() => {
 
-    getProductsNumberByPrice(dataFrom);
+        getProductsNumberByPrice(dataFrom);
 
-  }, 800);
+    }, 800);
 });
 
 
 //allow only digits in input
 let numberInputs = document.querySelectorAll('.input-number');
 numberInputs.forEach((elem) => {
-  elem.addEventListener('input', () => {
-    elem.value = elem.value.replace(/\D+/g, '');
+    elem.addEventListener('input', () => {
+        elem.value = elem.value.replace(/\D+/g, '');
 
-  });
+    });
 });
 
 priceFrom.addEventListener('keyup', () => {
 
-  let priceFromValue = 'price=' + priceFrom.value * 100 + ':' + priceTo.value * 100;
+    let priceFromValue = 'price=' + priceFrom.value * 100 + ':' + priceTo.value * 100;
 
-  if (getProductsByPriceTimeout) {
-    clearTimeout(getProductsByPriceTimeout);
-  }
-  getProductsByPriceTimeout = setTimeout(() => {
+    if (getProductsByPriceTimeout) {
+        clearTimeout(getProductsByPriceTimeout);
+    }
+    getProductsByPriceTimeout = setTimeout(() => {
 
-    getProductsNumberByPrice(priceFromValue);
+        getProductsNumberByPrice(priceFromValue);
 
-    startSlider.noUiSlider.set([+priceFrom.value, null]);
+        startSlider.noUiSlider.set([+priceFrom.value, null]);
 
-  }, 800);
+    }, 800);
 
 
 });
 
 priceTo.addEventListener('keyup', () => {
 
-  let priceToValue = 'price=' + priceFrom.value * 100 + ':' + priceTo.value * 100;
+    let priceToValue = 'price=' + priceFrom.value * 100 + ':' + priceTo.value * 100;
 
-  if (getProductsByPriceTimeout) {
-    clearTimeout(getProductsByPriceTimeout);
-  }
-  getProductsByPriceTimeout = setTimeout(() => {
+    if (getProductsByPriceTimeout) {
+        clearTimeout(getProductsByPriceTimeout);
+    }
+    getProductsByPriceTimeout = setTimeout(() => {
 
-    getProductsNumberByPrice(priceToValue);
+        getProductsNumberByPrice(priceToValue);
 
-    startSlider.noUiSlider.set([null, +priceTo.value]);
+        startSlider.noUiSlider.set([null, +priceTo.value]);
 
-  }, 800);
+    }, 800);
 });
 
 function getProductsNumberByPrice(priceValue) {
-  queryString = decodeURIComponent(queryString);
-  queryString = queryString.replace(/price=\d+:\d+/g, '').replace(/^[&]|[&?]$/, '');
-  console.log(queryString);
-  queryString = queryString === '' ? queryString : queryString + '&';
+    queryString = decodeURIComponent(queryString);
+    queryString = queryString.replace(/price=\d+:\d+/g, '').replace(/^[&]|[&?]$/, '');
 
-  axios.get('/api' + urlObject.pathname + '?' + decodeURIComponent(queryString + priceValue))
-       .then(function (response) {
+    queryString = queryString === '' ? queryString : queryString + '&';
 
-         return response.data;
-       })
-       .then((res) => {
+    axios.get('/api' + urlObject.pathname + '?' + decodeURIComponent(queryString + priceValue))
+         .then(function (response) {
 
-               if (res !== 0) {
+             return response.data;
+         })
+         .then((res) => {
 
-                 queryString = queryString.replace('?', '');
-                 newDiv.innerHTML = 'Found:' + res;
+                   if (res !== 0) {
 
-                 newDiv.setAttribute('href', urlObject.pathname + '?' + decodeURIComponent(queryString + priceValue));
+                       queryString = queryString.replace('?', '');
+                       newDiv.innerHTML = 'Found:' + res;
 
-                 priceTo.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
-               } else {
-                 newDiv.innerHTML = 'Found: 0';
-                 priceTo.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
+                       newDiv.setAttribute('href', urlObject.pathname + '?' + decodeURIComponent(queryString + priceValue));
+
+                       priceTo.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
+                   } else {
+                       newDiv.innerHTML = 'Found: 0';
+                       priceTo.parentNode.parentNode.parentNode.parentNode.appendChild(newDiv);
+                   }
                }
-             }
-       )
-       .catch(function (error) {
-         console.log(error);
-       });
+         )
+         .catch(function (error) {
+             console.log(error);
+         });
 }
 
 //deleting sidebar filters
 let filters = document.querySelectorAll('.applied-filter');
 
 filters.forEach((elem) => {
-  elem.addEventListener('click', () => {
-    let filterName = elem.querySelector('.filter-name').dataset.name;
-    let filterValue = elem.querySelector('.filter-value').dataset.value;
+    elem.addEventListener('click', () => {
+        let filterName = elem.querySelector('.filter-name').dataset.name;
+        let filterValue = elem.querySelector('.filter-value').dataset.value;
 
-    queryString = decodeURIComponent(queryString);
+        queryString = decodeURIComponent(queryString);
 
-    queryString = queryString
-      .replace(filterName + '=' + filterValue, '')
-      .replace(filterName + '[]=' + filterValue, '')
-      .replace(/^[&]|[&?]$/, '');
-    queryString = queryString === '' ? queryString : '?' + queryString;
+        queryString = queryString
+            .replace(filterName + '=' + filterValue, '')
+            .replace(filterName + '[]=' + filterValue, '')
+            .replace(/^[&]|[&?]$/, '');
+        queryString = queryString === '' ? queryString : '?' + queryString;
 
-    window.location = urlObject.origin + urlObject.pathname + decodeURIComponent(queryString);
+        window.location = urlObject.origin + urlObject.pathname + decodeURIComponent(queryString);
 
-  });
+    });
 });

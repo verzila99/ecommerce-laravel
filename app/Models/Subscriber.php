@@ -15,7 +15,7 @@ class Subscriber extends Model
   {
     if (self::where('email', $email)->first()) {
 
-      return response('Вы уже подписаны', '422');
+      return response('You already subscribed', '422');
 
     }
 

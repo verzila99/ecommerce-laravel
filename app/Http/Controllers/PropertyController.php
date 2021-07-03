@@ -16,7 +16,7 @@ class PropertyController extends Controller
 
   public function index($category)
   {
-    return Property::where('category_id',$category)->get();
+    return Property::where('category_name',$category)->get();
   }
 
 

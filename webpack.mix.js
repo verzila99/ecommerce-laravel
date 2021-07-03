@@ -1,5 +1,5 @@
 const mix = require('laravel-mix');
-
+require('laravel-mix-purgecss');
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -12,5 +12,7 @@ const mix = require('laravel-mix');
  */
 
 mix
-    .sass('resources/assets/scss/style.scss', 'css',{}, { autoprefixer:true,cssnano:true})
+    .sass('resources/assets/scss/style.scss', 'css',{}, [
+      require('autoprefixer'),require('cssnano')
+    ]).purgeCss()
 .browserSync('http://127.0.0.1:8000').webpackConfig({stats:{children: true}});

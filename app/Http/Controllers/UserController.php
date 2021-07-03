@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\UserRegisteredEvent;
 use App\Http\Requests\RegisterUserRequest;
+use App\Http\Requests\SubscribeForNewsRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Mail\SubscriptionMail;
 use App\Models\Order;
@@ -21,6 +22,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 
@@ -41,18 +43,20 @@ class UserController extends Controller
     event(new Registered($user));
 
     return response('verify email', 200);
+
   }
 
 
   public function verifyEmail(EmailVerificationRequest $request
   ): \Illuminate\Routing\Redirector|Application|RedirectResponse {
+
     $request->fulfill();
 
     $user = User::find(\auth()->id());
 
     event(new UserRegisteredEvent($user));
 
-    return redirect('/');
+    return redirect('/')->with('status','Email confirmed!');
   }
 
 
@@ -61,6 +65,7 @@ class UserController extends Controller
     $validatedData = $request->validate(['email' => 'required|email', 'password' => 'required',]);
 
     if (Auth::attempt($validatedData, $request->validate(['remember_token' => 'string|max:5']) === 'true')) {
+
       $request->session()->regenerate();
 
       return redirect()->intended();
@@ -159,7 +164,7 @@ class UserController extends Controller
 
     User::where('id', auth()->id())->update($validator->validate());
 
-    return redirect()->route('profile')->with('status', 'Профиль обновлён!');
+    return redirect()->route('profile')->with('status', 'Profile updated!');
   }
 
 
@@ -171,7 +176,7 @@ class UserController extends Controller
 
     User::destroy($validated['id']);
 
-    return redirect()->back()->with('status', 'Пользователь удалён');
+    return redirect()->back()->with('status', 'User deleted');
   }
 
 
@@ -196,18 +201,28 @@ class UserController extends Controller
 
     User::where('id', $validated['id'])->update(['role' => $validated['role']]);
 
-    return redirect()->back()->with('status', 'Профиль обновлён!');
+    return redirect()->back()->with('status', 'User\'s role updated!');
   }
 
 
   public function subscribeForNews(Request $request,): Response|Application|ResponseFactory
   {
-    $email = $request->validate(['email' => 'required|email']);
+    $validator = Validator::make(
+      $request->all(),
+      ['email' => 'required|email|unique:subscribers|max:100'],
+    );
 
-    Subscriber::createSubscription($email['email']);
+    if ($validator->fails()) {
 
-    Mail::to($email['email'])->send(new SubscriptionMail());
+    $errors = $validator->errors();
 
-    return response('Подписка оформлена', 200);
+      return response($errors->first('email'),422);
+    }
+
+    Subscriber::createSubscription($validator['email']);
+
+    Mail::to($validator['email'])->send(new SubscriptionMail());
+
+    return  response('Subscribed', 200);
   }
 }

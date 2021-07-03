@@ -31,7 +31,7 @@ class OrderController extends Controller
 
     if (empty($productsInOrder)) {
 
-      return redirect()->back()->with('status', 'Добавьте товары в корзину');
+      return redirect()->back()->with('status', 'Add items in shopping cart.');
     }
 
     $sum = 0;
@@ -54,13 +54,13 @@ class OrderController extends Controller
         }
       } else {
 
-        return redirect()->route('home');
+        return redirect()->back()->with('status','product not found');
       }
     }
 
     if($sum===0){
 
-      return redirect()->back()->with('status','Добавьте товары в корзину');
+      return redirect()->back()->with('status','Add items in shopping cart.');
 
     }
     $request->session()->put('productList', $productList);
@@ -133,6 +133,14 @@ class OrderController extends Controller
 
      Order::where('id', (int)$data['id'])->update(['status'=> 1]);
 
-     return redirect()->back()->with('status','Статус изменён' );
+     return redirect()->back()->with('status','Status has changed' );
+  }
+  public function destroy(Request $request): \Illuminate\Http\RedirectResponse
+  {
+    $data = $request->validate(['id'=>'required']);
+
+     Order::where('id', (int)$data['id'])->delete();
+
+     return redirect()->back()->with('status','Order deleted' );
   }
 }

@@ -6,7 +6,7 @@
 @section('title','Ecommerce shop')
 @section('content')
 
-    <div class="container is-max-widescreen" >
+    <div class="container is-max-widescreen my-4" >
         <nav class="breadcrumb mt-3 px-3" aria-label="breadcrumbs" >
             <ul >
                 <li ><a href="/" >{{__('Home')}}</a ></li >
@@ -53,7 +53,7 @@
 
             </div >
             <div
-                class="item-main  mt-5 is-flex is-flex-wrap-wrap is-justify-content-space-around"
+                class="item-main  my-5 is-flex is-flex-wrap-wrap is-justify-content-space-around"
             >
                 <div
                     class="item-main-gallery  is-flex

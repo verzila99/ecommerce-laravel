@@ -4,9 +4,9 @@
     <h4 >{{__('Price')}}</h4 >
     <div class="category-filter__arrow" ></div >
   </div >
-  <div class="accordion-price  is-flex
+  <div class="accordion-price accordion is-flex
                         is-justify-content-space-between is-align-items-center" >
-    <div class="accordion-price category-filter__price-input
+    <div class="accordion-price accordion-item category-filter__price-input
                         columns is-multiline is-mobile is-centered mt-5" >
 
       <div class="price-input__from column is-half is-flex is-flex-direction-column
@@ -42,7 +42,7 @@
         />
       </div >
       <div id="range-slider"
-           class="column is-half" ></div >
+           class="column my-5 is-half" ></div >
     </div >
   </div >
 </div >
@@ -58,7 +58,14 @@
       <div class="category-filter__arrow" ></div >
     </div >
     <div class="accordion" >
-      <div class="accordion-item" >
+      <div class="accordion-item"
+
+          style="height:
+              @if(count($variants)>8){{212}}px
+              @else{{count($variants) * 26 }}px
+              @endif
+              ;" >
+
         <div class="measuring" >
           @if($filterItem==='manufacturer')
             @foreach($variants as
@@ -111,7 +118,9 @@
           @endif
         </div >
       </div >
+      @if(count($variants)>8)
       <p class="show-more mt-3" >{{__('Show more')}}</p >
+      @endif
     </div >
   </div >
 @endforeach

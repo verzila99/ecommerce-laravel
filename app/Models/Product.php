@@ -3,12 +3,9 @@
 namespace App\Models;
 
 use App\Actions\SearchFilter\SearchFilter;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ProductListController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class Product extends Model

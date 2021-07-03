@@ -11,13 +11,14 @@
     <table class="admin-table mt-5" >
       <thead >
       <tr >
-        <th ><abbr title="Номер заказа" >{{__('Order number')}}</abbr ></th >
-        <th ><abbr title="Заказчик" >{{__('Customer')}}</abbr ></th >
-        <th ><abbr title="Товары"  >{{__('Products')}}</abbr ></th >
-        <th ><abbr title="Сумма" >{{__('Sum')}}</abbr ></th >
-        <th ><abbr title="Заказ создан" >{{__('Order created')}}</abbr ></th >
-        <th ><abbr title="Статус" >{{__('Status')}}</abbr ></th >
-        <th ><abbr title="Поменять статус" >{{__('Change status')}}</abbr ></th >
+        <th ><abbr title="{{__('Order number')}}" >{{__('Order number')}}</abbr ></th >
+        <th ><abbr title="{{__('Customer')}}" >{{__('Customer')}}</abbr ></th >
+        <th ><abbr title="{{__('Products')}}"  >{{__('Products')}}</abbr ></th >
+        <th ><abbr title="{{__('Sum')}}" >{{__('Sum')}}</abbr ></th >
+        <th ><abbr title="{{__('Order created')}}" >{{__('Order created')}}</abbr ></th >
+        <th ><abbr title="{{__('Status')}}" >{{__('Status')}}</abbr ></th >
+        <th ><abbr title="{{__('Change status')}}" >{{__('Change status')}}</abbr ></th >
+        <th ><abbr title="{{__('Delete order')}}" >{{__('Delete order')}}</abbr ></th >
       </tr >
       </thead >
       <tfoot ></tfoot >
@@ -65,6 +66,17 @@
                      ="button is-success" >{{__('Delivered')}}</button >
             </form >
             @endif
+          </td >
+          <td >
+
+            <form action="{{route('orderDelete')}}" method="post">
+              @csrf
+              @method('delete')
+              <input type="hidden"  name="id" value="{{$order->id}}" >
+            <button type="submit" class
+                     ="button is-primary" >{{__('Delete')}}</button >
+            </form >
+
           </td >
 
         </tr >

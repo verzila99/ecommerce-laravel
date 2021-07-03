@@ -12,7 +12,7 @@ use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         $categories =Category::get();
         $smartphones = Product::where('category','smartphones')->inRandomOrder()->take(10)->get();

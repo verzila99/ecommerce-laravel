@@ -36,7 +36,8 @@
   "Enter new password": "Введите новый пароль",
   "Password again": "Пароль еще раз",
   "Password": "Пароль",
-  "Mail with confirmation has been sent on your email address,click at the link in the mail to confirm your email address": "Письмо с подтверждением отправлено на Ваш email. Перейдите по ссылке в письме, чтобы подтвердить ваш email",
+  "Mail with confirmation has been sent on your email address,click at the link in the mail to confirm your email address"
+  : "Письмо с подтверждением отправлено на Ваш email. Перейдите по ссылке в письме, чтобы подтвердить ваш email",
   "Send email again": "Отправить письмо еще раз",
   "from": "от",
   "to": "до",

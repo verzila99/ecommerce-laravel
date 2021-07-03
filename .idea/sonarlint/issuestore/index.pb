@@ -3,8 +3,6 @@
 	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
 A
 package-lock.json,f\a\fa288d1472d29beccb489a676f68739ad365fc47
-=
-composer.lock,c\3\c3262e2a0879195bd6a727e90f768bc85ad79ffd
 ]
 -resources/assets/scss/components/_footer.scss,3\0\30a12558a9e48f852253b20803c5f115ca1d943a
 h
@@ -17,8 +15,6 @@ B
 0resources/assets/scss/components/_secondbar.scss,a\5\a5b02b35b8d8f2f5268419375251707be31dfd53
 V
 &app/Http/Middleware/EncryptCookies.php,d\1\d1c845bb53088a07a617eb722a5d18a081064976
-=
-composer.json,3\9\3957b91a0d8450cea0115cfd5af69eac90d75897
 _
 /app/Http/Middleware/RedirectIfAuthenticated.php,4\0\40d54a318fd625143db9d72eb6edc2d5c100b557
 R

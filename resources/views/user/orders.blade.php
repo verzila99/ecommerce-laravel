@@ -8,7 +8,8 @@
   <div class="container is-max-widescreen px-3" >
     <h1 class="is-size-4 has-text-weight-bold my-3" >{{__('My orders')}}</h1 >
     <div class="orders is-flex is-flex-direction-column is-justify-content-flex-start" >
-      @if (!empty($ordersList))
+      @if (count($ordersList)>0)
+
         @foreach($ordersList as $order)
           <div class="order is-flex is-flex-direction-column is-justify-content-space-between is-align-items-center my-3" >
             <div class="measure field" >

@@ -27,10 +27,10 @@
           <div class="select is-small mr-3" >
             <select class="" name="role"  >
               <option value="1"
-                      @if($user->role===1) selected @endif>Admin</option >
-              <option value="0" @if($user->role===0) selected @endif>Not admin</option >
+                      @if($user->role==='1') selected @endif>Admin</option >
+              <option value="0" @if($user->role==='0') selected @endif>Not admin</option >
               <option value="2"
-                      @if($user->role===2) selected @endif>Super Admin
+                      @if($user->role==='2') selected @endif>Super Admin
               </option >
             </select >
           </div >

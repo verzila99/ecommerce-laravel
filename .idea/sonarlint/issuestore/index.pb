@@ -101,8 +101,6 @@ B
 config/fortify.php,5\5\55087024cd3f91e30686c8e6ea9ab174ca2998db
 @
 public/.htaccess,c\9\c9fe70f275af093c7fb3ed73b451fadc91069bac
-4
-.env,3\c\3c84dcdc6bbe3d7817c49dcdc327b926fea1808a
 Z
 *app/Actions/Fortify/UpdateUserPassword.php,c\a\ca4fa913b449bd4f49dc498f3e27cbb40f05de37
 Y
@@ -147,14 +145,8 @@ J
 +resources/views/paginate/paginate.blade.php,3\f\3f2608642c32f37f1a3a857f13f2777213dc013c
 U
 %app/Providers/AuthServiceProvider.php,a\5\a526ceaeed37cec3622903d924e7bbaf01d42971
-K
-app/Policies/UserPolicy.php,7\2\72a6f8426b50f2d6d3c0bdc2da818be7479c8989
-N
-app/Policies/ProductPolicy.php,5\d\5db2c635db82f74fa698b8cfae43b0b4ef026ddf
 A
 public/js/cart.js,1\7\1702bfe57e960be928a7b7d73dd8bb9025cbc0ae
-U
-%resources/views/admin/users.blade.php,9\8\98b0eea3d4d0c5f46aae99bbd5e7d1d696a11d6c
 [
 +resources/views/admin/editProduct.blade.php,9\b\9b88e92d241509ca5676184bd5ea7358e1858a8a
 S
@@ -181,8 +173,6 @@ S
 #app/Http/Controllers/Controller.php,2\e\2ed23e1749f02eb8e561f0a531d07863e7cf9fb9
 \
 ,app/Http/Controllers/FavoritesController.php,3\a\3aaf86e9fe2a744a12cfe6dde287216643072fa2
-T
-$app/Http/Middleware/Authenticate.php,f\7\f7ec0e145842212dd9c0763d10bb0aaa68d3280a
 E
 app/Models/Banner.php,4\4\44d1fe95a825100436a2a33029122a56c979feb5
 G
@@ -213,10 +203,6 @@ C
 app/Http/Kernel.php,4\0\405f423e61f666bcedb754ae8befdce9e746176e
 _
 /resources/views/admin/layouts/default.blade.php,2\0\20c92b21ce3703ea85a98082f33ad1f20f61a5b5
-\
-,app/Http/Middleware/SuperAdminMiddleware.php,d\6\d6b8b9838cb0af1fb66c6e248c7f6c04e891bcb2
-W
-'app/Http/Middleware/AdminMiddleware.php,e\1\e1752fd226a4655862458420dc1615b6ad058c30
 ]
 -resources/views/partials/loginModal.blade.php,3\c\3cec543bad8a02f689eb0b9e415767be1b573d1b
 >

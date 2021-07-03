@@ -52,7 +52,7 @@ class ProductPolicy
      */
     public function updateProduct(User $user): bool
     {
-        return ($user->role === 1 || $user->role === 2) ;
+        return ($user->role === '1' || $user->role === '2') ;
     }
 
     /**

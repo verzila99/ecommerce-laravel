@@ -238,7 +238,7 @@
                     @endif
 
                     @foreach($product->properties  as $param)
-                      @if($param->name && $param->show_in_card === 1 )
+                      @if($param->name && $param->show_in_card === '1' )
                         <li >
                             <span class="has-text-grey-light is-size-7 is-capitalized" >{{ $param->name}}: </span ><span
                             class="is-size-8" >{{$param->pivot->value}}</span >

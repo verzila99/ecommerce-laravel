@@ -239,9 +239,6 @@ T
 $app/Http/Middleware/Authenticate.php,f\7\f7ec0e145842212dd9c0763d10bb0aaa68d3280a
 =
 composer.lock,c\3\c3262e2a0879195bd6a727e90f768bc85ad79ffd
-:
-
-.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
 ;
 phpunit.xml,3\5\357499abc6fdfbad45ccc062a427f5f62fb2e3cd
 8

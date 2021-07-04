@@ -52,7 +52,7 @@ class UserPolicy
     public function updateRole(User $user): bool
     {
 
-        return $user->role==='2';
+        return $user->role===2;
 
     }
 

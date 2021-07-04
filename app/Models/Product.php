@@ -37,7 +37,16 @@ class Product extends Model
   {
     $viewedProducts = explode(',', Cookie::get('viewed'));
 
-    return self::whereIn('id', $viewedProducts)->get()->reverse();
+    $viewedProducts = array_filter($viewedProducts,function ($item){
+        return is_int($item);
+    });
+
+     if(count($viewedProducts) > 0 ){
+
+         return self::whereIn('id', $viewedProducts)->get()->reverse();
+     }
+
+     return [];
   }
 
 

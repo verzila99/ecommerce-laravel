@@ -217,8 +217,6 @@ N
 resources/views/home.blade.php,a\2\a2a516abb04bf3dd73ba4b569b16cc453e3ac2bb
 V
 &resources/views/admin/orders.blade.php,1\0\107aa335991271c2f57c14ee591eff0d0c16200b
-F
-app/Models/Product.php,3\e\3e258d3e0dc9079cfb444a4703452543a22fa6de
 C
 database/.gitignore,0\6\0641c680b942e021758f1e1713924e74c8e04e24
 Z

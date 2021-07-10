@@ -7,7 +7,7 @@
     href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="{{ asset('css/style.css')}}" />
+  <link rel="stylesheet" href="{{ asset('/css/style.css')}}" />
 
   <!-- Useful meta tags -->
   <meta http-equiv="x-ua-compatible" content="ie=edge" />
@@ -22,11 +22,11 @@
 
   <script
     defer
-    src="{{ asset('js/fontawesome.js')}}"
+    src="{{ asset('/js/fontawesome.js')}}"
     crossorigin="anonymous"
   ></script >
-  <script defer src="{{ asset('js/axios.min.js')}}" ></script >
-  <script defer src="{{ asset('js/admin.js')}}" ></script >
+  <script defer src="{{ asset('/js/axios.min.js')}}" ></script >
+  <script defer src="{{ asset('/js/admin.js')}}" ></script >
   <title >Admin panel </title >
 </head >
 <body >

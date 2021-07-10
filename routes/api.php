@@ -22,6 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/cart/sum-of-products', [CartController::class, "getSumOfProducts"]);
+Route::get('/cart/sum-of-order', [CartController::class, "getSumOfOrder"]);
 Route::get('/search', [ProductController::class, "searchApi"]);
 Route::get('/getPropsOfCategory/{category}', [PropertyController::class, "index"])->name('getPropsOfCategory');
 Route::get('/{category}', [ProductController::class, "indexApi"]);

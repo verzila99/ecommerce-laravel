@@ -1,7 +1,7 @@
 @extends('layouts.default')
 @section('scripts')
   <script defer
-          src="{{ asset('js/app.js')}}" ></script >
+          src="{{ asset('/js/app.js')}}" ></script >
 @endsection
 @section('title','Ecommerce shop')
 @section('content')
@@ -50,7 +50,7 @@
                 @foreach($order->products as $product)
                   <div class="product field is-flex   is-align-items-center my-3" >
                     <div class="cart-item__icon is-hidden-mobile" >
-                      <img src="{{ asset('storage/uploads/images/'.$product->id.'/45x45/' .
+                      <img src="{{ asset('storage/uploads/images/'.$product->id.'/700x700/' .
                                          explode(',',$product->images)[0])}}"
 
                            alt=""

@@ -35,7 +35,7 @@ accordionTitles.forEach((elem) => {
                 } else {
                     elem.querySelector('.category-filter__arrow').classList.remove('reverse');
                     elem.querySelector(".accordion-item").style.height = 20 +
-                    elem.querySelector(".measuring").clientHeight + 'px';
+                        elem.querySelector(".measuring").clientHeight + 'px';
                     elem.querySelector(".show-more").style.height = '20px';
                 }
             } else if (elem.querySelector('.category-filter__arrow').classList.contains('reverse') &&
@@ -85,6 +85,8 @@ newDiv.classList.add('absolute-button');
 checkboxInputs.forEach(elem => {
     elem.addEventListener('change', () => {
 
+        queryString = queryString.replace(/page=\d+/, '');
+
         let parameter = elem.getAttribute('data-parameter') + '[]=' + elem.getAttribute('data-value');
         if (elem.checked) {
             queryString += queryString ? `&${parameter}` : parameter;
@@ -121,9 +123,9 @@ checkboxInputs.forEach(elem => {
 //range slider
 let startSlider = document.querySelector('#range-slider');
 let priceFromData = +document.querySelector('#price_from').dataset.value;
-let priceFromDataValue = +document.querySelector('#price_from').value / 100;
+let priceFromDataValue = +document.querySelector('#price_from').value;
 let priceToData = +document.querySelector('#price_to').dataset.value;
-let priceToDataValue = +document.querySelector('#price_to').value / 100;
+let priceToDataValue = +document.querySelector('#price_to').value;
 
 let inputPriceFrom = document.querySelector('#price_from');
 let inputPriceTo = document.querySelector('#price_to');
@@ -136,7 +138,7 @@ noUiSlider.create(startSlider, {
     connect: true,
     step: 1,
     format: {
-        to: function (val) {return Math.floor(val);},
+        to: function (val) {return Math.round(val);},
         from: function (value) {return Number(value.replace(',-', ''));}
     },
     range: {
@@ -151,6 +153,11 @@ startSlider.noUiSlider.on("update", () => {
     inputPriceFrom.value = data[0];
     inputPriceTo.value = data[1];
 });
+//reset input values on document loading
+if(!document.querySelector('#applied-price')){
+inputPriceFrom.value ='';
+inputPriceTo.value = '';
+}
 
 startSlider.noUiSlider.on("end", () => {
 
@@ -177,8 +184,12 @@ numberInputs.forEach((elem) => {
 });
 
 priceFrom.addEventListener('keyup', () => {
+    if (priceFrom.value === '') {
+        return;
+    }
+    let priceFrVal = priceFrom.value < priceFromData ? priceFromData : priceFrom.value;
 
-    let priceFromValue = 'price=' + priceFrom.value * 100 + ':' + priceTo.value * 100;
+    let priceFromValue = 'price=' + priceFrVal * 100 + ':' + (priceTo.value ? priceTo.value : priceToData) * 100;
 
     if (getProductsByPriceTimeout) {
         clearTimeout(getProductsByPriceTimeout);
@@ -195,8 +206,13 @@ priceFrom.addEventListener('keyup', () => {
 });
 
 priceTo.addEventListener('keyup', () => {
+    if (priceTo.value === '') {
+        return;
+    }
 
-    let priceToValue = 'price=' + priceFrom.value * 100 + ':' + priceTo.value * 100;
+    let priceToVal = priceTo.value > priceToData ? priceToData : priceTo.value;
+
+    let priceToValue = 'price=' + (priceFrom.value ? priceFrom.value : priceFromData) * 100 + ':' + priceToVal * 100;
 
     if (getProductsByPriceTimeout) {
         clearTimeout(getProductsByPriceTimeout);

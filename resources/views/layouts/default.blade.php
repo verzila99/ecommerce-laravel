@@ -3,9 +3,9 @@
 
 <head >
   <meta charset="UTF-8" />
-  <link rel="stylesheet" href="{{ asset('css/style.css')}}" />
+  <link rel="stylesheet" href="{{ asset('/css/style.css')}}" />
   <link rel=”icon”
-        href=”{{ asset('favicon.ico')}}”
+        href=”{{ asset('/favicon.ico')}}”
         type=”image/x-icon” >
   <!-- Useful meta tags -->
   <meta http-equiv="x-ua-compatible" content="ie=edge" />
@@ -21,10 +21,10 @@
 
   <script
     defer
-    src="{{ asset('js/fontawesome.js')}}"
+    src="{{ asset('/js/fontawesome.js')}}"
     crossorigin="anonymous"
   ></script >
-  <script defer src="{{ asset('js/axios.min.js')}}" ></script >
+  <script defer src="{{ asset('/js/axios.min.js')}}" ></script >
   @yield("scripts")
   <title >Ecommerce laravel</title >
 </head >
@@ -218,7 +218,7 @@
               <a href="{{  url('/' .$viewedItem->category . "/" . $viewedItem->id)}}" >
                 <div class="card-image" >
                   <img
-                    src="{{ asset('storage/uploads/images/'.$viewedItem->id.'/225x225/' .
+                    src="{{ asset('storage/uploads/images/'.$viewedItem->id.'/700x700/' .
                                 explode(',',$viewedItem->images)[0]) }}"
                     alt="{{ $viewedItem->title }}"
                   />

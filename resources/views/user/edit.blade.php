@@ -1,6 +1,6 @@
 @extends('layouts.default')
 @section('scripts')
-    <script defer src="{{ asset('js/app.js')}}" ></script >
+    <script defer src="{{ asset('/js/app.js')}}" ></script >
 @endsection
 @section('title','Ecommerce shop')
 @section('content')

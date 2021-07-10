@@ -121,7 +121,7 @@ class OrderController extends Controller
 
     Cookie::queue('cart', '');
 
-    event(new OrderCreatedEvent($order));
+//    event(new OrderCreatedEvent($order));
 
     return view('orderSuccess');
   }

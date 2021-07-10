@@ -24,47 +24,37 @@ class CartController extends Controller
 
     public function do(): void
     {
-        $f = DB::table('product_property')->get();
+        $f = DB::table('products')->get();
 
         foreach ($f as $product) {
 
-            if (DB::table('product_property')->where(
-                    [
-                        'property_id' => $product->property_id,
-                        'product_id'  => $product->product_id,
-                        'value'       => $product->value
-                    ]
-                )->count() > 1) {
 
-                $first = DB::table('product_property')->where(
-                    [
-                        'property_id' => $product->property_id,
-                        'product_id'  => $product->product_id,
-                        'value'       => $product->value
-                    ]
-                )->first();
-                DB::table('product_property')->where(
-                    [
-                        'property_id' => $product->property_id,
-                        'product_id'  => $product->product_id,
-                        'value'       => $product->value
-                    ]
-                )->delete();
 
-                DB::table('product_property')->insert(
+        DB::table('products')->where('id',$product->id)->update(
                     [
-                        'property_id' => $first->property_id,
-                        'product_id'  => $first->product_id,
-                        'value'       => $first->value
+                        'rating' => random_int(20, 100)
                     ]
                 );
-            }
+
         }
     }
 
 
     public function getSumOfProducts(): bool|int|string
     {
+
+
+        $items = CartActions::getCartItemsFromCookies();
+
+        if (isset($items[0])) {
+            return Product::whereIn('id', $items)->sum('price');
+        }
+
+        return 0;
+    }
+    public function getSumOfOrder(): bool|int|string
+    {
+
         if (session()->get('sum')) {
             return session()->get('sum');
         }

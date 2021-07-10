@@ -1,7 +1,7 @@
 @extends('layouts.default')
 @section('scripts')
 
-  <script defer src="{{ asset('js/app.js')}}" ></script >
+  <script defer src="{{ asset('/js/app.js')}}" ></script >
 
 
 @endsection
@@ -30,7 +30,7 @@
                 <td class="cart-item" >
                   <div class="cart-item__icon is-hidden-touch" >
                     <img
-                      src="{{ asset('storage/uploads/images/'.$product['id'].'/45x45/'
+                      src="{{ asset('storage/uploads/images/'.$product['id'].'/700x700/'
                                          . explode(',',$product['images'])[0] )}}"
 
                       alt=""

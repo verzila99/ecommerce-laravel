@@ -25,6 +25,9 @@ class SearchFilter
         if ($sortBy === '-price') {
           return $query->orderBy('price', 'desc');
         }
+        if ($sortBy === 'rating') {
+          return $query->orderBy('rating', 'desc');
+        }
         if ($sortBy === 'newness') {
           return $query->orderBy('created_at', 'desc');
         }

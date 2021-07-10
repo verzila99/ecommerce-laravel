@@ -77,7 +77,7 @@
           <div class="file has-name  is-flex is-flex-direction-column is-align-items-center
           is-justify-content-flex-start
     my-3 mr-3">
-            <img class="file-image" src="{{ asset('storage/uploads/images/'.$product->id.'/225x225/' .
+            <img class="file-image" src="{{ asset('storage/uploads/images/'.$product->id.'/700x700/' .
                                          $image )}}" alt="" >
             <label class="label my-3" >
               <input class="file-input" type="hidden" name="current[]"

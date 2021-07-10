@@ -12,34 +12,33 @@
       <div class="price-input__from column is-half is-flex is-flex-direction-column
                             is-align-items-flex-start is-justify-content-space-between pl-3" >
         <label for="price_from" >{{__('from')}}</label >
-        <input class="input-number mt-4"
-               type="text"
-               ondrop="return false;"
-               id='price_from'
-               placeholder="{{$minMaxPrice[0]/100}}"
-               data-value="{{$minMaxPrice[0]/100}}"
-               autocomplete="off"
-               @foreach($appliedFilters as $filter)
-               @if($filter[0]==='price')value="{{explode(':',$filter[1])[0]}}"
-               @endif
-               @endforeach
-        />
-      </div >
-      <div class="price-input__to column is-half is-flex is-flex-direction-column
-        is-align-items-flex-start is-justify-content-space-between " >
-        <label for="price_to" >{{__('to')}}</label >
-        <input class="input-number mt-4"
-               type="text"
-               ondrop="return false;"
-               id="price_to"
-               placeholder="{{$minMaxPrice[1]/100}}"
-               data-value="{{$minMaxPrice[1]/100}}"
-               autocomplete="off"
-               @foreach($appliedFilters as $filter)
-               @if($filter[0]==='price')value="{{explode(':',$filter[1])[1]}}"
+          <input class="input-number mt-4"
+                 type="text"
+                 ondrop="return false;"
+                 id='price_from'
+                 placeholder="{{floor($minMaxPrice[0]/100)}}"
+                 data-value="{{floor($minMaxPrice[0]/100)}}"
+                 autocomplete="off"
+                 @foreach($appliedFilters as $filter)@if($filter[0]==='price')value="{{explode(':',$filter[1])[0]/100}}"
               @endif
               @endforeach
-        />
+          />
+      </div >
+        <div class="price-input__to column is-half is-flex is-flex-direction-column
+        is-align-items-flex-start is-justify-content-space-between " >
+            <label for="price_to" >{{__('to')}}</label >
+            <input class="input-number mt-4"
+                   type="text"
+                   ondrop="return false;"
+                   id="price_to"
+                   placeholder="{{ceil($minMaxPrice[1]/100)}}"
+                   data-value="{{ceil($minMaxPrice[1]/100)}}"
+                   autocomplete="off"
+                   @foreach($appliedFilters as $filter)@if($filter[0]==='price')value="{{explode(':',$filter[1])
+                   [1]/100}}"
+                @endif
+                @endforeach
+            />
       </div >
       <div id="range-slider"
            class="column my-5 is-half" ></div >
@@ -61,7 +60,7 @@
       <div class="accordion-item"
 
           style="height:
-              @if(count($variants)>8){{212}}px
+              @if(count($variants)>8){{206}}px
               @else{{count($variants) * 26 }}px
               @endif
               ;" >

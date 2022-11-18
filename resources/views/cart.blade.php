@@ -120,10 +120,16 @@
                          >
                          </div >
                      </div >
+                     @auth
                      <button type="submit" id="confirm-btn" class="button is-success is-fullwidth mt-6" >
                          {{__('Continue to checkout')}}
                      </button >
-
+                         @endauth
+                     @guest
+                         <p>
+                             You must be logged in to continue.
+                         </p>
+                         @endguest
                  </div >
              </div >
          </form >

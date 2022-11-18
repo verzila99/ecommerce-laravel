@@ -1,9 +1,9 @@
 @extends('layouts.default')
 @section('scripts')
-<link rel="stylesheet" href="{{asset('public/noUiSlider/nouislider.css')}}">
-<script defer src="{{ asset('public/noUiSlider/nouislider.js')}}"></script>
-<script defer src="{{ asset('public/js/category.js')}}"></script>
-<script defer src="{{ asset('public/js/app.js')}}"></script>
+<link rel="stylesheet" href="{{asset('noUiSlider/nouislider.css')}}">
+<script defer src="{{ asset('noUiSlider/nouislider.js')}}"></script>
+<script defer src="{{ asset('js/category.js')}}"></script>
+<script defer src="{{ asset('js/app.js')}}"></script>
 @endsection
 @section('title','Ecommerce shop')
 @section('content')

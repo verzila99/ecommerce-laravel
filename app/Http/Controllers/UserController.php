@@ -40,9 +40,9 @@ class UserController extends Controller
 
     Auth::login($user);
 
-    event(new Registered($user));
+//    event(new Registered($user));
 
-    return response('verify email', 200);
+    return response('', 200);
 
   }
 
@@ -182,9 +182,15 @@ class UserController extends Controller
 
   public function userOrders(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|Application
   {
-    $ordersList = Order::where('user_id', auth()->user()->id)->get();
+    $ordersList = Order::where('user_id', auth()->user()->id)->leftJoin('order_product', 'orders.id',
+        '=', 'order_product.order_id')->leftJoin('products', 'order_product.product_id',
+        '=', 'products.id')->get();
 
-    return view('user.orders', compact('ordersList'));
+
+      $grouped = $ordersList->groupBy('order_id');
+//dd($grouped);
+    return view('user.orders', compact('grouped'));
+
   }
 
 

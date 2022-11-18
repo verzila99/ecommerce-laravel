@@ -11,7 +11,7 @@ use Illuminate\Notifications\Notifiable;
 
 
 
-class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
+class User extends Authenticatable
 {
     use HasFactory, Notifiable, SoftDeletes;
 

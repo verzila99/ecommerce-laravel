@@ -109,9 +109,9 @@ Route::post(
      ->middleware('guest')->name('password.update');
 
 
-Route::post('/login', [UserController::class, 'login']);
-Route::post('/register', [UserController::class, 'register']);
-Route::get('/logout', [UserController::class, 'logout']);
+        Route::post('/login', [UserController::class, 'login']);
+        Route::post('/register', [UserController::class, 'register']);
+        Route::get('/logout', [UserController::class, 'logout']);
 
 //Banners
 

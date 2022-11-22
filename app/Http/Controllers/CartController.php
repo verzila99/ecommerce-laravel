@@ -22,28 +22,8 @@ class CartController extends Controller
     }
 
 
-    public function do(): void
-    {
-        $f = DB::table('products')->get();
-
-        foreach ($f as $product) {
-
-
-
-        DB::table('products')->where('id',$product->id)->update(
-                    [
-                        'rating' => random_int(20, 100)
-                    ]
-                );
-
-        }
-    }
-
-
     public function getSumOfProducts(): bool|int|string
     {
-
-
         $items = CartActions::getCartItemsFromCookies();
 
         if (isset($items[0])) {
@@ -52,9 +32,10 @@ class CartController extends Controller
 
         return 0;
     }
+
+
     public function getSumOfOrder(): bool|int|string
     {
-
         if (session()->get('sum')) {
             return session()->get('sum');
         }
@@ -67,6 +48,5 @@ class CartController extends Controller
 
         return 0;
     }
-
 
 }

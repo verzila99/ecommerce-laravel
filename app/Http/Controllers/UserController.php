@@ -168,7 +168,7 @@ class UserController extends Controller
   }
 
 
-  public function destroy(Request $request)
+  public function destroy(Request $request): RedirectResponse
   {
     abort_if(!$this->authorize('updateRole', User::class), 403);
 

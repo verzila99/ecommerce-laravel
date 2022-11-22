@@ -24,7 +24,6 @@ use App\Http\Controllers\ProductController;
 |
 */
 
-Route::get('/do', [CartController::class,"do"]);
 
 Route::get('/', [HomeController::class,"index"])->name('home');
 
@@ -67,9 +66,9 @@ Route::middleware(['superAdmin'])->prefix('user')->group(
 //Favorites
 Route::middleware(['verified'])->group(
   function () {
-Route::get('/favorites', [FavoritesController::class, "favorites"])->name('favorites');
-Route::patch('/addtofavorites', [FavoritesController::class, "addToFavorites"]);
-Route::delete('/removefromfavorites/', [FavoritesController::class, "removeFromFavorites"]);
+Route::get('/favorites', [FavoritesController::class, "index"])->name('favorites');
+Route::patch('/addtofavorites', [FavoritesController::class, "store"]);
+Route::delete('/removefromfavorites/', [FavoritesController::class, "destroy"]);
   }
 );
 
@@ -90,6 +89,7 @@ Route::post('/email/verification-notification',function (Request $request) {
     return back()->with('status', 'Verification link sent!');
   }
   )->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
 //forgot password
 Route::get('/forgot-password', function () {
     return view('auth.forgot-password');
@@ -108,10 +108,10 @@ Route::post(
   '/reset-password',[UserController::class,'updatePasswordAfterReset'])
      ->middleware('guest')->name('password.update');
 
-
-        Route::post('/login', [UserController::class, 'login']);
-        Route::post('/register', [UserController::class, 'register']);
-        Route::get('/logout', [UserController::class, 'logout']);
+//Register, Login, Logout
+Route::post('/login', [UserController::class, 'login']);
+Route::post('/register', [UserController::class, 'register']);
+Route::get('/logout', [UserController::class, 'logout']);
 
 //Banners
 

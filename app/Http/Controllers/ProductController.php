@@ -11,6 +11,7 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use App\Actions\SearchFilter\SearchFilter;
 use App\Http\Requests\StoreProductRequest;
@@ -29,6 +30,7 @@ class ProductController extends Controller
 
     public function index(Request $request, $category): View|Factory|Redirector|RedirectResponse|Application
     {
+
         Category::where('category_name', $category)->firstOrFail();
 
         $properties = Property::where('category_name', $category)->get();

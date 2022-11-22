@@ -126,7 +126,6 @@ class OrderController extends Controller
     return view('orderSuccess');
   }
 
-
   public function updateStatus(Request $request): \Illuminate\Http\RedirectResponse
   {
     $data = $request->validate(['id'=>'required']);
@@ -135,6 +134,7 @@ class OrderController extends Controller
 
      return redirect()->back()->with('status','Status has changed' );
   }
+
   public function destroy(Request $request): \Illuminate\Http\RedirectResponse
   {
     $data = $request->validate(['id'=>'required']);

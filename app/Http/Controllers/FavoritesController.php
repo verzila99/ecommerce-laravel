@@ -17,7 +17,8 @@ use Illuminate\Support\Facades\Auth;
 class FavoritesController extends Controller
 {
 
-  public function favorites(Request $request): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Routing\Redirector|RedirectResponse|Application
+  public function index(Request $request):
+  \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Routing\Redirector|RedirectResponse|Application
   {
 
     $favoritesStatusList = FavoritesList::getFavoritesList();
@@ -37,7 +38,7 @@ class FavoritesController extends Controller
   }
 
 
-  public function addToFavorites(Request $request): Response|Application|ResponseFactory
+  public function store(Request $request): Response|Application|ResponseFactory
   {
 
     $validated = $request->validate(['productId' => 'required|numeric']);
@@ -61,7 +62,8 @@ class FavoritesController extends Controller
   }
 
 
-  public function removeFromFavorites(Request $request): Response|Application|ResponseFactory
+  public function destroy(Request $request):
+  Response|Application|ResponseFactory
   {
 
     $validated = $request->validate(['productId' => 'required|numeric']);
